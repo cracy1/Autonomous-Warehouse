@@ -10,10 +10,11 @@ public class CommandSender {
 		this.dos = dos;
 	}
 	
-	public void sendCommand(char direction) {
+	public void sendMovementCommand(char action) {
 		try {
 			dos.writeInt(1);
-			dos.writeChar(direction);
+			dos.writeChar(action);
+			dos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

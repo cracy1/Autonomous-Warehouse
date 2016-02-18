@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class RobotReceiver extends Thread {
-	
 	private DataInputStream dis;
 	
 	public RobotReceiver(DataInputStream dis) {
@@ -20,9 +19,10 @@ public class RobotReceiver extends Thread {
 				int protocol = dis.readInt();
 
 				switch (protocol) {
-				case 1:
-					char direction = dis.readChar();
-					System.out.println(direction);
+					case 1:
+						char action = dis.readChar();
+						System.out.println(action);
+						break;
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
