@@ -10,7 +10,7 @@ public class CommandSender {
 		this.dos = dos;
 	}
 	
-	public void sendMovementCommand(char action) {
+	public void sendCommand(char action) {
 		try {
 			dos.writeInt(1);
 			dos.writeChar(action);

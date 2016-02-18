@@ -1,7 +1,6 @@
 package aw.test;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.Scanner;
 
 import aw.comms.BluetoothRobots;
@@ -27,7 +26,7 @@ public class BluetoothCommsTest {
 			
 			while (true) {
 				char action = scanner.nextLine().charAt(0);
-				commandSender.sendMovementCommand(action);
+				commandSender.sendCommand(action);
 			}
 		} catch (NXTCommException e) {
 			e.printStackTrace();
