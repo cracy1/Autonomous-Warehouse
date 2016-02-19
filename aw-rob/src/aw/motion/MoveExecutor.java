@@ -47,56 +47,53 @@ public class MoveExecutor implements Runnable {
 	private void loop(){
 		Delay.msDelay(5);
 		
+		switch(currentMove){ //manage route moves.
+			case FORWARD:
+				forwardToJunction();
+				break;
+			case FULL_TURN:
+				pilot.rotate(360);
+				break;
+			case HALF_TURN:
+				pilot.rotate(180);
+				break;
+			case LEFT_TURN:
+				pilot.rotate(-90);
+				break;
+			case RIGHT_TURN:
+				pilot.rotate(90);
+				break;
+			case RANDOM:
+				pilot.rotate(ra.nextBoolean() ? 90: -90);
+				break;
+			case STOP:
+				pilot.stop();
+				break;
+			default:
+				System.out.println("No moves left in route");
+				break;
+		}
+	}
+	
+	private void forwardToJunction(){	
+		pilot.travel(0.075);
+		
 		float leftLightLevel = leftLightSensor.getLightValue();
 		float rightLightLevel = rightLightSensor.getLightValue();
 		
-		float error = rightLightLevel - leftLightLevel; //error = difference in left and right sensor values.
-		
-		if(currentMove != null){
-			if((leftLightLevel + rightLightLevel)/2 < 38){ //if the robot is at a grid intersection.
-				if(route.size() > 0) pilot.travel(0.075); //move forwards such that the wheels are on the line.
-				
-				switch(currentMove){ //manage route moves.
-					case FORWARD:
-						// we don't need to do anything here.
-						break;
-					case FULL_TURN:
-						pilot.rotate(360);
-						break;
-					case HALF_TURN:
-						pilot.rotate(180);
-						break;
-					case LEFT_TURN:
-						pilot.rotate(-90);
-						break;
-					case RIGHT_TURN:
-						pilot.rotate(90);
-						break;
-					case RANDOM:
-						pilot.rotate(ra.nextBoolean() ? 90: -90);
-						break;
-					case STOP:
-						//System.exit(0);
-						break;
-					default:
-						System.out.println("No moves left in route");
-						break;
-				}
-				
-				//pilot.travel(0.075); //travel forwards to avoid duplicate detection of lines.
-				
-				currentMove = route.next(); //get the next move.
+		while((leftLightLevel + rightLightLevel)/2 > 38){
+			leftLightLevel = leftLightSensor.getLightValue();
+			rightLightLevel = rightLightSensor.getLightValue();
+			float error = rightLightLevel - leftLightLevel; //error = difference in left and right sensor values.
 			
-			}
-			else if (currentMove == Move.FORWARD){ //robot is not at an intersections.
-				Motor.C.forward(); 
-				Motor.B.forward();
-				
-				Motor.C.setSpeed( (maxSpeed/2) - (error * gain)); //proportional line following.
-				Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
-			}
+			Motor.C.forward(); 
+			Motor.B.forward();
+			
+			Motor.C.setSpeed( (maxSpeed/2) - (error * gain)); //proportional line following.
+			Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
 		}
-		else pilot.stop();
+		
+		pilot.travel(0.075);
 	}
 	
 	public boolean addMove(Move move){
