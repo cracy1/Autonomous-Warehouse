@@ -34,9 +34,6 @@ public class MoveExecutor implements Runnable {
 		
 		ra = new Random();
 		
-		route.add(Move.STOP);
-		currentMove = route.next();
-		
 		new Thread(this).start();
 	}
 	
@@ -55,52 +52,52 @@ public class MoveExecutor implements Runnable {
 		
 		float error = rightLightLevel - leftLightLevel; //error = difference in left and right sensor values.
 		
-		if((leftLightLevel + rightLightLevel)/2 < 38 && currentMove != Move.STOP){ //if the robot is at a grid intersection.
-			pilot.travel(0.075); //move forwards such that the wheels are on the line.
+		if(route.size() > 0){
+			if((leftLightLevel + rightLightLevel)/2 < 38){ //if the robot is at a grid intersection.
+				pilot.travel(0.075); //move forwards such that the wheels are on the line.
+				
+				switch(currentMove){ //manage route moves.
+					case FORWARD:
+						// we don't need to do anything here.
+						break;
+					case FULL_TURN:
+						pilot.rotate(360);
+						break;
+					case HALF_TURN:
+						pilot.rotate(180);
+						break;
+					case LEFT_TURN:
+						pilot.rotate(-90);
+						break;
+					case RIGHT_TURN:
+						pilot.rotate(90);
+						break;
+					case RANDOM:
+						pilot.rotate(ra.nextBoolean() ? 90: -90);
+						break;
+					case STOP:
+						//System.exit(0);
+						break;
+				}
+				
+				//pilot.travel(0.075); //travel forwards to avoid duplicate detection of lines.
+				
+				currentMove = route.next(); //get the next move.
 			
-			switch(currentMove){ //manage route moves.
-				case FORWARD:
-					// we don't need to do anything here.
-					break;
-				case FULL_TURN:
-					pilot.rotate(360);
-					break;
-				case HALF_TURN:
-					pilot.rotate(180);
-					break;
-				case LEFT_TURN:
-					pilot.rotate(-90);
-					break;
-				case RIGHT_TURN:
-					pilot.rotate(90);
-					break;
-				case RANDOM:
-					pilot.rotate(ra.nextBoolean() ? 90: -90);
-					break;
-				case STOP:
-					//System.exit(0);
-					break;
 			}
-			
-			//pilot.travel(0.075); //travel forwards to avoid duplicate detection of lines.
-			
-			currentMove = route.next(); //get the next move.
-		
-		}
-		else if(currentMove != Move.STOP){ //robot is not at an intersections.
-			Motor.C.forward(); 
-			Motor.B.forward();
-			
-			Motor.C.setSpeed( (maxSpeed/2) - (error * gain)); //proportional line following.
-			Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
+			else { //robot is not at an intersections.
+				Motor.C.forward(); 
+				Motor.B.forward();
+				
+				Motor.C.setSpeed( (maxSpeed/2) - (error * gain)); //proportional line following.
+				Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
+			}
 		}
 	}
 	
 	public boolean addMove(Move move){
 		route.addMove(move);
-		if(currentMove == Move.STOP){
-			currentMove = route.next();
-		}
+		if(currentMove == null) currentMove = route.next();
 		return true;
 	}
 }
