@@ -93,6 +93,7 @@ public class MoveExecutor implements Runnable {
 				Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
 			}
 		}
+		else pilot.stop();
 	}
 	
 	public boolean addMove(Move move){
