@@ -55,7 +55,7 @@ public class MoveExecutor implements Runnable {
 		
 		float error = rightLightLevel - leftLightLevel; //error = difference in left and right sensor values.
 
-		if((leftLightLevel + rightLightLevel)/2 < 38 && !route.isEmpty()){ //if the robot is at a grid intersection.
+		if((leftLightLevel + rightLightLevel)/2 < 38){ //if the robot is at a grid intersection.
 			pilot.travel(0.075); //move forwards such that the wheels are on the line.
 			
 			switch(currentMove){ //manage route moves.
@@ -82,12 +82,12 @@ public class MoveExecutor implements Runnable {
 					break;
 			}
 			
-			pilot.travel(0.075); //travel forwards to avoid duplicate detection of lines.
+			//pilot.travel(0.075); //travel forwards to avoid duplicate detection of lines.
 			
 			currentMove = route.next(); //get the next move.
 		
 		}
-		else if(!route.isEmpty()){ //robot is not at an intersections.
+		else if(currentMove != Move.STOP){ //robot is not at an intersections.
 			Motor.C.forward(); 
 			Motor.B.forward();
 			
