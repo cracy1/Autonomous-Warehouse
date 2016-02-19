@@ -85,7 +85,7 @@ public class MoveExecutor implements Runnable {
 				currentMove = route.next(); //get the next move.
 			
 			}
-			else { //robot is not at an intersections.
+			else if (currentMove == Move.FORWARD){ //robot is not at an intersections.
 				Motor.C.forward(); 
 				Motor.B.forward();
 				
