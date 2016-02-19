@@ -52,7 +52,7 @@ public class MoveExecutor implements Runnable {
 		
 		float error = rightLightLevel - leftLightLevel; //error = difference in left and right sensor values.
 		
-		if(route.size() > 0){
+		if(currentMove != null){
 			if((leftLightLevel + rightLightLevel)/2 < 38){ //if the robot is at a grid intersection.
 				pilot.travel(0.075); //move forwards such that the wheels are on the line.
 				
