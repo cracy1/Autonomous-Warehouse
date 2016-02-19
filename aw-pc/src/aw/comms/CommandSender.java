@@ -27,9 +27,9 @@ public class CommandSender {
 	 *            The action to be sent to the robot: 'F' - Forwards 1 square,
 	 *            'L' - Turn left at junction, 'R' - Turn right at junction
 	 */
-	public void sendCommand(char action) {
+	public void sendActionCommand(char action) {
 		try {
-			dos.writeInt(1);
+			//dos.writeInt(1);
 			dos.writeChar(action);
 			dos.flush();
 			

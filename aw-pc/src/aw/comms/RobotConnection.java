@@ -1,7 +1,9 @@
 package aw.comms;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
@@ -14,7 +16,7 @@ import lejos.pc.comm.NXTInfo;
 public class RobotConnection {
 	private NXTInfo nxt;
 
-	private DataInputStream dis;
+	private BufferedReader br;
 	private DataOutputStream dos;
 
 	/**
@@ -36,7 +38,7 @@ public class RobotConnection {
 	 */
 	public void connect(NXTComm nxtComm) throws NXTCommException {
 		if (nxtComm.open(nxt)) {
-			dis = new DataInputStream(nxtComm.getInputStream());
+			br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
 			dos = new DataOutputStream(nxtComm.getOutputStream());
 		}
 	}
@@ -46,8 +48,8 @@ public class RobotConnection {
 	 * 
 	 * @return The DataInputStream
 	 */
-	public DataInputStream getDataInputStream() {
-		return dis;
+	public BufferedReader getBufferedReader() {
+		return br;
 	}
 
 	/**

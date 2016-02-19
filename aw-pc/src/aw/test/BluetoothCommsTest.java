@@ -12,14 +12,18 @@ public class BluetoothCommsTest {
 
 		Communication.addRobots();
 
-		String name = "NXT";
+		String name = "Ricardo";
 
 		CommandSender cs = Communication.getCommandSender(name);
 
 		if (cs != null) {
 			while (true) {
-				char action = scanner.nextLine().charAt(0);
-				cs.sendCommand(action);
+				String input = scanner.nextLine();
+				
+				for (int i = 0; i < input.length(); i++) {
+					char action = input.charAt(i);
+					cs.sendActionCommand(action);
+				}
 			}
 		} else {
 			System.out.println("CommandSender does not exist for robot with name " + name);

@@ -1,6 +1,7 @@
 package aw.comms;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
@@ -11,7 +12,7 @@ import lejos.pc.comm.NXTInfo;
  * Handles setting up usage of communication between the PC and the NXT robots.
  */
 public class Communication {
-	private static HashMap<String, CommandSender> commandSenders = new HashMap<>();
+	private static Map<String, CommandSender> commandSenders = new HashMap<>();
 
 	/**
 	 * Initialises all of the warehouse robots connections.
@@ -20,7 +21,7 @@ public class Communication {
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 
-			NXTInfo[] nxts = { /*BluetoothRobots.NXT_RICARDO,*/ BluetoothRobots.NXT_I };
+			NXTInfo[] nxts = { BluetoothRobots.RICARDO/*, BluetoothRobots.I4*/ };
 
 			for (NXTInfo nxt : nxts) {
 				addRobotConnection(nxtComm, nxt);
@@ -50,7 +51,10 @@ public class Communication {
 		CommandSender commandSender = new CommandSender(robotConnection.getDataOutputStream());
 		commandSenders.put(nxt.name, commandSender);
 		
-		System.out.println("Robot '" + nxt.name + "' has been initalised");
+		CommandReceiver commandReceiver = new CommandReceiver(robotConnection.getBufferedReader());
+		commandReceiver.start();
+		
+		System.out.println("Robot '" + nxt.name + "' connected");
 	}
 
 	/**
