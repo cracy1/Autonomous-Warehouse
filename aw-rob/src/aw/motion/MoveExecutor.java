@@ -54,7 +54,7 @@ public class MoveExecutor implements Runnable {
 		
 		if(currentMove != null){
 			if((leftLightLevel + rightLightLevel)/2 < 38){ //if the robot is at a grid intersection.
-				pilot.travel(0.075); //move forwards such that the wheels are on the line.
+				if(route.size() > 0) pilot.travel(0.075); //move forwards such that the wheels are on the line.
 				
 				switch(currentMove){ //manage route moves.
 					case FORWARD:
@@ -77,6 +77,9 @@ public class MoveExecutor implements Runnable {
 						break;
 					case STOP:
 						//System.exit(0);
+						break;
+					default:
+						System.out.println("No moves left in route");
 						break;
 				}
 				
