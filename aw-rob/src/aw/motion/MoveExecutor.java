@@ -46,6 +46,7 @@ public class MoveExecutor implements Runnable {
 	 */
 	private void loop(){
 		Delay.msDelay(5);
+		currentMove = route.next();
 		
 		switch(currentMove){ //manage route moves.
 			case FORWARD:
@@ -76,8 +77,6 @@ public class MoveExecutor implements Runnable {
 	}
 	
 	private void forwardToJunction(){	
-		pilot.travel(0.075);
-		
 		float leftLightLevel = leftLightSensor.getLightValue();
 		float rightLightLevel = rightLightSensor.getLightValue();
 		
@@ -98,7 +97,6 @@ public class MoveExecutor implements Runnable {
 	
 	public boolean addMove(Move move){
 		route.addMove(move);
-		if(currentMove == null) currentMove = route.next();
 		return true;
 	}
 }
