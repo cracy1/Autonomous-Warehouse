@@ -34,7 +34,7 @@ public class MoveExecutor implements Runnable {
 		
 		ra = new Random();
 		
-		route.add(Move.FORWARD);
+		route.add(Move.STOP);
 		currentMove = route.next();
 		
 		new Thread(this).start();
