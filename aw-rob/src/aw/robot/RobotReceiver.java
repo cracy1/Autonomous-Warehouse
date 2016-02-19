@@ -9,12 +9,10 @@ public class RobotReceiver extends Thread {
 	public RobotReceiver(DataInputStream dis) {
 		this.dis = dis;
 	}
-
+	
 	@Override
 	public void run() {
-		boolean run = true;
-
-		while (run) {
+		while (true) {
 			try {
 				int protocol = dis.readInt();
 

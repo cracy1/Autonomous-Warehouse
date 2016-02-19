@@ -1,39 +1,28 @@
 package aw.test;
 
-import java.io.DataOutputStream;
 import java.util.Scanner;
 
-import aw.comms.BluetoothRobots;
 import aw.comms.CommandSender;
-import lejos.pc.comm.NXTComm;
-import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTCommFactory;
+import aw.comms.Communication;
 
 public class BluetoothCommsTest {
-	private DataOutputStream dos;
-	
-	public BluetoothCommsTest(){
+	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		
-		try {
-			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			
-			if (nxtComm.open(BluetoothRobots.NXT_RICARDO)) {
-				dos = new DataOutputStream(nxtComm.getOutputStream());
-			}
-			
-			CommandSender commandSender = new CommandSender(dos);
-			
+
+		Communication.addRobots();
+
+		String name = "NXT";
+
+		CommandSender cs = Communication.getCommandSender(name);
+
+		if (cs != null) {
 			while (true) {
 				char action = scanner.nextLine().charAt(0);
-				commandSender.sendCommand(action);
+				cs.sendCommand(action);
 			}
-		} catch (NXTCommException e) {
-			e.printStackTrace();
+		} else {
+			System.out.println("CommandSender does not exist for robot with name " + name);
 		}
-	}
-	
-	public static void main(String [] args){
-		new BluetoothCommsTest();
 	}
 }
