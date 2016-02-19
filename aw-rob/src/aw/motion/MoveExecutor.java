@@ -10,7 +10,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
 import rp.robotics.DifferentialDriveRobot;
 
-public class MoveExecutor {
+public class MoveExecutor implements Runnable {
 	private DifferentialDriveRobot robot;
 	private DifferentialPilot pilot;
 	
@@ -34,14 +34,20 @@ public class MoveExecutor {
 		
 		ra = new Random();
 		
-		route.add(Move.forward);
+		route.add(Move.FORWARD);
 		currentMove = route.next();
+		
+		new Thread(this).start();
 	}
 	
+	@Override
+	public void run(){
+		while(true) loop();
+	}
 	/**
 	 * Program loop.
 	 */
-	private void run(){
+	private void loop(){
 		Delay.msDelay(5);
 		
 		float leftLightLevel = leftLightSensor.getLightValue();
@@ -53,26 +59,26 @@ public class MoveExecutor {
 			pilot.travel(0.075); //move forwards such that the wheels are on the line.
 			
 			switch(currentMove){ //manage route moves.
-				case forward:
+				case FORWARD:
 					// we don't need to do anything here.
 					break;
-				case full_turn:
+				case FULL_TURN:
 					pilot.rotate(360);
 					break;
-				case half_turn:
+				case HALF_TURN:
 					pilot.rotate(180);
 					break;
-				case left_turn:
+				case LEFT_TURN:
 					pilot.rotate(-90);
 					break;
-				case right_turn:
+				case RIGHT_TURN:
 					pilot.rotate(90);
 					break;
-				case random:
+				case RANDOM:
 					pilot.rotate(ra.nextBoolean() ? 90: -90);
 					break;
-				case stop:
-					System.exit(0);
+				case STOP:
+					//System.exit(0);
 					break;
 			}
 			

@@ -1,5 +1,5 @@
 package aw.motion;
 
 public enum Move {
-    right_turn, left_turn, half_turn, full_turn, forward, stop, random
+    RIGHT_TURN, LEFT_TURN, HALF_TURN, FULL_TURN, FORWARD, STOP, RANDOM
 }

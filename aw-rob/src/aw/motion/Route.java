@@ -31,7 +31,7 @@ public class Route extends LinkedList<Move>{
 	    	return move;
     	}
     	
-    	return Move.stop;
+    	return Move.STOP;
     }
 
 } 
