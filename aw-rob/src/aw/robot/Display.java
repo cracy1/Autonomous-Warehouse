@@ -1,8 +1,10 @@
 package aw.robot;
 
+import javax.microedition.lcdui.Font;
+import javax.microedition.lcdui.Graphics;
+
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
-import lejos.nxt.LCDOutputStream;
 import lejos.nxt.Sound;
 
 public class Display {
@@ -11,10 +13,12 @@ public class Display {
 	private int amount;
 	private int screenHeight;
 	private int screenWidth;
+	private Graphics g;
 	
 	public Display(){
-		screenHeight = LCD.CELL_HEIGHT;
-		screenWidth = LCD.CELL_WIDTH;
+		screenHeight = LCD.SCREEN_HEIGHT;
+		screenWidth = LCD.SCREEN_WIDTH;
+		Graphics g = new Graphics();
 		
 	}
 	
@@ -23,12 +27,16 @@ public class Display {
 		this.amount = amount;
 		
 		for(int i = 0; i < amount; i++){
-			LCD.drawString("I need ", screenWidth, (screenHeight/5)*2);
-			LCD.drawString(Integer.toString(amount - i), 8, (screenHeight/5)*3, true);
-			LCD.drawString("more " + item, screenWidth/2, (screenHeight/5)*4);
-//			System.out.println("I need " + (amount - i) + " more " + item);
+			g.drawString("I need ", screenWidth/2, 0, Graphics.HCENTER);
+			
+			g.setFont(Font.getLargeFont());
+			g.drawString(Integer.toString(amount - i), screenWidth/2, screenHeight/4, Graphics.HCENTER, true);
+			
+			g.setFont(Font.getDefaultFont());
+			g.drawString("more " + item, screenWidth/2, screenHeight/2, Graphics.HCENTER);
+			
 			Button.ENTER.waitForPress();
-			LCD.clear();
+			g.clear();
 		}
 		Sound.systemSound(false, 2);
 	}
