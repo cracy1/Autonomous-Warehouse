@@ -26,6 +26,6 @@ public class Robot {
 		robotReceiver.start();
 
 		RobotSender robotSender = new RobotSender(ps);
-		robotSender.TESTsendString("Robot->PC Message");
+		robotSender.sendMessage("Robot->PC message");
 	}
 }

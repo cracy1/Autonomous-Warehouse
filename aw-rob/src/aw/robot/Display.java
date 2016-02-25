@@ -34,7 +34,7 @@ public class Display {
 			g.drawString("I need ", screenWidth/2, 0, Graphics.HCENTER);
 			
 			g.setFont(Font.getLargeFont());
-			g.drawString(Integer.toString(amount - i), screenWidth/2, screenHeight/8, Graphics.HCENTER, true);
+			g.drawString(Integer.toString(amount - i), screenWidth/2, screenHeight/8, Graphics.HCENTER);
 			
 			g.setFont(Font.getDefaultFont());
 			g.drawString("more " + item, screenWidth/2, screenHeight*3/8, Graphics.HCENTER);

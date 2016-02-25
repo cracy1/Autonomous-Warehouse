@@ -9,7 +9,8 @@ public class RobotSender {
 		this.ps = ps;
 	}
 	
-	public void TESTsendString(String string) {
+	public void sendMessage(String string) {
 		ps.println(string);
+		ps.flush();
 	}
 }
