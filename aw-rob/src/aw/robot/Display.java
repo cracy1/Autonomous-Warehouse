@@ -27,6 +27,7 @@ public class Display {
 	public int requestItem(String item,int amount){
 		this.item = item;
 		this.amount = amount;
+		g.clear();
 		
 		for(int i = 0; i < amount; i++){
 			g.setFont(Font.getDefaultFont());
