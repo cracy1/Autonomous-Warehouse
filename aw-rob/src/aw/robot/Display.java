@@ -21,6 +21,9 @@ public class Display {
 		
 	}
 	
+	//Outputs:
+	// 1 if successful
+	// 0 if failed
 	public int requestItem(String item,int amount){
 		this.item = item;
 		this.amount = amount;
@@ -51,5 +54,40 @@ public class Display {
 		}
 		Sound.systemSound(false, 2);
 		return 1;
+	}
+	
+	public String setLocation(){
+		boolean xInput = true;
+		boolean yInput = false;
+		Integer xCoord = 0;
+		Integer yCoord = 0;
+		while(xInput){
+			int buttonPress = Button.waitForAnyPress();
+			if(buttonPress == Button.ID_RIGHT){
+				xCoord++;
+			}
+			else if(buttonPress == Button.ID_LEFT){
+				xCoord--;
+			}
+			else if(buttonPress == Button.ID_ENTER){
+				xInput = false;
+				yInput = true;
+			}
+		}
+		
+		while(yInput){
+			int buttonPress = Button.waitForAnyPress();
+			if(buttonPress == Button.ID_RIGHT){
+				yCoord++;
+			}
+			else if(buttonPress == Button.ID_LEFT){
+				yCoord--;
+			}
+			else if(buttonPress == Button.ID_ENTER){
+				yInput = false;
+			}
+		}
+		
+		return (xCoord.toString() + yCoord.toString());
 	}
 }
