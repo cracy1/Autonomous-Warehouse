@@ -59,35 +59,143 @@ public class Display {
 	public String setLocation(){
 		boolean xInput = true;
 		boolean yInput = false;
+		boolean dInput = false;
 		Integer xCoord = 0;
 		Integer yCoord = 0;
+		Integer direction = 0;
 		while(xInput){
+			g.setFont(Font.getDefaultFont());
+			g.drawString("X Coordinate:", screenWidth/2, screenHeight/4, Graphics.HCENTER);
+			
+			g.setFont(Font.getLargeFont());
+			g.drawString(xCoord.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
+			
+			g.setFont(Font.getSmallFont());
+			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
+			
+			g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
+			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
+			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
+			
+			g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
+			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
+			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
-				xCoord++;
+				if(xCoord < 0){
+					xCoord = 0;
+				}
+				else{
+					xCoord++;
+				}
 			}
 			else if(buttonPress == Button.ID_LEFT){
-				xCoord--;
+				if(xCoord <= 0){
+					xCoord = 0;
+				}
+				else{
+					xCoord--;
+				}
 			}
 			else if(buttonPress == Button.ID_ENTER){
 				xInput = false;
 				yInput = true;
 			}
+			g.clear();
 		}
 		
 		while(yInput){
+			g.setFont(Font.getDefaultFont());
+			g.drawString("Y Coordinate:", screenWidth/2, screenHeight/4, Graphics.HCENTER);
+			
+			g.setFont(Font.getLargeFont());
+			g.drawString(yCoord.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
+			
+			g.setFont(Font.getSmallFont());
+			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
+			
+			g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
+			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
+			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
+			
+			g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
+			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
+			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
-				yCoord++;
+				if(yCoord < 0){
+					yCoord = 0;
+				}
+				else{
+					yCoord++;
+				}
 			}
 			else if(buttonPress == Button.ID_LEFT){
-				yCoord--;
+				if(yCoord <= 0){
+					yCoord = 0;
+				}
+				else{
+					yCoord--;
+				}
 			}
 			else if(buttonPress == Button.ID_ENTER){
 				yInput = false;
+				dInput = true;
 			}
+			g.clear();
 		}
 		
-		return (xCoord.toString() + yCoord.toString());
+		while(dInput){
+			g.setFont(Font.getDefaultFont());
+			g.drawString("Direction:", screenWidth/2, screenHeight/4, Graphics.HCENTER);
+			
+			g.setFont(Font.getLargeFont());
+			g.drawString(direction.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
+			
+			g.setFont(Font.getSmallFont());
+			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
+			
+			g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
+			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
+			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
+			
+			g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
+			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
+			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+			
+			int buttonPress = Button.waitForAnyPress();
+			if(buttonPress == Button.ID_RIGHT){
+				if(direction < 0){
+					direction = 0;
+				}
+				else if(direction >= 270){
+					direction = 270;
+				}
+				else{
+					direction = direction + 90;
+				}
+			}
+			else if(buttonPress == Button.ID_LEFT){
+				if(direction <= 0){
+					direction = 0;
+				}
+				else if(direction > 270){
+					direction = 270;
+				}
+				else{
+					direction =direction - 90;
+				}
+			}
+			else if(buttonPress == Button.ID_ENTER){
+				dInput = false;
+			}
+			g.clear();
+		}
+		
+		return (xCoord.toString() + yCoord.toString() + direction.toString());
 	}
+	
+	
 }
