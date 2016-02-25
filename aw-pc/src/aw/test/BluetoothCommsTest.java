@@ -12,21 +12,20 @@ public class BluetoothCommsTest {
 
 		Communication.addRobots();
 
-		String name = "Ricardo";
+		while (true) {
+			String name = scanner.nextLine();
+			String input = scanner.nextLine();
 
-		CommandSender cs = Communication.getCommandSender(name);
+			CommandSender cs = Communication.getCommandSender(name);
 
-		if (cs != null) {
-			while (true) {
-				String input = scanner.nextLine();
-				
+			if (cs != null) {
 				for (int i = 0; i < input.length(); i++) {
 					char action = input.charAt(i);
-					cs.sendActionCommand(action);
+					cs.sendCommand(action + "");
 				}
+			} else {
+				System.err.println("Robot with name " + name + " is not connected");
 			}
-		} else {
-			System.out.println("CommandSender does not exist for robot with name " + name);
 		}
 	}
 }

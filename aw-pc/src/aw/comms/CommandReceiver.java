@@ -14,8 +14,9 @@ public class CommandReceiver extends Thread {
 	public void run() {
 		while (true) {
 			try {
+				System.out.println("Reading...");
 				String input = br.readLine();
-				System.out.println(input);
+				System.out.println("string " + input);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -1,13 +1,12 @@
 package aw.comms;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * Handles sending commands from the PC to the robot.
  */
 public class CommandSender {
-	private DataOutputStream dos;
+	private PrintStream ps;
 
 	/**
 	 * Creates an instance of CommandSender for a DataOutputStream, normally
@@ -16,8 +15,8 @@ public class CommandSender {
 	 * @param dos
 	 *            The DataOutputStream
 	 */
-	public CommandSender(DataOutputStream dos) {
-		this.dos = dos;
+	public CommandSender(PrintStream ps) {
+		this.ps = ps;
 	}
 
 	/**
@@ -27,15 +26,10 @@ public class CommandSender {
 	 *            The action to be sent to the robot: 'F' - Forwards 1 square,
 	 *            'L' - Turn left at junction, 'R' - Turn right at junction
 	 */
-	public void sendActionCommand(char action) {
-		try {
-			//dos.writeInt(1);
-			dos.writeChar(action);
-			dos.flush();
-			
-			System.out.println("Sent action command: " + action);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void sendCommand(String action) {
+		ps.println(action);
+		ps.flush();
+
+		System.out.println("Sent action command: " + action);
 	}
 }
