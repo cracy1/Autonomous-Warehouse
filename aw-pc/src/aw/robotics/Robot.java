@@ -14,8 +14,10 @@ public class Robot implements Runnable{
 	private String name;
 	private int x, y;
 	private int angle;
+	
 	private CommandSender sender;
 	private CommandReceiver receiver;
+	
 	private boolean running;
 	private Map map;
 	
@@ -27,17 +29,28 @@ public class Robot implements Runnable{
 		Communication.addRobots();
 		this.sender = Communication.getCommandSender(name);
 		this.running = true;
-		map = new Map(8, 12);		 
+		map = new Map(8, 12);	 
 	}
 	
 	public void setRoute(LinkedList<Node> route){
 		char[] moves = map.getMoves(route, angle).replace("t", "rr").toCharArray();
+		
 		for(char c: moves){
 			if(c == 'r') angle = (angle + 90) % 360;
 			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 
-			sender.sendActionCommand(c);
+			sender.sendCommand("" + c);
 		}
+		
+		sender.sendCommand("i");
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
 	}
 	
 	public int getX(){
@@ -50,6 +63,16 @@ public class Robot implements Runnable{
 
 	@Override
 	public void run() {
+		Thread robotInput = new Thread(){
+			@Override
+			public void run(){
+				while(running){
+					//String message = receiver.read();
+				}
+			}
+		};
+		
+		robotInput.start();
 //		while(running){
 //			Job currentJob = jobList.getNext();
 //			Item item;

@@ -3,6 +3,8 @@ package aw.test;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import aw.robotics.Robot;
+
 /**
  * Created by aranscope on 2/22/16.
  */
@@ -145,8 +147,15 @@ public class Map {
         
         return getPath(a, b, walkable);
     }
-
-
+    
+    public LinkedList<Node> getPath(Robot rob, Node target){
+    	int startX = rob.getX();
+    	int startY = rob.getY();
+    	rob.setX(target.x);
+    	rob.setY(target.y);
+    	return getPath(new Node(startX, startY), target);
+    }
+    
     public LinkedList<Node> getPath(Node a, Node b, boolean[][] walkable){
         LinkedList<Node> closedSet = new LinkedList<>();
         LinkedList<Node> openSet = new LinkedList<>();
