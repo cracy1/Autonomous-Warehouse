@@ -6,6 +6,7 @@ import java.io.IOException;
 import aw.motion.Move;
 import aw.motion.MoveExecutor;
 import aw.robot.Display;
+import lejos.nxt.LCD;
 import rp.robotics.DifferentialDriveRobot;
 
 public class RobotReceiver extends Thread {
@@ -23,6 +24,7 @@ public class RobotReceiver extends Thread {
 	public void run() {
 		while (true) {
 			try {
+				LCD.clear();
 				String action = br.readLine();
 				
 				switch (action) {

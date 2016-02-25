@@ -21,7 +21,7 @@ public class Communication {
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 
-			NXTInfo[] nxts = { /*BluetoothRobots.RICARDO,*/ BluetoothRobots.I4 };
+			NXTInfo[] nxts = { BluetoothRobots.RICARDO /*BluetoothRobots.I4 */};
 
 			for (NXTInfo nxt : nxts) {
 				addRobotConnection(nxtComm, nxt);
