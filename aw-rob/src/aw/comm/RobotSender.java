@@ -1,6 +1,5 @@
 package aw.comm;
 
-import java.io.IOException;
 import java.io.PrintStream;
 
 public class RobotSender {

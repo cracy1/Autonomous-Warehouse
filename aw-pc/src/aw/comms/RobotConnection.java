@@ -42,20 +42,10 @@ public class RobotConnection {
 		}
 	}
 
-	/**
-	 * Returns the DataInputStream for the RobotConnection
-	 * 
-	 * @return The DataInputStream
-	 */
 	public BufferedReader getBufferedReader() {
 		return br;
 	}
 
-	/**
-	 * Returns the DataOutputStream for the RobotConnection
-	 * 
-	 * @return The DataOutputStream
-	 */
 	public PrintStream getPrintStream() {
 		return ps;
 	}

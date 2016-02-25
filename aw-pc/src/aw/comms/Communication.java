@@ -21,12 +21,12 @@ public class Communication {
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 
-			NXTInfo[] nxts = { /*BluetoothRobots.RICARDO,*/ BluetoothRobots.I4 };
+			NXTInfo[] nxts = { BluetoothRobots.RICARDO };
 
 			for (NXTInfo nxt : nxts) {
 				addRobotConnection(nxtComm, nxt);
 			}
-			
+
 			System.out.println("All robots connected");
 		} catch (NXTCommException e) {
 			e.printStackTrace();
@@ -50,10 +50,10 @@ public class Communication {
 
 		CommandSender commandSender = new CommandSender(robotConnection.getPrintStream());
 		commandSenders.put(nxt.name, commandSender);
-		
+
 		CommandReceiver commandReceiver = new CommandReceiver(robotConnection.getBufferedReader());
 		commandReceiver.start();
-		
+
 		System.out.println("Robot '" + nxt.name + "' connected");
 	}
 

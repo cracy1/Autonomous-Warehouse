@@ -12,36 +12,36 @@ public class RobotReceiver extends Thread {
 	private BufferedReader br;
 	private MoveExecutor moveExecutor;
 	private Display disp;
-	
+
 	public RobotReceiver(BufferedReader br, DifferentialDriveRobot robot) {
 		this.br = br;
 		this.moveExecutor = new MoveExecutor(robot);
 		this.disp = new Display();
 	}
-	
+
 	@Override
 	public void run() {
 		while (true) {
 			try {
 				String action = br.readLine();
-				
+
 				switch (action) {
-					case "f":
-						moveExecutor.addMove(Move.FORWARD);
-						break;
-					case "l":
-						moveExecutor.addMove(Move.LEFT_TURN);
-						break;
-					case "r":
-						moveExecutor.addMove(Move.RIGHT_TURN);
-						break;
-					case "t":
-						moveExecutor.addMove(Move.HALF_TURN);
-						break;
-					case "i":
-						disp.requestItem("Cat", 5);
-						break;
-						
+				case "f":
+					moveExecutor.addMove(Move.FORWARD);
+					break;
+				case "l":
+					moveExecutor.addMove(Move.LEFT_TURN);
+					break;
+				case "r":
+					moveExecutor.addMove(Move.RIGHT_TURN);
+					break;
+				case "t":
+					moveExecutor.addMove(Move.HALF_TURN);
+					break;
+				case "i":
+					disp.requestItem("Cat", 5);
+					break;
+
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
