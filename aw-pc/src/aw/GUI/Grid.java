@@ -1,0 +1,39 @@
+package aw.GUI;
+
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.awt.Graphics2D;
+import java.awt.Color;
+
+public class Grid {
+	private ArrayList<Line2D.Double> xLines;
+	private ArrayList<Line2D.Double> yLines; 
+	//private Ellipse2D.Double robot;
+	
+	public Grid() {
+		xLines = new ArrayList<Line2D.Double>();
+		yLines = new ArrayList<Line2D.Double>();
+
+		for(int i = 1; i <= 8; i++){
+			xLines.add(new Line2D.Double(50, (i*50) + 100, 600, (i*50) + 100));
+		}
+		for(int j = 1; j <=12; j++){
+			yLines.add(new Line2D.Double(j*50, 150, j*50, 500));
+		}
+	}
+	
+	public void draw(Graphics2D g){
+		g.setColor(Color.BLACK);
+		for(int i = 0; i < 8; i++){
+			g.fill(xLines.get(i));
+			g.draw(xLines.get(i));
+		}
+		for(int j = 0; j < 12; j++) {
+			g.fill(yLines.get(j));
+			g.draw(yLines.get(j));
+		}
+		
+	}
+}
+	
