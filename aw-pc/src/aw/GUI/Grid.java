@@ -3,10 +3,15 @@ package aw.GUI;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Graphics;
 
-public class Grid {
+public class Grid extends JPanel{
 	private ArrayList<Line2D.Double> xLines;
 	private ArrayList<Line2D.Double> yLines; 
 	//private Ellipse2D.Double robot;
@@ -23,15 +28,17 @@ public class Grid {
 		}
 	}
 	
-	public void draw(Graphics2D g){
-		g.setColor(Color.BLACK);
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		
+		g2.setColor(Color.BLACK);
 		for(int i = 0; i < 8; i++){
-			g.fill(xLines.get(i));
-			g.draw(xLines.get(i));
+			g2.fill(xLines.get(i));
+			g2.draw(xLines.get(i));
 		}
 		for(int j = 0; j < 12; j++) {
-			g.fill(yLines.get(j));
-			g.draw(yLines.get(j));
+			g2.fill(yLines.get(j));
+			g2.draw(yLines.get(j));
 		}
 		
 	}
