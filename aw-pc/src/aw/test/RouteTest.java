@@ -2,10 +2,12 @@ package aw.test;
 
 import java.util.LinkedList;
 
+import aw.file.Job;
+import aw.file.JobList;
 import aw.robotics.Robot;
 
-public class Test {
-	public Test(){
+public class RouteTest {
+	public RouteTest(){
 		Map m = new Map(8, 12);
 		
 		Robot rob = new Robot("Ricardo", 0, 3, 0);
@@ -16,9 +18,11 @@ public class Test {
 		rob.setRoute(path);
 		rob.setRoute(path2);
 		rob.setRoute(path3);
+		
+		
 	}
 
 	public static void main(String[] args){
-		new Test();
+		new RouteTest();
 	}
 }

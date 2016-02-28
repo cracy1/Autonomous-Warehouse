@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
-import aw.file.Item;
+import aw.file.ItemList;
 import aw.file.Job;
 import aw.test.Map;
 import aw.test.Node;
@@ -31,6 +31,36 @@ public class Robot implements Runnable{
 		//this.receiver = Communication.getCommandReceiver(name);
 		this.running = true;
 		map = new Map(8, 12);	 
+	}
+	
+	public void setJob(Job job){
+		int jobLength = job.numberItems();
+		Node current = new Node(this.x, this.y);
+		ItemList itemList = new ItemList();
+		
+		for(int i = 0; i < jobLength; i++){
+			String item = job.getItem(i);
+			int index = itemList.getIndex(item);
+			int itemX = itemList.getX(index);
+			int itemY = itemList.getY(index);
+			int quantity = job.getQuantity(i);
+	
+			Node target = new Node(itemX, itemY);
+			
+			LinkedList<Node> route = map.getPath(current, target);
+			char[] moves = map.getMoves(route, angle).toCharArray();
+			
+			for(char c: moves){
+				sender.sendCommand("" + c);
+				
+				if(c == 'r') angle = (angle + 90) % 360;
+				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+			}
+			
+			sender.sendCommand("i " + item + " " + quantity);
+			
+			current = target;
+		}
 	}
 	
 //	public void executeJob(Job job){

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import aw.file.interfaces.ItemInterface;
 
-public class Item implements ItemInterface {
+public class ItemList implements ItemInterface {
 	String path = "res/";
 
 	String items = path + "items.csv";
@@ -17,7 +17,7 @@ public class Item implements ItemInterface {
 	private int[] x;
 	private int[] y;
 
-	public Item(String string) {
+	public ItemList() {
 		name = new String[200];
 		reward = new Double[200];
 		weight = new Double[200];

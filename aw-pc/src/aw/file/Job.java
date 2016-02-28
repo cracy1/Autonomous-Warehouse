@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import aw.file.interfaces.JobInterface;
 
-public class Job extends LinkedList<Item> implements JobInterface {
+public class Job implements JobInterface {
 
 	private String[] items;
 	private int[] quantity;
@@ -53,7 +53,7 @@ public class Job extends LinkedList<Item> implements JobInterface {
 	}
 
 	@Override
-	public Item getNext() {
+	public ItemList getNext() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -66,18 +66,19 @@ public class Job extends LinkedList<Item> implements JobInterface {
 
 	@Override
 	public double getUtility() {
-
-		double totalReward = 0;
-
-		for (int i = 0; i < numberItems(); i++) {
-			Item item = new Item(items[i]);
-			int j = item.getIndex(items[i]);
-
-			double utility = item.getReward(j) * quantity[i];
-			totalReward += utility;
-
-		}
-		return totalReward;
+//
+//		double totalReward = 0;
+//
+//		for (int i = 0; i < numberItems(); i++) {
+//			ItemList item = new ItemList(items[i]);
+//			int j = item.getIndex(items[i]);
+//
+//			double utility = item.getReward(j) * quantity[i];
+//			totalReward += utility;
+//
+//		}
+//		return totalReward;
+		return 0;
 	}
 
 }

@@ -1,10 +1,10 @@
 package aw.file.interfaces;
 
-import aw.file.Item;
+import aw.file.ItemList;
 
 public interface JobInterface {
 	public int numberItems();
-	public Item getNext();
+	public ItemList getNext();
 	public double getUtility();
 	public void sort();
 }
