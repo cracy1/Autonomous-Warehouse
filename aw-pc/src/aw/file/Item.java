@@ -6,8 +6,7 @@ import java.io.IOException;
 import aw.file.interfaces.ItemInterface;
 
 public class Item implements ItemInterface {
-
-	String path = "/Users/Andrei/Desktop/Robot Programming/Warehouse files/";
+	String path = "res/";
 
 	String items = path + "items.csv";
 	String locations = path + "locations.csv";

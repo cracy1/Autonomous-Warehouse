@@ -12,7 +12,6 @@ public class Job extends LinkedList<Item> implements JobInterface {
 	private int counter;
 
 	public Job(String row) {
-
 		JobID = Integer.parseInt(row.split(",")[0]);
 		counter = 0;
 		int i = 0;
