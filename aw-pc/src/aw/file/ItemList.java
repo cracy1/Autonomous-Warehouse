@@ -39,8 +39,12 @@ public class ItemList implements ItemInterface {
 			}
 
 			for (int i = 0; i < arr3.length; i++) {
-				x[i] = Integer.parseInt(arr3[i].split(",")[0]);
-				y[i] = Integer.parseInt(arr3[i].split(",")[1]);
+				//x[i] = Integer.parseInt(arr3[i].split(",")[0]);
+				//y[i] = Integer.parseInt(arr3[i].split(",")[1]);
+				x[i] = 7 - Integer.parseInt(arr3[i].split(",")[1]); //modified for new coordinate system.
+				y[i] = 11 - Integer.parseInt(arr3[i].split(",")[0]);
+				
+				
 			}
 		}
 

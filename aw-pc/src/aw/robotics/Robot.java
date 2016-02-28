@@ -21,6 +21,13 @@ public class Robot implements Runnable{
 	private boolean running;
 	private Map map;
 	
+	/**
+	 * Create a robot object to abstract communication with the NXT robots.
+	 * @param name The name of the NXT robot.
+	 * @param startX The starting X position of the robot on the grid.
+	 * @param startY The starting Y position of the robot on the grid.
+	 * @param angle The starting rotation of the robot
+	 */
 	public Robot(String name, int startX, int startY, int angle){
 		this.name = name;
 		this.x = startX;
@@ -52,13 +59,12 @@ public class Robot implements Runnable{
 			
 			for(char c: moves){
 				sender.sendCommand("" + c);
-				
+				System.out.println(c);
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 			}
 			
 			sender.sendCommand("i " + item + " " + quantity);
-			
 			current = target;
 		}
 	}
