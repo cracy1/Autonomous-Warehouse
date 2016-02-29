@@ -5,7 +5,7 @@ import java.io.IOException;
 import aw.file.interfaces.ItemInterface;
 
 public class ItemList implements ItemInterface {
-	String path = "res/";
+	String path = "/home/students/add511/workspace/JobSelection/Autonomous-Warehouse/aw-pc/src/aw/file/";
 
 	String items = path + "items.csv";
 	String locations = path + "locations.csv";
