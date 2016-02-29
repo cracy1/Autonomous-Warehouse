@@ -1,79 +1,90 @@
 package aw.GUI;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import aw.file.ItemList;
 
 public class InformationView extends JPanel implements Observer {
-	
+//Attributes	
 	private InformationModel model;
-	private JLabel title1, title2, title3, jobID, utility;
-	private ArrayList<JLabel> itemsArray, itemsTitleArray;
+	private String jobID, utility;
+//	private ArrayList<JLabel> itemsArray;
+	private ArrayList<String> itemsTitleArray, itemNames, itemCoord, itemReward, itemWeight;
 	
 	public InformationView(InformationModel model) {
 		this.model = model;
-//JLabels that stay the same: the titles.		
-		title1 = new JLabel("Robot 1, Ricardo:");
-		title2 = new JLabel("Job ID: ");
-		title3 = new JLabel("Job utility: ");
 		
-//JLabels that change depending on job.		
-		jobID = new JLabel(Integer.toString(model.getJobId()));
-		utility = new JLabel(String.valueOf(model.getUtility()));
+//		itemsArray = new ArrayList<JLabel>();
+		itemsTitleArray = new ArrayList<String>();
+		itemNames = new ArrayList<String>();
+		itemCoord = new ArrayList<String>();
+		itemReward = new ArrayList<String>();
+		itemWeight = new ArrayList<String>();
+
+//Get the ID and utility of the current job.
 		
-		itemsArray = new ArrayList<JLabel>();
-		itemsTitleArray = new ArrayList<JLabel>();
+		jobID = new String(Integer.toString(model.getJobId()));
+		utility = new String(String.valueOf(Math.round(model.getUtility())));
 		
+//Unchanged titles
 		for(int i =0; i < model.numberItems(); i++){
-			itemsArray.add(new JLabel(model.getJobItem(i)));
-			itemsTitleArray.add(new JLabel("item " + i + ": ")); //unchanged titles again. 
+			itemNames.add(model.getJobItem(i));
+			itemsTitleArray.add("Item " + (i+1) + ":          ");
 		}
 		
-		Font titleFont = new Font("Times New Roman", Font.BOLD + Font.ITALIC, 18);
-		Font subFont = new Font("Times New Roman", Font.BOLD, 15);
-//Unchanged titles.		
-		title1.setFont(titleFont);
-		title1.setLocation(750, 100);
-		title2.setFont(subFont);
-		title2.setLocation(750, 120);
-		title3.setFont(subFont);
-		title3.setLocation(750, 140);
-		for(int i = 0; i < model.numberItems(); i++) {
-			itemsTitleArray.get(i).setFont(subFont);
-			itemsTitleArray.get(i).setLocation(750, 160 + i*20);
-		}
 		
-//JLabels with changing values.
-		jobID.setLocation(780, 120);
-		utility.setLocation(780, 140);
-		for(int i =0; i < model.numberItems(); i++) {
-			itemsArray.get(i).setLocation(780, 160 + i*20);
+//Gets all the info of each item		
+		for (int i = 0; i < model.numberItems(); i++) {
+			ItemList item = new ItemList();
+			int j = item.getIndex(itemNames.get(i));
+			double reward = item.getReward(j);
+			double weight = item.getWeight(j);
+			int xCoord = item.getX(j);
+			int yCoord = item.getY(j);
+			itemCoord.add("(" + Integer.toString(xCoord) + ", " + Integer.toString(yCoord) + ")");
+			itemReward.add(String.valueOf(reward));
+			itemWeight.add(String.valueOf(weight));
+
 		}
-		
-		add(title1);
-		add(title2);
-		add(title3);
-		add(jobID);
-		add(utility);
-		for(int i =0; i < model.numberItems(); i++) {
-			add(itemsTitleArray.get(i));
-			add(itemsArray.get(i));
-		}
-		
 	}
+	
+	/**
+	 * Draws everything on the JPanel. JLabels would be better however. 
+	 * @param g2 the Graphics2D object. 
+	 */
+	public void drawEverything(Graphics2D g2) {
+		Font titleFont = new Font("Times New Roman", Font.BOLD, 18);
+		Font subFont = new Font("Times New Roman", Font.BOLD, 13);
+		g2.setFont(titleFont);
+		g2.drawString("Robot 1, Ricardo:", 750, 40);
+		g2.setFont(subFont);
+		g2.drawString("Job ID:          " + jobID, 750, 60);
+		g2.drawString("Job utility:     " + utility, 750, 80);
+		for(int i = 0; i < itemNames.size(); i++) {
+			g2.drawString(itemsTitleArray.get(i) + itemNames.get(i) + "; " + itemCoord.get(i) + "; " + itemReward.get(i) + "; " + itemWeight.get(i), 750, 100 + i*20);
+		}
+	}
+	/**
+	 * Calls drawEverything to draw the appropriate info on the JPanel.
+	 * @param g
+	 */
+	public void draw(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		drawEverything(g2);
+	}
+	
+	/**
+	 * updates the canvas with the new information.
+	 */
 
 	@Override
 	public void update(Observable o, Object arg) {
-		jobID.setText(Integer.toString(model.getJobId()));
-		utility.setText(String.valueOf(model.getUtility()));
-		for(int i =0; i < model.numberItems(); i++) {
-			itemsArray.get(i).setText(model.getJobItem(i));
-		}
-		
+		//TODO: Implement update of the drawStrings. 
 	}
 
 }
