@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import aw.robotics.Robot;
 
 /**
- * Created by aranscope on 2/22/16.
+ * Created by aranscope, Sam Dowell and George Alexander on 2/22/16.
  */
 
 public class Map {
