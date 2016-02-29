@@ -12,6 +12,10 @@ public class StringUtils {
 		String[] splitString = new String[spaces + 1];
 		int index = 0;
 		
+		for(int i = 0; i < spaces; i++){
+			splitString[i] = "";
+		}
+		
 		for(int i = 0; i < s.length(); i++){
 			if(s.charAt(i) == ' ') index++;
 			else splitString[index] += s.charAt(i);
