@@ -12,7 +12,7 @@ public class StringUtils {
 		String[] splitString = new String[spaces + 1];
 		int index = 0;
 		
-		for(int i = 0; i < spaces + 1; i++){
+		for(int i = 0; i < splitString.length; i++){
 			splitString[i] = "";
 		}
 		
