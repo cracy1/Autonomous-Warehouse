@@ -6,6 +6,7 @@ import java.io.IOException;
 import aw.motion.Move;
 import aw.motion.MoveExecutor;
 import aw.robot.Display;
+import aw.utils.StringUtils;
 import lejos.nxt.LCD;
 import rp.robotics.DifferentialDriveRobot;
 
@@ -26,8 +27,9 @@ public class RobotReceiver extends Thread {
 			try {
 				LCD.clear();
 				String action = br.readLine();
-
-				switch (action) {
+				String[] actionSplit = StringUtils.splitBySpace(action);
+				
+				switch (actionSplit[0]) {
 				case "f":
 					moveExecutor.addMove(Move.FORWARD);
 					break;
@@ -41,9 +43,11 @@ public class RobotReceiver extends Thread {
 					moveExecutor.addMove(Move.HALF_TURN);
 					break;
 				case "i":
-					disp.requestItem("Cat", 5);
+					String item = actionSplit[1];
+					int amount = Integer.parseInt(actionSplit[2]);
+					disp.requestItem(item, amount);
 					break;
-
+						
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
