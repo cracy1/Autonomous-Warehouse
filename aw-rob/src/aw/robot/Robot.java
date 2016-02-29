@@ -12,6 +12,8 @@ import lejos.nxt.comm.Bluetooth;
 import rp.robotics.DifferentialDriveRobot;
 
 public class Robot {
+	private static RobotSender robotSender;
+	
 	public static void main(String[] args) {
 		System.out.println("Waiting for connection...");
 		BTConnection connection = Bluetooth.waitForConnection();
@@ -25,7 +27,11 @@ public class Robot {
 		RobotReceiver robotReceiver = new RobotReceiver(br, robot);
 		robotReceiver.start();
 
-		RobotSender robotSender = new RobotSender(ps);
+		robotSender = new RobotSender(ps);
 		robotSender.sendMessage("Robot->PC message");
+	}
+	
+	public static RobotSender getRobotSender() {
+		return robotSender;
 	}
 }
