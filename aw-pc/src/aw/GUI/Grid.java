@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Grid extends JPanel{
+public class Grid {
 	private ArrayList<Line2D.Double> xLines;
 	private ArrayList<Line2D.Double> yLines; 
 	//private Ellipse2D.Double robot;
@@ -28,7 +28,7 @@ public class Grid extends JPanel{
 		}
 	}
 	
-	public void paintComponent(Graphics g) {
+	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		
 		g2.setColor(Color.BLACK);
