@@ -12,13 +12,15 @@ public class CommandReceiver extends Thread {
 
 	@Override
 	public void run() {
-		while (true) {
+		boolean alive = true;
+		
+		while (alive) {
 			try {
 				System.out.println("Reading...");
 				String input = br.readLine();
 				System.out.println("string " + input);
 			} catch (IOException e) {
-				e.printStackTrace();
+				alive = false;
 			}
 		}
 	}
