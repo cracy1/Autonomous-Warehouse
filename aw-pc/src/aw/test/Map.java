@@ -34,7 +34,7 @@ public class Map {
 
     public String getMoves(LinkedList<Node> nodes, int angle){
         String moves = "";
-
+        if(nodes == null) return "";
         Node currentNode = nodes.removeFirst();
         for(Node node: nodes){
             switch(angle){

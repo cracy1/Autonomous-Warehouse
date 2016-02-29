@@ -1,13 +1,11 @@
 package aw.file;
 
-import java.io.File;
 import java.io.IOException;
 
 import aw.file.interfaces.ItemInterface;
 
-public class Item implements ItemInterface {
-
-	String path = "/Users/Andrei/Desktop/Robot Programming/Warehouse files/";
+public class ItemList implements ItemInterface {
+	String path = "res/";
 
 	String items = path + "items.csv";
 	String locations = path + "locations.csv";
@@ -18,7 +16,7 @@ public class Item implements ItemInterface {
 	private int[] x;
 	private int[] y;
 
-	public Item(String string) {
+	public ItemList() {
 		name = new String[200];
 		reward = new Double[200];
 		weight = new Double[200];
@@ -40,8 +38,12 @@ public class Item implements ItemInterface {
 			}
 
 			for (int i = 0; i < arr3.length; i++) {
-				x[i] = Integer.parseInt(arr3[i].split(",")[0]);
-				y[i] = Integer.parseInt(arr3[i].split(",")[1]);
+				//x[i] = Integer.parseInt(arr3[i].split(",")[0]);
+				//y[i] = Integer.parseInt(arr3[i].split(",")[1]);
+				x[i] = 7 - Integer.parseInt(arr3[i].split(",")[1]); //modified for new coordinate system.
+				y[i] = 11 - Integer.parseInt(arr3[i].split(",")[0]);
+				
+				
 			}
 		}
 

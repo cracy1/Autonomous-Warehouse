@@ -1,10 +1,8 @@
 package aw.GUI;
 
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import java.awt.Graphics2D;

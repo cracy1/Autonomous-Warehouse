@@ -6,7 +6,11 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+<<<<<<< HEAD
 import java.awt.Font;
+=======
+
+>>>>>>> 325cca58dbec075f8b481ad339013753bebac5de
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 

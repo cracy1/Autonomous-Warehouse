@@ -8,7 +8,7 @@ import aw.robotics.Robot;
 
 public class JobList implements JobListInterface{
 	
-	String path = "/Users/Andrei/Desktop/Robot Programming/Warehouse files/";	
+	String path = "res/";	
 	String jobs = path + "jobs.csv";
 	
 	private String[] job;
