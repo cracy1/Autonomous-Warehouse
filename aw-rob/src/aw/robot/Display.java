@@ -19,16 +19,6 @@ public class Display {
 		
 	}
 	
-	private void drawArrows(){
-		g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
-		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
-		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
-		
-		g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
-		g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
-		g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
-	}
-	
 	//Outputs:
 	// 1 if successful
 	// 0 if failed
@@ -63,6 +53,27 @@ public class Display {
 		return 1;
 	}
 	
+	private void drawArrows(){
+		g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
+		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
+		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
+		
+		g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
+		g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
+		g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+	}
+	
+	private void locationSetText(String name, Integer value){
+		g.setFont(Font.getDefaultFont());
+		g.drawString("name" + ": ", screenWidth/2, screenHeight/4, Graphics.HCENTER);
+		
+		g.setFont(Font.getLargeFont());
+		g.drawString(value.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
+		
+		g.setFont(Font.getSmallFont());
+		g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
+	}
+	
 	public String setLocation(){
 		boolean xInput = true;
 		boolean yInput = false;
@@ -71,15 +82,7 @@ public class Display {
 		Integer yCoord = 0;
 		Integer direction = 0;
 		while(xInput){
-			g.setFont(Font.getDefaultFont());
-			g.drawString("X Coordinate:", screenWidth/2, screenHeight/4, Graphics.HCENTER);
-			
-			g.setFont(Font.getLargeFont());
-			g.drawString(xCoord.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
-			
-			g.setFont(Font.getSmallFont());
-			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
-			
+			locationSetText("X Coordinate", xCoord);
 			drawArrows();
 			
 			int buttonPress = Button.waitForAnyPress();
@@ -107,15 +110,7 @@ public class Display {
 		}
 		
 		while(yInput){
-			g.setFont(Font.getDefaultFont());
-			g.drawString("Y Coordinate:", screenWidth/2, screenHeight/4, Graphics.HCENTER);
-			
-			g.setFont(Font.getLargeFont());
-			g.drawString(yCoord.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
-			
-			g.setFont(Font.getSmallFont());
-			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
-			
+			locationSetText("Y Coordinate", yCoord);
 			drawArrows();
 			
 			int buttonPress = Button.waitForAnyPress();
@@ -143,15 +138,7 @@ public class Display {
 		}
 		
 		while(dInput){
-			g.setFont(Font.getDefaultFont());
-			g.drawString("Direction:", screenWidth/2, screenHeight/4, Graphics.HCENTER);
-			
-			g.setFont(Font.getLargeFont());
-			g.drawString(direction.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
-			
-			g.setFont(Font.getSmallFont());
-			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
-			
+			locationSetText("Direction", direction);
 			drawArrows();
 			
 			int buttonPress = Button.waitForAnyPress();
