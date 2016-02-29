@@ -9,8 +9,6 @@ import lejos.nxt.Sound;
 
 public class Display {
 	
-	private String item;
-	private int amount;
 	private int screenHeight;
 	private int screenWidth;
 	private Graphics g = new Graphics();
@@ -35,8 +33,6 @@ public class Display {
 	// 1 if successful
 	// 0 if failed
 	public int requestItem(String item,int amount){
-		this.item = item;
-		this.amount = amount;
 		g.clear();
 		
 		for(int i = 0; i < amount; i++){
