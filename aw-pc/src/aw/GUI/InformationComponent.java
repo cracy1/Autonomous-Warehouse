@@ -2,6 +2,9 @@ package aw.GUI;
 
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 

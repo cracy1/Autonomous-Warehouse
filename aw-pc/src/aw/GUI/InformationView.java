@@ -6,15 +6,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-<<<<<<< HEAD
-import java.awt.Font;
-=======
-
->>>>>>> 325cca58dbec075f8b481ad339013753bebac5de
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import aw.file.Item;
+import aw.file.ItemList;
 
 public class InformationView extends JPanel implements Observer {
 //Attributes	
@@ -47,7 +40,7 @@ public class InformationView extends JPanel implements Observer {
 		
 //Gets all the info of each item		
 		for (int i = 0; i < model.numberItems(); i++) {
-			Item item = new Item(itemNames.get(i));
+			ItemList item = new ItemList();
 			int j = item.getIndex(itemNames.get(i));
 			double reward = item.getReward(j);
 			double weight = item.getWeight(j);
