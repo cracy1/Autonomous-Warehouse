@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import aw.file.Job;
-import aw.file.interfaces.JobListInterface;
-import aw.robotics.Robot;
 
 public class JobList {
 	private String filepath = "res/jobs.csv";
@@ -45,10 +43,4 @@ public class JobList {
 		}
 		
 	}
-	
-	private void sort() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

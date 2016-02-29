@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

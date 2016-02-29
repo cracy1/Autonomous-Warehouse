@@ -10,6 +10,11 @@ import aw.file.Job;
 import aw.test.Map;
 import aw.test.Node;
 
+/**
+ * Abstraction of the NXT robot.
+ * 
+ * @author aranscope
+ */
 public class Robot implements Runnable{
 	private String name;
 	private int x, y;
@@ -40,6 +45,10 @@ public class Robot implements Runnable{
 		map = new Map(8, 12);	 
 	}
 	
+	/**
+	 * Set the job for the robot to complete.
+	 * @param job Job for the robot to complete.
+	 */
 	public void setJob(Job job){
 		int jobLength = job.numberItems();
 		Node current = new Node(this.x, this.y);
@@ -92,6 +101,10 @@ public class Robot implements Runnable{
 //		}
 //	}
 	
+	/**
+	 * Set to route of the robot, as a list of nodes.
+	 * @param route List of nodes.
+	 */
 	public void setRoute(LinkedList<Node> route){
 		char[] moves = map.getMoves(route, angle).replace("t", "rr").toCharArray();
 		
@@ -106,22 +119,41 @@ public class Robot implements Runnable{
 		sender.sendCommand("i");
 	}
 	
+	/**
+	 * Set the x position of the robot.
+	 * @param x x position of the robot.
+	 */
 	public void setX(int x){
 		this.x = x;
 	}
 	
+	/**
+	 * Set the y position of the robot.
+	 * @param y y position of the robot.
+	 */
 	public void setY(int y){
 		this.y = y;
 	}
 	
+	/**
+	 * Get the x position of the robot.
+	 * @return x position of the robot.
+	 */
 	public int getX(){
 		return this.x;
 	}
 	
+	/**
+	 * Get the y position of the robot.
+	 * @return y position of the robot.
+	 */
 	public int getY(){
 		return this.y;
 	}
 
+	/**
+	 * Main robot thread.
+	 */
 	@Override
 	public void run() {
 		Thread robotInput = new Thread(){
@@ -132,8 +164,8 @@ public class Robot implements Runnable{
 				}
 			}
 		};
-		
-		robotInput.start();
+//		
+//		robotInput.start();
 //		while(running){
 //			Job currentJob = jobList.getNext();
 //			Item item;

@@ -1,7 +1,5 @@
 package aw.file;
 
-import java.util.LinkedList;
-
 import aw.file.interfaces.JobInterface;
 
 public class Job implements JobInterface {

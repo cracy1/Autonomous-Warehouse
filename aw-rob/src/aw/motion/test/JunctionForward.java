@@ -1,8 +1,6 @@
 package aw.motion.test;
 
 
-import java.util.ArrayList;
-
 import lejos.nxt.LightSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
