@@ -21,6 +21,16 @@ public class Display {
 		
 	}
 	
+	private void drawArrows(){
+		g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
+		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
+		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
+		
+		g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
+		g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
+		g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+	}
+	
 	//Outputs:
 	// 1 if successful
 	// 0 if failed
@@ -74,13 +84,7 @@ public class Display {
 			g.setFont(Font.getSmallFont());
 			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
 			
-			g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
-			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
-			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
-			
-			g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
-			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
-			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+			drawArrows();
 			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
@@ -116,13 +120,7 @@ public class Display {
 			g.setFont(Font.getSmallFont());
 			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
 			
-			g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
-			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
-			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
-			
-			g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
-			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
-			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+			drawArrows();
 			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
@@ -158,13 +156,7 @@ public class Display {
 			g.setFont(Font.getSmallFont());
 			g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
 			
-			g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
-			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
-			g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*9/16); //Left arrow down
-			
-			g.drawLine(screenWidth*3/4, screenHeight/2, screenWidth*7/8, screenHeight/2); //Right arrow body
-			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*7/16); //Right arrow up
-			g.drawLine(screenWidth*7/8, screenHeight/2, screenWidth*13/16, screenHeight*9/16); //Right arrow down
+			drawArrows();
 			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
