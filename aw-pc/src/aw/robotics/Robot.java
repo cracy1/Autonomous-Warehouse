@@ -78,29 +78,38 @@ public class Robot implements Runnable{
 			current = target;
 		}
 	}
+
+	public void setJobTest(Job job){
+		int jobLength = job.numberItems();
+		Node current = new Node(this.x, this.y);
+		ItemList itemList = new ItemList();
+		
+		for(int i = 0; i < jobLength; i++){
+			String item = job.getItem(i);
+			int index = itemList.getIndex(item);
+			int itemX = itemList.getX(index);
+			int itemY = itemList.getY(index);
+			int quantity = job.getQuantity(i);
 	
-//	public void executeJob(Job job){
-//		Node current = new Node(this.x, this.y);
-//		
-//		for(Item item: job.getItems()){
-//			Node target = new Node(item.getX(), item.getY());
-//			LinkedList<Node> route = map.getPath(current, target);
-//			char[] moves = map.getMoves(route, angle).toCharArray();
-//			
-//			for(char c: moves){
-//				sender.sendCommand(c);
-//				receiver.read();
-//				
-//				if(c == 'r') angle = (angle + 90) % 360;
-//				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
-//			}
-//			
-//			sender.sendCommand("i " + item.getName() + " " + item.getQuantity());
-//			receiver.read();
-//			
-//			current = target;
-//		}
-//	}
+			Node target = new Node(itemX, itemY);
+			
+			LinkedList<Node> route = map.getPath(current, target);
+			char[] moves = map.getMoves(route, angle).toCharArray();
+			
+			for(char c: moves){
+				sender.sendCommand("" + c);
+				System.out.println(c);
+				if(c == 'r') angle = (angle + 90) % 360;
+				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+				if(c == 't') angle = (angle + 180) % 360;
+				
+				
+			}
+			
+			sender.sendCommand("i " + item + " " + quantity);
+			current = target;
+		}
+	}
 	
 	/**
 	 * Set to route of the robot, as a list of nodes.

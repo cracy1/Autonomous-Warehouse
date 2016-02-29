@@ -32,7 +32,7 @@ public class SingleRobotDemoController {
 	 */
 	public void testJob(){
 		JobList jobList = new JobList();
-		Job job = new Job(jobList.getJob2(1));
+		Job job = new Job(jobList.getJob(1));
 		rob.setJob(job);
 	}
 	
