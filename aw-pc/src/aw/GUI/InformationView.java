@@ -1,62 +1,65 @@
 package aw.GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import aw.file.ItemList;
 
 public class InformationView extends JPanel implements Observer {
 //Attributes	
 	private InformationModel model;
-	private String jobID, utility;
-//	private ArrayList<JLabel> itemsArray;
-	private ArrayList<String> itemsTitleArray, itemNames, itemCoord, itemReward, itemWeight;
+	private ArrayList<JLabel> itemsArray;
 	
 	public InformationView(InformationModel model) {
 		this.model = model;
 		
-//		itemsArray = new ArrayList<JLabel>();
-		itemsTitleArray = new ArrayList<String>();
-		itemNames = new ArrayList<String>();
-		itemCoord = new ArrayList<String>();
-		itemReward = new ArrayList<String>();
-		itemWeight = new ArrayList<String>();
-
-//Get the ID and utility of the current job.
+		Font titleFont = new Font("Times New Roman", Font.BOLD, 18);
+		itemsArray = new ArrayList<JLabel>();
+		JLabel mainTitle = new JLabel("Robot 1, Ricardo");
+		itemsArray.add(mainTitle);
+		mainTitle.setFont(titleFont);
+		JLabel jobId = new JLabel("Job ID:   " + model.getJobId());
+		JLabel util = new JLabel("utility:   " + String.valueOf(model.getUtility()));
+		itemsArray.add(jobId);
+		itemsArray.add(util);
 		
-		jobID = new String(Integer.toString(model.getJobId()));
-		utility = new String(String.valueOf(Math.round(model.getUtility())));
-		
-//Unchanged titles
-		for(int i =0; i < model.numberItems(); i++){
-			itemNames.add(model.getJobItem(i));
-			itemsTitleArray.add("Item " + (i+1) + ":          ");
-		}
-		
-		
-//Gets all the info of each item		
-		for (int i = 0; i < model.numberItems(); i++) {
+		for(int i =0; i < model.numberItems(); i++) {
 			ItemList item = new ItemList();
-			int j = item.getIndex(itemNames.get(i));
+			int j = item.getIndex(model.getJobItem(i));
 			double reward = item.getReward(j);
 			double weight = item.getWeight(j);
 			int xCoord = item.getX(j);
 			int yCoord = item.getY(j);
-			itemCoord.add("(" + Integer.toString(xCoord) + ", " + Integer.toString(yCoord) + ")");
-			itemReward.add(String.valueOf(reward));
-			itemWeight.add(String.valueOf(weight));
-
+			itemsArray.add(new JLabel("Item " + (i+1) + ":   " + model.getJobItem(i) + "; " + reward + "; " + weight + "; " + "(" + xCoord + ", " + yCoord + ")"));
 		}
+		
+		
+		Box box = Box.createVerticalBox();
+		add(box);
+		
+		for(int i = 0; i< itemsArray.size(); i++) {
+			itemsArray.get(i).setAlignmentX(CENTER_ALIGNMENT);
+			box.add(itemsArray.get(i));
+		}
+		
+		
+		
+		
+
 	}
+
 	
-	/**
-	 * Draws everything on the JPanel. JLabels would be better however. 
-	 * @param g2 the Graphics2D object. 
-	 */
+	
+/*
+
 	public void drawEverything(Graphics2D g2) {
 		Font titleFont = new Font("Times New Roman", Font.BOLD, 18);
 		Font subFont = new Font("Times New Roman", Font.BOLD, 13);
@@ -69,19 +72,13 @@ public class InformationView extends JPanel implements Observer {
 			g2.drawString(itemsTitleArray.get(i) + itemNames.get(i) + "; " + itemCoord.get(i) + "; " + itemReward.get(i) + "; " + itemWeight.get(i), 750, 100 + i*20);
 		}
 	}
-	/**
-	 * Calls drawEverything to draw the appropriate info on the JPanel.
-	 * @param g
-	 */
+
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		drawEverything(g2);
 	}
 	
-	/**
-	 * updates the canvas with the new information.
-	 */
-
+*/
 	@Override
 	public void update(Observable o, Object arg) {
 		//TODO: Implement update of the drawStrings. 
