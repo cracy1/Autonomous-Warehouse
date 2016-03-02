@@ -56,6 +56,10 @@ public class Information {
 		return job.getUtility();
 	}
 	
+	public double getJobReward() {
+		return job.getJobReward();
+	}
+	
 	/**
 	 * Returns the number of items that are in the job. 
 	 * @return The total number of items in the job

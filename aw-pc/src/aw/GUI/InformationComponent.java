@@ -23,6 +23,7 @@ public class InformationComponent extends JPanel{
 		
 		setLayout(new GridLayout(0, 2));
 		model.addObserver(view);
+		add(grid);
 		add(view);
 		
 	}

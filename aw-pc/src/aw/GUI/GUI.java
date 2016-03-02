@@ -10,7 +10,7 @@ public class GUI {
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Warehouse Management User Interface");
-		frame.setSize(800, 800);
+		frame.setSize(1300, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Information info = new Information();
 		InformationComponent grid = new InformationComponent(info);
