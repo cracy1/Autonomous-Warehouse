@@ -1,4 +1,4 @@
-package aw.comm;
+package aw.comm.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,28 +27,8 @@ public class RobotReceiver extends Thread {
 			try {
 				LCD.clear();
 				String action = br.readLine();
-				String[] actionSplit = StringUtils.splitBySpace(action);
+										
 				
-				switch (actionSplit[0]) {
-				case "f":
-					moveExecutor.addMove(Move.FORWARD);
-					break;
-				case "l":
-					moveExecutor.addMove(Move.LEFT_TURN);
-					break;
-				case "r":
-					moveExecutor.addMove(Move.RIGHT_TURN);
-					break;
-				case "t":
-					moveExecutor.addMove(Move.HALF_TURN);
-					break;
-				case "i":
-					String item = actionSplit[1];
-					int amount = Integer.parseInt(actionSplit[2]);
-					disp.requestItem(item, amount);
-					break;
-						
-				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

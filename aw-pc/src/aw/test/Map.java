@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import aw.robotics.Robot;
 
 /**
- * Created by aranscope on 2/22/16.
+ * Created by aranscope, Sam Dowell and George Alexander on 2/22/16.
  */
 
 public class Map {
@@ -179,25 +179,25 @@ public class Map {
 
         while(!openSet.isEmpty()){
             Node current = min(openSet, fscore, b);
-            if(current.equals(b)) return recPath(camefrom, current);
-
+            if(current.equals(b)) return recPath(camefrom, current);	// if we are at the goal node
+            														 	// return the path
             openSet.remove(current);
             closedSet.add(current);
 
 
-            for(int y = current.y - 1; y <= current.y + 1; y++){
-                for (int x = current.x - 1; x <= current.x + 1; x++) {
+            for(int y = current.y - 1; y <= current.y + 1; y++){		// these two for loops go through the 
+                for (int x = current.x - 1; x <= current.x + 1; x++) {	// current node's neighbours
                     if(x >= 0 && y >= 0 && x < width && y < height && (x == current.x || y == current.y)){
                         Node ne = new Node(x, y);
 
                         if(!ne.equals(current)) {
-                            if (closedSet.contains(ne)) continue;
+                            if (closedSet.contains(ne)) continue; // exits that iteration of the for loop
 
-                            int tgscore = gscore[current.x][current.y] + 1;
-
-                            if (!openSet.contains(ne)) openSet.add(ne);
-                            else if (tgscore >= gscore[ne.x][ne.y]) continue;
-
+                            int tgscore = gscore[current.x][current.y] + 1; // the move cost to get to the node from 
+                            												// the current path.
+                            if (!openSet.contains(ne)) openSet.add(ne);		// adds the neighbour to the open set if its not present
+                            else if (tgscore >= gscore[ne.x][ne.y]) continue; // if there is a quicker way to the current
+                            												//neighbour then ignore the path
                             camefrom.put(ne, current);
                             gscore[ne.x][ne.y] = tgscore;
                             fscore[ne.x][ne.y] = gscore[ne.x][ne.y] + heuristic(ne, b);

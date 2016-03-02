@@ -8,6 +8,7 @@ public class Job implements JobInterface {
 	private int[] quantity;
 	private int JobID;
 	private int counter;
+	private ItemList item = new ItemList();
 
 	public Job(String row) {
 		JobID = Integer.parseInt(row.split(",")[0]);
@@ -31,6 +32,8 @@ public class Job implements JobInterface {
 			quantity[j] = q;
 			k = k + 2;
 		}
+		
+		sort();
 
 	}
 
@@ -58,25 +61,45 @@ public class Job implements JobInterface {
 
 	@Override
 	public void sort() {
-		// TODO Auto-generated method stub
+		for(int i = 0; i < items.length - 1; i++){
+			if(getItemReward(i) < getItemReward(i+1)){
+				String x = items[i];
+				items[i] = items[i+1];
+				items[i+1] = x;
+				
+				int y = quantity[i];
+				quantity[i] = quantity[i+1];
+				quantity[i+1] = y;
+			}
+		}
 
+	}
+	@Override
+	public double getItemReward(int index) {
+		int j = item.getIndex(items[index]);
+		double reward = item.getReward(j) * quantity[index];
+		return reward;
+	}
+
+	@Override
+	public double getJobReward() {
+
+		double totalReward = 0;
+
+		for (int i = 0; i < numberItems(); i++) {
+			int j = item.getIndex(items[i]);
+			double utility = item.getReward(j) * quantity[i];
+			totalReward += utility;
+
+		}
+		return totalReward;
 	}
 
 	@Override
 	public double getUtility() {
-//
-//		double totalReward = 0;
-//
-//		for (int i = 0; i < numberItems(); i++) {
-//			ItemList item = new ItemList(items[i]);
-//			int j = item.getIndex(items[i]);
-//
-//			double utility = item.getReward(j) * quantity[i];
-//			totalReward += utility;
-//
-//		}
-//		return totalReward;
-		return 0;
+		double utility = getJobReward() / numberItems();
+		return utility;
 	}
+
 
 }

@@ -24,6 +24,7 @@ public class SingleRobotDemoController {
 		map = new Map(8, 12);
 		rob = new Robot("Ricardo", 0, 3, 0);
 		testJob();
+		//testMultiRoute();
 	}
 	
 	/**
@@ -31,7 +32,7 @@ public class SingleRobotDemoController {
 	 */
 	public void testJob(){
 		JobList jobList = new JobList();
-		Job job = new Job(jobList.getJob2(0));
+		Job job = new Job(jobList.getJob(1));
 		rob.setJob(job);
 	}
 	
