@@ -41,7 +41,7 @@ public class RobotConnection {
 				BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
 				PrintStream ps = new PrintStream(nxtComm.getOutputStream());
 				
-				cs = new CommandSender(ps);
+				cs = new CommandSender(nxt.name, ps);
 
 				cr = new CommandReceiver(nxt.name, br);
 				cr.start();
