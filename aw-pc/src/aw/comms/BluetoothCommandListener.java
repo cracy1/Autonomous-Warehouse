@@ -1,5 +1,5 @@
 package aw.comms;
 
 public interface BluetoothCommandListener {
-	void commandReceived(String command);
+	void commandReceived(String name, String command);
 }

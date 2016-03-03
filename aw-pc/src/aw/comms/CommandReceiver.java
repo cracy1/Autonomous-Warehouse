@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CommandReceiver extends Thread {
+	private String name;
 	private BufferedReader br;
 	
 	private ArrayList<BluetoothCommandListener> listeners = new ArrayList<>();
 
-	public CommandReceiver(BufferedReader br) {
+	public CommandReceiver(String name, BufferedReader br) {
+		this.name = name;
 		this.br = br;
 	}
 
@@ -30,7 +32,7 @@ public class CommandReceiver extends Thread {
 	
 	private void sendCommand(String command) {
 		for (BluetoothCommandListener listener : listeners) {
-			listener.commandReceived(command);
+			listener.commandReceived(name, command);
 		}
 	}
 	

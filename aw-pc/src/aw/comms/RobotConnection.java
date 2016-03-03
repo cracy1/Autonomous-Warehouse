@@ -42,7 +42,7 @@ public class RobotConnection {
 			
 			cs = new CommandSender(ps);
 
-			cr = new CommandReceiver(br);
+			cr = new CommandReceiver(nxt.name, br);
 			cr.start();
 
 			System.out.println("Robot '" + nxt.name + "' connected");
