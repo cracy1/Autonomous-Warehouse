@@ -16,7 +16,7 @@ public class BluetoothCommsTest {
 			String name = scanner.nextLine();
 			String input = scanner.nextLine();
 
-			CommandSender cs = Communication.getCommandSender(name);
+			CommandSender cs = Communication.getRobotConnection(name).getCommandSender();
 
 			if (cs != null) {
 				for (int i = 0; i < input.length(); i++) {

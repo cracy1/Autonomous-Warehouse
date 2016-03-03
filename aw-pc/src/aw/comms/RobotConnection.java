@@ -14,9 +14,9 @@ import lejos.pc.comm.NXTInfo;
  */
 public class RobotConnection {
 	private NXTInfo nxt;
-
-	private BufferedReader br;
-	private PrintStream ps;
+	
+	private CommandSender cs;
+	private CommandReceiver cr;
 
 	/**
 	 * Creates an instance of RobotConnection for a specific NXT robot.
@@ -37,16 +37,23 @@ public class RobotConnection {
 	 */
 	public void connect(NXTComm nxtComm) throws NXTCommException {
 		if (nxtComm.open(nxt)) {
-			br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
-			ps = new PrintStream(nxtComm.getOutputStream());
+			BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
+			PrintStream ps = new PrintStream(nxtComm.getOutputStream());
+			
+			cs = new CommandSender(ps);
+
+			cr = new CommandReceiver(br);
+			cr.start();
+
+			System.out.println("Robot '" + nxt.name + "' connected");
 		}
 	}
-
-	public BufferedReader getBufferedReader() {
-		return br;
+	
+	public CommandSender getCommandSender() {
+		return cs;
 	}
-
-	public PrintStream getPrintStream() {
-		return ps;
+	
+	public CommandReceiver getCommandReceiver() {
+		return cr;
 	}
 }
