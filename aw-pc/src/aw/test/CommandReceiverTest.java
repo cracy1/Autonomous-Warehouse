@@ -1,4 +1,7 @@
-package aw.comms;
+package aw.test;
+
+import aw.comms.BluetoothCommandListener;
+import aw.comms.Communication;
 
 public class CommandReceiverTest implements BluetoothCommandListener {
 	

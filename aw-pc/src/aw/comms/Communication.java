@@ -61,4 +61,9 @@ public class Communication {
 	public static RobotConnection getRobotConnection(String name) {
 		return robotConnections.get(name);
 	}
+	
+	@Deprecated
+	public static CommandSender getCommandSender(String name) {
+		return getRobotConnection(name).getCommandSender();
+	}
 }

@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
-import aw.comm.RobotReceiver;
-import aw.comm.RobotSender;
+import aw.comms.RobotReceiver;
+import aw.comms.RobotSender;
 import aw.config.RobotConfigs;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;

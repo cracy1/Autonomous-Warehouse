@@ -1,11 +1,16 @@
-package aw.robot;
+package aw.display;
+
+
 
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
+import aw.test.Node;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
+import rp.robotics.mapping.GridMap;
+import rp.robotics.mapping.MapUtils;
 
 public class Display {
 	
@@ -17,6 +22,20 @@ public class Display {
 		screenHeight = LCD.SCREEN_HEIGHT;
 		screenWidth = LCD.SCREEN_WIDTH;
 		
+	}
+	
+	public void draw(Node current, Node goal, String item, int amount){
+		int currentX = current.x;
+		int currentY = current.y;
+		int goalX = goal.x;
+		int goalY = goal.y;
+		
+		if(currentX == goalX && currentY == goalY){
+			requestItem(item, amount);
+		}
+		else{
+			showPosition(currentX, currentY, goalX, goalY);
+		}
 	}
 	
 	//Outputs:
@@ -173,5 +192,65 @@ public class Display {
 		return (xCoord.toString() + yCoord.toString() + direction.toString());
 	}
 	
+	private String writeCoord(Integer x, Integer y){
+		return ("(" + x + "," + y + ")");
+	}
 	
+	public void showPosition(Integer currentCoordX, Integer currentCoordY, Integer goalCoordX, Integer goalCoordY){
+		g.setFont(Font.getDefaultFont());
+		g.drawString("At", 2, 0, Graphics.LEFT);
+		g.drawString("To", screenWidth/2 + 2, 0, Graphics.LEFT);
+		g.drawString(writeCoord(currentCoordX, currentCoordY) , screenWidth/2 - 2, 0, Graphics.RIGHT);
+		g.drawString(writeCoord(goalCoordX, goalCoordY), screenWidth - 2, 0, Graphics.RIGHT);
+		
+		g.drawLine(screenWidth/2, 0, screenWidth/2, screenHeight/8);
+		
+		GridMap map = MapUtils.createRealWarehouse();
+		int xSize = map.getXSize();
+		int ySize = map.getYSize();
+		int xConvert = screenWidth/xSize;
+		int yConvert = (screenHeight*7/8)/ySize;
+		
+		g.drawLine(0, screenHeight/8, screenWidth - 1, screenHeight/8); //Top horizontal line
+		g.drawLine(0, screenHeight - 1, screenWidth - 1, screenHeight - 1); //Bottom hoizontal line
+		g.drawLine(0, 0, 0, screenHeight - 1); //Left vertical line
+		g.drawLine(screenWidth - 1, 0, screenWidth - 1, screenHeight - 1); //Right vertical line
+		
+		for(int i = 0; i < xSize; i++){
+			for(int j = 0; j < ySize; j++){
+				if(map.isObstructed(i, j)){
+					g.setColor(Graphics.BLACK);
+					g.fillRect(i * xConvert, ((ySize - j) * yConvert), xConvert, yConvert);
+				}
+			}
+		}
+		
+		g.drawRect(currentCoordX * xConvert, ((ySize - currentCoordY - 1) * yConvert) + screenHeight/8 - 1, xConvert, yConvert);
+		
+		Button.waitForAnyPress();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

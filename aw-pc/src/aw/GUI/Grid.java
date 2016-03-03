@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Grid {
+public class Grid extends JPanel {
 	private ArrayList<Line2D.Double> xLines;
 	private ArrayList<Line2D.Double> yLines; 
 	//private Ellipse2D.Double robot;
@@ -39,6 +39,17 @@ public class Grid {
 			g2.draw(yLines.get(j));
 		}
 		
+		
+		for(int i=0; i < 4; i++) {
+			g2.fillRect(75 + i* 150, 175, 50, 300);
+		}
+		
+		
+	}
+	
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		draw(g2);
 	}
 }
 	

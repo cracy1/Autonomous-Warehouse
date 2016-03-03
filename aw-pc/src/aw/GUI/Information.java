@@ -6,8 +6,8 @@ public class Information {
 	
 	private Job job;
 	
-	public Information(Job job){
-		this.job = job;
+	public Information(){
+		this.job = new Job("10001,ce,2,bi,6,aj,2,bc,3,ab,1,af,4,ai,1");
 	}
 	
 	/**
@@ -54,6 +54,10 @@ public class Information {
 	
 	public double getUtility() {
 		return job.getUtility();
+	}
+	
+	public double getJobReward() {
+		return job.getJobReward();
 	}
 	
 	/**

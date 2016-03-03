@@ -1,11 +1,11 @@
-package aw.comm.test;
+package aw.comms.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import aw.display.Display;
 import aw.motion.Move;
 import aw.motion.MoveExecutor;
-import aw.robot.Display;
 import aw.utils.StringUtils;
 import lejos.nxt.LCD;
 import rp.robotics.DifferentialDriveRobot;
