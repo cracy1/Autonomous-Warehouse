@@ -32,7 +32,7 @@ public class JobList implements JobListInterface {
 			utility[i] = job.getUtility();
 
 		}
-		sort();
+		//sort();
 
 	}
 

@@ -26,8 +26,6 @@ public class Robot implements Runnable, BluetoothCommandListener{
 	private boolean running;
 	private Map map;
 	
-	private boolean moveComplete = true;
-	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
 	 * @param name The name of the NXT robot.
@@ -69,12 +67,6 @@ public class Robot implements Runnable, BluetoothCommandListener{
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
-				while(!moveComplete){
-					try{
-						Thread.sleep(50);
-					}catch(InterruptedException e){}
-				}
-				moveComplete = false;
 				sender.sendCommand("" + c);
 				System.out.println(c);
 				if(c == 'r') angle = (angle + 90) % 360;
@@ -169,7 +161,7 @@ public class Robot implements Runnable, BluetoothCommandListener{
 
 	@Override
 	public void commandReceived(String name, String command) {
-		 moveComplete = true;
+		 System.out.println(name + ": " + command);
 		
 	}
 }

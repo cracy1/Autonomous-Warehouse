@@ -76,8 +76,6 @@ public class MoveExecutor implements Runnable {
 				break;
 				
 		}
-		
-		Robot.getRobotSender().sendMessage("complete");
 	}
 	
 	private void forwardToJunction(){	
