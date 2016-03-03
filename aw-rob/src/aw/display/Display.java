@@ -5,7 +5,7 @@ package aw.display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
-import lejos.geom.Point;
+import aw.test.Node;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
@@ -22,6 +22,20 @@ public class Display {
 		screenHeight = LCD.SCREEN_HEIGHT;
 		screenWidth = LCD.SCREEN_WIDTH;
 		
+	}
+	
+	public void draw(Node current, Node goal, String item, int amount){
+		int currentX = current.x;
+		int currentY = current.y;
+		int goalX = goal.x;
+		int goalY = goal.y;
+		
+		if(currentX == goalX && currentY == goalY){
+			requestItem(item, amount);
+		}
+		else{
+			showPosition(currentX, currentY, goalX, goalY);
+		}
 	}
 	
 	//Outputs:
@@ -206,12 +220,12 @@ public class Display {
 			for(int j = 0; j < ySize; j++){
 				if(map.isObstructed(i, j)){
 					g.setColor(Graphics.BLACK);
-					g.fillRect(i * xConvert, (j * yConvert) + screenHeight/8, xConvert, yConvert);
+					g.fillRect(i * xConvert, ((ySize - j) * yConvert), xConvert, yConvert);
 				}
 			}
 		}
 		
-		g.drawRect(goalCoordX * xConvert, (goalCoordY * yConvert) + screenHeight/8, xConvert, yConvert);
+		g.drawRect(currentCoordX * xConvert, ((ySize - currentCoordY - 1) * yConvert) + screenHeight/8 - 1, xConvert, yConvert);
 		
 		Button.waitForAnyPress();
 	}
