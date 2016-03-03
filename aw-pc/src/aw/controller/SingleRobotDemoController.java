@@ -22,7 +22,7 @@ public class SingleRobotDemoController {
 	 */
 	public SingleRobotDemoController(){
 		map = new Map(8, 12);
-		rob = new Robot("Ricardo", 0, 3, 0);
+		rob = new Robot("NXT", 0, 3, 0);
 		testJob();
 		//testMultiRoute();
 	}

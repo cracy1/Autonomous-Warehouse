@@ -1,5 +1,6 @@
 package aw.controller;
 
+import aw.comms.Communication;
 import aw.file.Job;
 import aw.file.JobList;
 import aw.robotics.Robot;
@@ -13,10 +14,10 @@ public class MultiRobotController implements Runnable{
 	
 	public MultiRobotController(){
 		map = new Map(8, 12);
-		rob1 = new Robot("Ricardo", 0, 0, 0);
-		//rob2 = new Robot();
-		//rob3 = new Robot();
-		
+		Communication.addRobots();
+		rob1 = new Robot("Ricardo", 0, 3, 0);
+		rob2 = new Robot("NXT", 0, 5, 0);
+		testJob();
 	}
 	
 	/**
@@ -28,7 +29,7 @@ public class MultiRobotController implements Runnable{
 		Job job1 = new Job(jobList.getJob(1));
 		rob1.setJob(job1);
 		
-		Job job2 = new Job(jobList.getJob(4));
+		Job job2 = new Job(jobList.getJob(9));
 		rob2.setJob(job2);
 	}
 	

@@ -38,7 +38,6 @@ public class Robot implements Runnable, BluetoothCommandListener{
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
-		Communication.addRobots();
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		map = new Map(8, 12);	 

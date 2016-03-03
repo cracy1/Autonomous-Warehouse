@@ -40,7 +40,7 @@ public class RobotConnection {
 			if (nxtComm.open(nxt)) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
 				PrintStream ps = new PrintStream(nxtComm.getOutputStream());
-				
+
 				cs = new CommandSender(ps);
 
 				cr = new CommandReceiver(nxt.name, br);
@@ -50,6 +50,7 @@ public class RobotConnection {
 			}
 		} catch (NXTCommException e) {
 			System.err.println("Failed to connect to robot '" + nxt.name + "'");
+			e.printStackTrace();
 		}
 	}
 	

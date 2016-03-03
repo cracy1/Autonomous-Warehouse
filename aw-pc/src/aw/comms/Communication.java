@@ -20,7 +20,7 @@ public class Communication {
 	public static void addRobots() {
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-
+			
 			for (NXTInfo nxt : BluetoothRobots.NXTs) {
 				addRobotConnection(nxtComm, nxt);
 			}
