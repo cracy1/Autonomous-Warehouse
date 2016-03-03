@@ -12,7 +12,7 @@ import lejos.pc.comm.NXTInfo;
  * Handles setting up usage of communication between the PC and the NXT robots.
  */
 public class Communication {
-	private static Map<String, CommandSender> commandSenders = new HashMap<>();
+	private static Map<String, RobotConnection> robotConnections = new HashMap<>();
 
 	/**
 	 * Initialises all of the warehouse robots connections.
@@ -47,14 +47,8 @@ public class Communication {
 	public static void addRobotConnection(NXTComm nxtComm, NXTInfo nxt) throws NXTCommException {
 		RobotConnection robotConnection = new RobotConnection(nxt);
 		robotConnection.connect(nxtComm);
-
-		CommandSender commandSender = new CommandSender(robotConnection.getPrintStream());
-		commandSenders.put(nxt.name, commandSender);
-
-		CommandReceiver commandReceiver = new CommandReceiver(robotConnection.getBufferedReader());
-		commandReceiver.start();
-
-		System.out.println("Robot '" + nxt.name + "' connected");
+		
+		robotConnections.put(nxt.name, robotConnection);
 	}
 
 	/**
@@ -64,7 +58,7 @@ public class Communication {
 	 *            The robot's name
 	 * @return The CommandSender object
 	 */
-	public static CommandSender getCommandSender(String name) {
-		return commandSenders.get(name);
+	public static RobotConnection getRobotConnection(String name) {
+		return robotConnections.get(name);
 	}
 }
