@@ -14,7 +14,7 @@ public class ReadFile {
 
 	}
 
-	int countLines() throws IOException {
+	public int countLines() throws IOException {
 
 		FileReader fileToRead = new FileReader(path);
 		BufferedReader bf = new BufferedReader(fileToRead);
