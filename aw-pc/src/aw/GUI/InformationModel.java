@@ -34,6 +34,10 @@ public class InformationModel extends Observable{
 		return info.getUtility();
 	}
 	
+	public double getJobReward() {
+		return info.getJobReward();
+	}
+	
 	public int numberItems(){
 		return info.numberItems();
 	}
