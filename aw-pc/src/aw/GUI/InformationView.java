@@ -1,6 +1,8 @@
 package aw.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,6 +20,7 @@ public class InformationView extends JPanel implements Observer {
 	private InformationModel model;
 	private ArrayList<JLabel> itemsArray;
 	private JLabel jobId, totalReward, itemsInfoTitle;
+	private Box box;
 	
 	public InformationView(InformationModel model) {
 		this.model = model;
@@ -28,11 +31,12 @@ public class InformationView extends JPanel implements Observer {
 	
 	public void RobotInfo() {
 //Fonts
-		Font titleFont = new Font("Times New Roman", Font.BOLD, 18);
+		Font titleFont = new Font("Times New Roman", Font.BOLD + Font.ITALIC, 18);
 
 //Job information
 		itemsArray = new ArrayList<JLabel>();
 		JLabel mainTitle = new JLabel("Robot 1, Ricardo");
+		mainTitle.setForeground(Color.RED);
 		itemsArray.add(mainTitle);
 		mainTitle.setFont(titleFont);
 		jobId = new JLabel("Job ID:   " + model.getJobId());
@@ -53,8 +57,8 @@ public class InformationView extends JPanel implements Observer {
 			itemsArray.add(new JLabel("Item " + model.getJobItem(i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
 		}
 		
-		
-		Box box = Box.createVerticalBox();
+//Adds all our JLabels with a Box layout.		
+		box = Box.createVerticalBox();
 		add(box);
 		
 		for(int i = 0; i< itemsArray.size(); i++) {
@@ -65,7 +69,33 @@ public class InformationView extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		RobotInfo();
-	}
+//Removes the previous items from the frame. 
+		Container parent = itemsArray.get(0).getParent();
+		itemsArray.get(1).setText("Job ID: " + model.getJobId());
+		itemsArray.get(2).setText("Total job reward:   " + String.valueOf(model.getJobReward()));
+		for(int i = itemsArray.size() -1; i >= 4; i--) {
+			parent.remove(itemsArray.get(i));
+			parent.revalidate();
+			parent.repaint();
+			itemsArray.remove(itemsArray.size() -1);
+		}
+//Now adds the new item JLabels. 		
+		for(int i =0; i < model.numberItems(); i++) {
+			ItemList item = new ItemList();
+			int j = item.getIndex(model.getJobItem(i));
+			double reward = item.getReward(j);
+			double weight = item.getWeight(j);
+			int xCoord = item.getX(j);
+			int yCoord = item.getY(j);
+			itemsArray.add(new JLabel("Item " + model.getJobItem(i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
+		}
+		
+		for(int i = 4; i < itemsArray.size(); i++) {
+			box.add(itemsArray.get(i));
+		}
+		
 
+		
+
+	}
 }
