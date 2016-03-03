@@ -22,6 +22,7 @@ public class CommandReceiver extends Thread {
 		while (alive) {
 			try {
 				String input = br.readLine();
+				System.out.println(input);
 				sendCommand(input);
 			} catch (IOException e) {
 				System.err.println("Connection lost");

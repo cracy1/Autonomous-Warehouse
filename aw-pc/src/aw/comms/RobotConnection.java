@@ -35,17 +35,21 @@ public class RobotConnection {
 	 *            The NXTComm object
 	 * @throws NXTCommException
 	 */
-	public void connect(NXTComm nxtComm) throws NXTCommException {
-		if (nxtComm.open(nxt)) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
-			PrintStream ps = new PrintStream(nxtComm.getOutputStream());
-			
-			cs = new CommandSender(ps);
+	public void connect(NXTComm nxtComm) {
+		try {
+			if (nxtComm.open(nxt)) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
+				PrintStream ps = new PrintStream(nxtComm.getOutputStream());
+				
+				cs = new CommandSender(ps);
 
-			cr = new CommandReceiver(nxt.name, br);
-			cr.start();
+				cr = new CommandReceiver(nxt.name, br);
+				cr.start();
 
-			System.out.println("Robot '" + nxt.name + "' connected");
+				System.out.println("Robot '" + nxt.name + "' connected");
+			}
+		} catch (NXTCommException e) {
+			System.err.println("Failed to connect to robot '" + nxt.name + "'");
 		}
 	}
 	

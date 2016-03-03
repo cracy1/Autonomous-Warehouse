@@ -42,7 +42,7 @@ public class Communication {
 	 *            The NXTInfo describing the robot's information
 	 * @throws NXTCommException
 	 */
-	public static void addRobotConnection(NXTComm nxtComm, NXTInfo nxt) throws NXTCommException {
+	public static void addRobotConnection(NXTComm nxtComm, NXTInfo nxt) {
 		RobotConnection robotConnection = new RobotConnection(nxt);
 		robotConnection.connect(nxtComm);
 		
