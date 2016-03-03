@@ -6,7 +6,7 @@ import aw.file.interfaces.DropInterface;
 
 public class Drop implements DropInterface {
 
-	private String path = "/Users/Andrei/Documents/workspace/aw/Autonomous-Warehouse/aw-pc/res/";
+	private String path = "res/";
 	private String drops = path + "drops.csv";
 
 	private int[] x;

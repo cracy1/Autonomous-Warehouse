@@ -60,8 +60,7 @@ public class Job implements JobInterface {
 	}
 
 	@Override
-	public void sort() {
-		for(int i = 0; i < items.length - 1; i++){
+	public void sort() {		for(int i = 0; i < items.length - 1; i++){
 			if(getItemReward(i) < getItemReward(i+1)){
 				String x = items[i];
 				items[i] = items[i+1];

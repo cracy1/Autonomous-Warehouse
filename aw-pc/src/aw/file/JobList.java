@@ -7,7 +7,7 @@ import aw.robotics.Robot;
 
 public class JobList implements JobListInterface {
 
-	String path = "/Users/Andrei/Documents/workspace/aw/Autonomous-Warehouse/aw-pc/res/";
+	String path = "res/";
 	String jobs = path + "jobs.csv";
 	String drops = path + "drops.csv";
 	private double[] utility;
