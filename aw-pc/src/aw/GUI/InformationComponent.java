@@ -14,11 +14,12 @@ import javax.swing.JPanel;
 public class InformationComponent extends JPanel{
 	private Grid grid;
 	private InformationView view;
+	private InformationModel model;
 	
-	public InformationComponent(Information info) {
+	public InformationComponent(InformationModel model) {
 		super();
 		grid = new Grid();
-		InformationModel model = new InformationModel(info);
+		this.model = model;
 		view = new InformationView(model);
 		
 		setLayout(new GridLayout(0, 2));

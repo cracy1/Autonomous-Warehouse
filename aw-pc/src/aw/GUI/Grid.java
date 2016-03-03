@@ -39,6 +39,12 @@ public class Grid extends JPanel {
 			g2.draw(yLines.get(j));
 		}
 		
+		
+		for(int i=0; i < 4; i++) {
+			g2.fillRect(75 + i* 150, 175, 50, 300);
+		}
+		
+		
 	}
 	
 	public void paintComponent(Graphics g) {
