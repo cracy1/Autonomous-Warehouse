@@ -1,4 +1,4 @@
-package aw.comm.test;
+package aw.comms;
 
 import java.io.PrintStream;
 
