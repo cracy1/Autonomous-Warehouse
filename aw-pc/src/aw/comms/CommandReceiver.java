@@ -24,4 +24,16 @@ public class CommandReceiver extends Thread {
 			}
 		}
 	}
+	
+	public String read(){
+		String message = "";
+		
+		try {
+			message = br.readLine();
+		} catch (IOException e) {
+			System.err.println("Lost connection to robot");
+		}
+		
+		return message;
+	}
 }

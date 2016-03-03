@@ -1,4 +1,4 @@
-package aw.robot;
+package aw.display;
 
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;

@@ -1,6 +1,6 @@
 package aw.test;
 
-import aw.robot.Display;
+import aw.display.Display;
 
 public class DisplayTest {
 	public static void main(String[] args){
