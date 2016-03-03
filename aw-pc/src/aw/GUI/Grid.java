@@ -41,7 +41,7 @@ public class Grid extends JPanel {
 		
 		
 		for(int i=0; i < 4; i++) {
-			g2.fillRect(75 + i* 150, 175, 50, 300);
+			g2.fillRect(75 + i* 150, 225, 50, 250);
 		}
 		
 		
