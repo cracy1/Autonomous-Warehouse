@@ -2,6 +2,7 @@ package aw.robotics;
 
 import java.util.LinkedList;
 
+import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
@@ -15,16 +16,17 @@ import aw.test.Node;
  * 
  * @author aranscope
  */
-public class Robot implements Runnable{
+public class Robot implements Runnable, BluetoothCommandListener{
 	private String name;
 	private int x, y;
 	private int angle;
 	
 	private CommandSender sender;
-	private CommandReceiver receiver;
 	
 	private boolean running;
 	private Map map;
+	
+	private boolean moveComplete = true;
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -39,8 +41,7 @@ public class Robot implements Runnable{
 		this.y = startY;
 		this.angle = angle;
 		Communication.addRobots();
-		this.sender = Communication.getCommandSender(name);
-		//this.receiver = Communication.getCommandReceiver(name);
+		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		map = new Map(8, 12);	 
 	}
@@ -68,6 +69,12 @@ public class Robot implements Runnable{
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
+				while(!moveComplete){
+					try{
+						Thread.sleep(50);
+					}catch(InterruptedException e){}
+				}
+				moveComplete = false;
 				sender.sendCommand("" + c);
 				System.out.println(c);
 				if(c == 'r') angle = (angle + 90) % 360;
@@ -158,5 +165,11 @@ public class Robot implements Runnable{
 //				}
 //			}
 //		}
+	}
+
+	@Override
+	public void commandReceived(String name, String command) {
+		 moveComplete = true;
+		
 	}
 }

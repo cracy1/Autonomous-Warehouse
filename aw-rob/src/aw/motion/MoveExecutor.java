@@ -3,6 +3,7 @@ package aw.motion;
 import java.util.Random;
 
 import aw.config.RobotConfigs;
+import aw.robot.Robot;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
@@ -73,7 +74,10 @@ public class MoveExecutor implements Runnable {
 			default:
 				System.out.println("No moves left in route");
 				break;
+				
 		}
+		
+		Robot.getRobotSender().sendMessage("complete");
 	}
 	
 	private void forwardToJunction(){	
