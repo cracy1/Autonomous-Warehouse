@@ -13,25 +13,38 @@ public class Map {
     int width;
     int height;
 
+    /**
+     * Construct a new map.
+     * @param width Width of the map.
+     * @param height Height of the map.
+     */
     public Map(int width, int height){
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Manhattan heuristic between two nodes.
+     * @param a The first node.
+     * @param b The second node.
+     * @return The distance between the two nodes.
+     */
     private int heuristic(Node a, Node b){
-        return heuristic(a.x, a.y, b);
+    	return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
     }
-
-    private int heuristic(int x, int y, Node b){
-        return Math.abs(b.x - x) + Math.abs(b.y - y);
-    }
-
+    
     public Node min(LinkedList<Node> list, int[][] fscore, Node g) {
         Node min = list.get(0);
         for (Node n : list) if (fscore[n.x][n.y] < fscore[min.x][min.y]) min = n;
         return min;
     }
 
+    /**
+     * Get a string of moves from a list of nodes and a starting angle.
+     * @param nodes List of nodes in the route.
+     * @param angle Angle of the agent.
+     * @return String of moves.
+     */
     public String getMoves(LinkedList<Node> nodes, int angle){
         String moves = "";
         if(nodes == null) return "";
@@ -118,17 +131,30 @@ public class Map {
         return moves;
     }
 
-    private LinkedList<Node> recPath(HashMap<Node, Node> camefrom, Node current){
+    /**
+     * Generate a path from a current node and a map of parent nodes. 
+     * @param camefrom
+     * @param current
+     * @return A list of nodes, representing a route.
+     */
+    private LinkedList<Node> recPath(HashMap<Node, Node> cameFrom, Node current){
         LinkedList<Node> path = new LinkedList<>();
         path.add(current);
 
-        while(camefrom.keySet().contains(current)){
-            current = camefrom.get(current);
+        while(cameFrom.keySet().contains(current)){
+            current = cameFrom.get(current);
             path.add(0, current);
         }
+        
         return path;
     }
     
+    /**
+     * Get a list of nodes representing a route between two nodes.
+     * @param a
+     * @param b
+     * @return
+     */
     public LinkedList<Node> getPath(Node a, Node b){
     	boolean[][] walkable = new boolean[width][height];
         for(int y = 0; y < height; y++){

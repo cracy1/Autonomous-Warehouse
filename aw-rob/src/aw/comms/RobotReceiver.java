@@ -45,7 +45,7 @@ public class RobotReceiver extends Thread {
 				case "i":
 					String item = actionSplit[1];
 					int amount = Integer.parseInt(actionSplit[2]);
-					disp.requestItem(item, amount);
+					moveExecutor.requestItem(item, amount);
 					break;
 						
 				}
