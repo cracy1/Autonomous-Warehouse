@@ -5,7 +5,7 @@ import java.io.IOException;
 import aw.file.interfaces.ItemInterface;
 
 public class ItemList implements ItemInterface {
-	String path = "res/";
+	String path = "C:/Users/Dyana/workspace/JobSelection/Autonomous-Warehouse/aw-pc/res/";
 
 	String items = path + "items.csv";
 	String locations = path + "locations.csv";
@@ -17,11 +17,6 @@ public class ItemList implements ItemInterface {
 	private int[] y;
 
 	public ItemList() {
-		name = new String[200];
-		reward = new Double[200];
-		weight = new Double[200];
-		x = new int[200];
-		y = new int[200];
 
 		try
 
@@ -30,6 +25,12 @@ public class ItemList implements ItemInterface {
 			String[] arr1 = file.OpenFile();
 			ReadFile file2 = new ReadFile(locations);
 			String[] arr3 = file2.OpenFile();
+			
+			name = new String[file.countLines()];
+			reward = new Double[file.countLines()];
+			weight = new Double[file.countLines()];
+			x = new int[file2.countLines()];
+			y = new int[file2.countLines()];
 
 			for (int i = 0; i < arr1.length; i++) {
 				name[i] = arr1[i].split(",")[0];

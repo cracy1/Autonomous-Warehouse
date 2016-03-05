@@ -99,6 +99,14 @@ public class Job implements JobInterface {
 		double utility = getJobReward() / numberItems();
 		return utility;
 	}
+	
+	public String toString(){
+		String string = JobID + "";
+		for (int i = 0; i < items.length; i++){
+			string+= " " + items[i] + " " + quantity[i];
+		}
+		return string;
+	}
 
 
 }
