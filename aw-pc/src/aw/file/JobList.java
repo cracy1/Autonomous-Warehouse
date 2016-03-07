@@ -30,7 +30,6 @@ public class JobList implements JobListInterface {
 			utility[i] = job.getUtility();
 
 		}
-		// sort();
 
 	}
 
@@ -44,31 +43,9 @@ public class JobList implements JobListInterface {
 
 	@Override
 	public Job setJob(Robot rob) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * private void quickSort(double [] a, String[] b, int left, int right) { if
-	 * (left < right) { int pivotIndex = (left+right)/2; int pos = partition(a,
-	 * b, left,right,pivotIndex); quickSort(a,b,left,pos-1);
-	 * quickSort(a,b,pos+1,right); } }
-	 * 
-	 * private void swap(double[] a, int i, int j) { double t = a[i]; a[i] =
-	 * a[j]; a[j] = t; }
-	 * 
-	 * private void swap2(String[] a, int i, int j){ String t = a[i]; a[i] =
-	 * a[j]; a[j] = t; }
-	 */
-
-	/*
-	 * private int partition(double [] a, String[] b, int left,int right,int
-	 * pivotIndex) { swap(a, pivotIndex, right); swap2(b, pivotIndex, right);
-	 * int pos = left;//represents boundary between small and large elements
-	 * for(int i = left; i < right; i++) { if (a[i] < a[right]) { swap(a, i,
-	 * pos); swap2(b, i, pos); pos++; } } swap(a, right, pos); swap2(b, right,
-	 * pos); return pos; }
-	 */
 
 	public void swap(double[] a, int x, int y) {
 		double temp = a[x];
@@ -76,45 +53,51 @@ public class JobList implements JobListInterface {
 		a[y] = temp;
 	}
 
-	private int partition(double[] a, int left, int right) {
-		int pivotindex = (left + right) / 2;
-		double pivot = a[pivotindex];
-		swap(a, pivotindex, right);
-		int leftmark = left;
-		int rightmark = right - 1;
-		while (leftmark <= rightmark) {
-			while (leftmark <= rightmark && a[leftmark] <= pivot)
-				leftmark++;
-
-			while (leftmark <= rightmark && a[rightmark] >= pivot)
-				rightmark--;
-
-			if (leftmark < rightmark)
-				swap(a, leftmark++, rightmark--);
-		}
-		swap(a, leftmark, right);
-		return leftmark;
+	public void swapString(String[] string, int x, int y) {
+		String temp = string[x];
+		string[x] = string[y];
+		string[y] = temp;
 	}
 
-	public void quickSort(double[] a, int left, int right) {
+	private int partition(double[] a, String[] string, int left, int right) {
+		int pivotIndex = (left + right) / 2;
+		double pivot = a[pivotIndex];
+		swap(a, pivotIndex, right);
+		swapString(string, pivotIndex, right);
+		int leftMark = left;
+		int rightMark = right - 1;
+		while (leftMark <= rightMark) {
+			while (leftMark <= rightMark && a[leftMark] <= pivot)
+				leftMark++;
+
+			while (leftMark <= rightMark && a[rightMark] >= pivot)
+				rightMark--;
+
+			if (leftMark < rightMark) {
+				swap(a, leftMark++, rightMark--);
+				swapString(string, leftMark++, rightMark--);
+			}
+			swap(a, leftMark, right);
+			swapString(string, leftMark, right);
+		}
+		return leftMark;
+
+	}
+
+	public void quickSort(double[] a, String[] string, int left, int right) {
 
 		if (left < right) {
-			int pivotindex = partition(a, left, right);
-			quickSort(a, left, pivotindex);
-			quickSort(a, pivotindex + 1, right);
+			int pivotIndex = partition(a, string, left, right);
+			quickSort(a, string, left, pivotIndex);
+			quickSort(a, string, pivotIndex + 1, right);
 		}
 	}
 
-	public void tell(){
-		quickSort(utility, 0, 100);
-		for(int i = 100; i >= 0; i--)
-			System.out.println(utility[i]);
+	// for testing purposes
+	public void tell() {
+		quickSort(utility, job, 0, 100);
+		for (int i = 100; i >= 0; i--)
+			System.out.println(utility[i] + " " + job[i]);
 	}
-	/*@Override
-	public void sort() {
-		quickSort(utility, 0, utility.length);
-		for(int i = 0; i < utility.length; i++)
-			System.out.println(utility[i]);
-
-	}*/
+	
 }
