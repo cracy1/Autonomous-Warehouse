@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import rp.robotics.mapping.GridMap;
+import rp.robotics.mapping.MapUtils;
+
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -19,43 +22,49 @@ public class Grid extends JPanel{
 	private ArrayList<Line2D.Double> xLines;
 	private ArrayList<Line2D.Double> yLines; 
 	
-	private int recX;
-	private int recY ;
+
 	private int recWidth = 30;
 	private int recHeight = 30;
 	private int recCenterX = 50;
-	private int recCenterY = 500;
+	private int recCenterY = 450;
+	private int height,width, xSize, ySize, recX, recY, xConvert, yConvert;
+	private GridMap grid;
 	
 	
 	
 	public Grid() {
 		super();
+		this.grid = MapUtils.createRealWarehouse(); 
+		this.xSize = grid.getXSize();
+		this.ySize = grid.getYSize();
+		this.height = 800;
+		this.width = 800;
 //Square just goes around the perimeter of the grid for the moment
 //Just tester code for the moment.
 		recX = recCenterX - (recWidth /2);
 		recY = recCenterY - (recHeight/2);
 		ActionListener movingRec = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(recCenterY == 150 && recCenterX >= 50 && recCenterX < 600) {
+				if(recCenterY == 100 && recCenterX >= 50 && recCenterX < 50 * xSize) {
 					recCenterX++;
 					recX = recCenterX - (recWidth /2);
 					recY = recCenterY - (recHeight/2);
 					
 					repaint();
 				}
-				else if (recCenterX == 600 && recCenterY >= 150 && recCenterY < 500) {
+				else if (recCenterX == 600 && recCenterY >= 100 && recCenterY < 450) {
 					recCenterY++;
 					recX = recCenterX - (recWidth /2);
 					recY = recCenterY - (recHeight/2);
 					repaint();
 				}
-				else if(recCenterY == 500 && recCenterX <= 600 && recCenterX > 50) {
+				else if(recCenterY == 450 && recCenterX <= 600 && recCenterX > 50) {
 				recCenterX--;
 				recX = recCenterX - (recWidth /2);
 				recY = recCenterY - (recHeight/2);
 				repaint();
 				}
-				else if(recCenterX == 50 && recCenterY<= 500 && recCenterY > 150){
+				else if(recCenterX == 50 && recCenterY<= 450 && recCenterY > 100){
 					recCenterY--;
 					recX = recCenterX - (recWidth /2);
 					recY = recCenterY - (recHeight/2);
@@ -68,33 +77,26 @@ public class Grid extends JPanel{
 		
 		timer.start();
 		
-		xLines = new ArrayList<Line2D.Double>();
-		yLines = new ArrayList<Line2D.Double>();
-
-		for(int i = 1; i <= 8; i++){
-			xLines.add(new Line2D.Double(50, (i*50) + 100, 600, (i*50) + 100));
-		}
-		for(int j = 1; j <=12; j++){
-			yLines.add(new Line2D.Double(j*50, 150, j*50, 500));
-		}
+		
 	}
 	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		
-		g2.setColor(Color.BLACK);
-		for(int i = 0; i < 8; i++){
-			g2.fill(xLines.get(i));
-			g2.draw(xLines.get(i));
+		for(int i = 0; i < ySize; i++) {
+			g2.drawLine(50, (i *50) + 100,  50 * xSize, (i*50) + 100);
 		}
-		for(int j = 0; j < 12; j++) {
-			g2.fill(yLines.get(j));
-			g2.draw(yLines.get(j));
+		for(int i = 0; i < xSize; i++) {
+			g2.drawLine(50 + (i*50), 100, 50 + (i*50), 50* ySize + 50);
 		}
 		
-		
-		for(int i=0; i < 4; i++) {
-			g2.fillRect(75 + i* 150, 225, 50, 250);
+		for(int i = 0; i < xSize; i++){
+			for(int j = 0; j < ySize; j++){
+				if(grid.isObstructed(i, j)){
+					g2.setColor(Color.BLACK);
+					g2.fillRect(25 + i * 50, 125 + j * 50, 50, 50);
+				}
+			}
 		}
 		
 		
@@ -109,6 +111,8 @@ public class Grid extends JPanel{
 		float thickness = 5;
 		Stroke oldStroke = g2.getStroke();
 		g2.setStroke(new BasicStroke(thickness));
+		
+		
 		
 		
 		g2.setColor(Color.RED);
