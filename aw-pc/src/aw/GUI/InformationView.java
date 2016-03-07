@@ -66,36 +66,37 @@ public class InformationView extends JPanel implements Observer {
 			box.add(itemsArray.get(i));
 		}
 	}
+	
+	public ArrayList<JLabel> getItemsArray() {
+		return itemsArray;
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 //Removes the previous items from the frame. 
-		Container parent = itemsArray.get(0).getParent();
-		itemsArray.get(1).setText("Job ID: " + model.getJobId());
-		itemsArray.get(2).setText("Total job reward:   " + String.valueOf(model.getJobReward()));
-		for(int i = itemsArray.size() -1; i >= 4; i--) {
-			parent.remove(itemsArray.get(i));
-			parent.revalidate();
-			parent.repaint();
-			itemsArray.remove(itemsArray.size() -1);
-		}
-//Now adds the new item JLabels. 		
-		for(int i =0; i < model.numberItems(); i++) {
-			ItemList item = new ItemList();
-			int j = item.getIndex(model.getJobItem(i));
-			double reward = item.getReward(j);
-			double weight = item.getWeight(j);
-			int xCoord = item.getX(j);
-			int yCoord = item.getY(j);
-			itemsArray.add(new JLabel("Item " + model.getJobItem(i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
-		}
-		
-		for(int i = 4; i < itemsArray.size(); i++) {
-			box.add(itemsArray.get(i));
-		}
-		
-
-		
+			Container parent = itemsArray.get(0).getParent();
+			itemsArray.get(1).setText("Job ID: " + model.getJobId());
+			itemsArray.get(2).setText("Total job reward:   " + String.valueOf(model.getJobReward()));
+			for(int i = itemsArray.size() -1; i >= 4; i--) {
+				parent.remove(itemsArray.get(i));
+				parent.revalidate();
+				parent.repaint();
+				itemsArray.remove(itemsArray.size() -1);
+			}
+	//Now adds the new item JLabels. 		
+			for(int i =0; i < model.numberItems(); i++) {
+				ItemList item = new ItemList();
+				int j = item.getIndex(model.getJobItem(i));
+				double reward = item.getReward(j);
+				double weight = item.getWeight(j);
+				int xCoord = item.getX(j);
+				int yCoord = item.getY(j);
+				itemsArray.add(new JLabel("Item " + model.getJobItem(i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
+			}
+			
+			for(int i = 4; i < itemsArray.size(); i++) {
+				box.add(itemsArray.get(i));
+			}
 
 	}
 }

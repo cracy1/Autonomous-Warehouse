@@ -1,5 +1,6 @@
 package aw.GUI;
 
+
 import aw.file.Job;
 
 public class Information {
@@ -7,7 +8,7 @@ public class Information {
 	private Job job;
 	
 	public Information(){
-		this.job = new Job("10001,ce,2,bi,6,aj,2,bc,3,ab,1,af,4,ai,1");
+		this.job = new Job("10003,ah,1,bi,1");
 	}
 	
 	/**

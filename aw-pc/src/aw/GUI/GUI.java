@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import aw.file.Job;
+import aw.test.Node;
 
 public class GUI {
 	
