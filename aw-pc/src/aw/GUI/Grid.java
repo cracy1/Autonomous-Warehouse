@@ -8,8 +8,10 @@ import javax.swing.Timer;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -17,41 +19,51 @@ public class Grid extends JPanel{
 	private ArrayList<Line2D.Double> xLines;
 	private ArrayList<Line2D.Double> yLines; 
 	
-	int recX = 50;
-	int recY = 500;
-	int recWidth = 30;
-	int recHeight = 30;
-	int recCenterX;
-	int recCenterY;
+	private int recX;
+	private int recY ;
+	private int recWidth = 30;
+	private int recHeight = 30;
+	private int recCenterX = 50;
+	private int recCenterY = 500;
 	
-	//private Ellipse2D.Double robot;
+	
 	
 	public Grid() {
 		super();
-		
-		recCenterX = (recX + (recWidth/2));
-		recCenterY = (recY + (recHeight/2));
+//Square just goes around the perimeter of the grid for the moment
+//Just tester code for the moment.
+		recX = recCenterX - (recWidth /2);
+		recY = recCenterY - (recHeight/2);
 		ActionListener movingRec = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(recY == 150 && recX >= 50 && recX < 600) {
-					recX++;
+				if(recCenterY == 150 && recCenterX >= 50 && recCenterX < 600) {
+					recCenterX++;
+					recX = recCenterX - (recWidth /2);
+					recY = recCenterY - (recHeight/2);
+					
 					repaint();
 				}
-				else if (recX == 600 && recY >= 150 && recY < 500) {
-					recY++;
+				else if (recCenterX == 600 && recCenterY >= 150 && recCenterY < 500) {
+					recCenterY++;
+					recX = recCenterX - (recWidth /2);
+					recY = recCenterY - (recHeight/2);
 					repaint();
 				}
-				else if(recY == 500 && recX <= 600 && recX > 50) {
-				recX--;
+				else if(recCenterY == 500 && recCenterX <= 600 && recCenterX > 50) {
+				recCenterX--;
+				recX = recCenterX - (recWidth /2);
+				recY = recCenterY - (recHeight/2);
 				repaint();
 				}
-				else if(recX == 50 && recY<= 500 && recY > 150){
-					recY--;
+				else if(recCenterX == 50 && recCenterY<= 500 && recCenterY > 150){
+					recCenterY--;
+					recX = recCenterX - (recWidth /2);
+					recY = recCenterY - (recHeight/2);
 					repaint();
 				}
 			}
 		};
-		
+//Updates the position of the red square every 20 milliseconds.		
 		Timer timer = new Timer(20, movingRec);
 		
 		timer.start();
@@ -91,10 +103,16 @@ public class Grid extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+//makes the square moving a lot smoother.
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		draw(g2);
+		float thickness = 5;
+		Stroke oldStroke = g2.getStroke();
+		g2.setStroke(new BasicStroke(thickness));
+		
+		
 		g2.setColor(Color.RED);
-		g2.fillRect(recX, recY, recWidth, recHeight);
+		g2.drawRect(recX, recY, recWidth, recHeight);
 	}
 }
 	

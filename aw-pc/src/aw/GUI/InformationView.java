@@ -32,30 +32,48 @@ public class InformationView extends JPanel implements Observer {
 	public void RobotInfo() {
 //Fonts
 		Font titleFont = new Font("Times New Roman", Font.BOLD + Font.ITALIC, 18);
+		
+		if(model.getJob().isPresent()) {
+			
 
-//Job information
-		itemsArray = new ArrayList<JLabel>();
-		JLabel mainTitle = new JLabel("Robot 1, Ricardo");
-		mainTitle.setForeground(Color.RED);
-		itemsArray.add(mainTitle);
-		mainTitle.setFont(titleFont);
-		jobId = new JLabel("Job ID:   " + model.getJobId());
-		totalReward = new JLabel("Total job reward:   " + String.valueOf(model.getJobReward()));
-		itemsInfoTitle = new JLabel("||  Name  || reward  ||   weight   ||  coordinates  ||");
-		itemsArray.add(jobId); 
-		itemsArray.add(totalReward);
-		itemsArray.add(itemsInfoTitle);
+			//Job information
+					itemsArray = new ArrayList<JLabel>();
+					JLabel mainTitle = new JLabel("Robot 1, Ricardo");
+					mainTitle.setForeground(Color.RED);
+					itemsArray.add(mainTitle);
+					mainTitle.setFont(titleFont);
+					jobId = new JLabel("Job ID:   " + model.getJobId());
+					totalReward = new JLabel("Total job reward:   " + String.valueOf(model.getJobReward()));
+					itemsInfoTitle = new JLabel("||  Name  || reward  ||   weight   ||  coordinates  ||");
+					itemsArray.add(jobId); 
+					itemsArray.add(totalReward);
+					itemsArray.add(itemsInfoTitle);
 
-//Item information
-		for(int i =0; i < model.numberItems(); i++) {
-			ItemList item = new ItemList();
-			int j = item.getIndex(model.getJobItem(i));
-			double reward = item.getReward(j);
-			double weight = item.getWeight(j);
-			int xCoord = item.getX(j);
-			int yCoord = item.getY(j);
-			itemsArray.add(new JLabel("Item " + model.getJobItem(i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
+			//Item information
+					for(int i =0; i < model.numberItems(); i++) {
+						ItemList item = new ItemList();
+						int j = item.getIndex(model.getJobItem(i));
+						double reward = item.getReward(j);
+						double weight = item.getWeight(j);
+						int xCoord = item.getX(j);
+						int yCoord = item.getY(j);
+						itemsArray.add(new JLabel("Item " + model.getJobItem(i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
+					}
 		}
+		else {
+			itemsArray = new ArrayList<JLabel>();
+			JLabel mainTitle = new JLabel("Robot 1, Ricardo");
+			mainTitle.setForeground(Color.RED);
+			itemsArray.add(mainTitle);
+			mainTitle.setFont(titleFont);
+			jobId = new JLabel("Job ID:   ");
+			totalReward = new JLabel("Total job reward:  ");
+			itemsInfoTitle = new JLabel("||  Name  || reward  ||   weight   ||  coordinates  ||");
+			itemsArray.add(jobId); 
+			itemsArray.add(totalReward);
+			itemsArray.add(itemsInfoTitle);
+		}
+		
 		
 //Adds all our JLabels with a Box layout.		
 		box = Box.createVerticalBox();

@@ -1,14 +1,16 @@
 package aw.GUI;
 
 
+import java.util.Optional;
+
 import aw.file.Job;
 
 public class Information {
 	
-	private Job job;
+	private Optional<Job> job;
 	
 	public Information(){
-		this.job = new Job("10003,ah,1,bi,1");
+		this.job = Optional.empty();
 	}
 	
 	/**
@@ -16,7 +18,7 @@ public class Information {
 	 * @return the current job
 	 */
 	
-	public Job getJob() {
+	public Optional<Job> getJob() {
 		return job;
 	}
 	
@@ -26,7 +28,7 @@ public class Information {
 	 */
 	
 	public void setJob(Job job){
-		this.job = job;
+		this.job = Optional.of(job);
 	}
 	
 	/**
@@ -35,7 +37,7 @@ public class Information {
 	 */
 	
 	public int getJobID(){
-		return job.getID();
+		return job.get().getID();
 	}
 	
 	/**
@@ -45,7 +47,7 @@ public class Information {
 	 */
 	
 	public String getJobItem(int index) {
-		return job.getItem(index);
+		return job.get().getItem(index);
 	}
 	
 	/**
@@ -54,11 +56,11 @@ public class Information {
 	 */
 	
 	public double getUtility() {
-		return job.getUtility();
+		return job.get().getUtility();
 	}
 	
 	public double getJobReward() {
-		return job.getJobReward();
+		return job.get().getJobReward();
 	}
 	
 	/**
@@ -67,7 +69,7 @@ public class Information {
 	 */
 	
 	public int numberItems() {
-		return job.numberItems();
+		return job.get().numberItems();
 	}
 
 }

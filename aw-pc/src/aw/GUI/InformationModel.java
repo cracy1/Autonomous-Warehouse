@@ -1,6 +1,7 @@
 package aw.GUI;
 
 import java.util.Observable;
+import java.util.Optional;
 
 import aw.file.Job;
 
@@ -12,7 +13,7 @@ public class InformationModel extends Observable{
 		this.info = info;
 	}
 	
-	public Job getJob() {
+	public Optional<Job> getJob() {
 		return info.getJob();
 	}
 	
