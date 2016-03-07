@@ -32,8 +32,8 @@ public class Job implements JobInterface {
 			quantity[j] = q;
 			k = k + 2;
 		}
-		
-		//sort();
+
+		// sort();
 
 	}
 
@@ -59,20 +59,24 @@ public class Job implements JobInterface {
 		return null;
 	}
 
+// to be modified	
+	
 	@Override
-	public void sort() {		for(int i = 0; i < items.length - 1; i++){
-			if(getItemReward(i) < getItemReward(i+1)){
-				String x = items[i];
-				items[i] = items[i+1];
-				items[i+1] = x;
-				
+	public void sort() {
+		for (int i = 0; i < items.length - 1; i++) {
+			if (getItemReward(i) < getItemReward(i + 1)) {
+				String temp = items[i];
+				items[i] = items[i + 1];
+				items[i + 1] = temp;
+
 				int y = quantity[i];
-				quantity[i] = quantity[i+1];
-				quantity[i+1] = y;
+				quantity[i] = quantity[i + 1];
+				quantity[i + 1] = y;
 			}
 		}
 
 	}
+
 	@Override
 	public double getItemReward(int index) {
 		int j = item.getIndex(items[index]);
@@ -99,14 +103,21 @@ public class Job implements JobInterface {
 		double utility = getJobReward() / numberItems();
 		return utility;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String string = JobID + "";
-		for (int i = 0; i < items.length; i++){
-			string+= " " + items[i] + " " + quantity[i];
+		for (int i = 0; i < items.length; i++) {
+			string += " " + items[i] + " " + quantity[i];
 		}
 		return string;
 	}
 
+	// using Manhattan distance
+
+	public int getDistance(int x1, int y1, int x2, int y2) {
+
+		return Math.abs(x2 - x1) + Math.abs(y2 - y1);
+
+	}
 
 }
