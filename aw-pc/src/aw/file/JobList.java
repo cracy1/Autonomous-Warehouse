@@ -46,7 +46,6 @@ public class JobList implements JobListInterface {
 		return null;
 	}
 
-
 	public void swap(double[] a, int x, int y) {
 		double temp = a[x];
 		a[x] = a[y];
@@ -73,13 +72,14 @@ public class JobList implements JobListInterface {
 			while (leftMark <= rightMark && a[rightMark] >= pivot)
 				rightMark--;
 
-			if (leftMark < rightMark) {
-				swap(a, leftMark++, rightMark--);
+			if (leftMark < rightMark) { 
+				swap(a, leftMark, rightMark);
 				swapString(string, leftMark++, rightMark--);
 			}
-			swap(a, leftMark, right);
-			swapString(string, leftMark, right);
 		}
+		swap(a, leftMark, right);
+		swapString(string, leftMark, right);
+
 		return leftMark;
 
 	}
@@ -99,5 +99,5 @@ public class JobList implements JobListInterface {
 		for (int i = 100; i >= 0; i--)
 			System.out.println(utility[i] + " " + job[i]);
 	}
-	
+
 }
