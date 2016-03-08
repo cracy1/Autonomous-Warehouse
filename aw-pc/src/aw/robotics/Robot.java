@@ -80,7 +80,7 @@ public class Robot implements Runnable, BluetoothCommandListener{
 			current = target;
 		}
 		
-		gui.setJob(job);
+		gui.setJob(job, name);
 	}
 
 	/**
