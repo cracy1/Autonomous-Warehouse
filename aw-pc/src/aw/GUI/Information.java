@@ -7,37 +7,67 @@ import aw.file.Job;
 
 public class Information {
 	
-	private Optional<Job> job;
+	private Optional<Job> jobRobot1, jobRobot2, jobRobot3;
 	
 	public Information(){
-		this.job = Optional.empty();
+		this.jobRobot1 = Optional.empty();
+		this.jobRobot2 = Optional.empty();
+		this.jobRobot3 = Optional.empty();
 	}
 	
 	/**
 	 * Gets the current job
-	 * @return the current job
+	 * @param robotName the robot's name, to get the right job. 
+	 * @return the current job depending on robot name
 	 */
 	
-	public Optional<Job> getJob() {
-		return job;
+	public Optional<Job> getJob(String robotName) {
+		if(robotName.equals("Ricardo")) {
+			return jobRobot1;
+		}
+		else if(robotName.equals("NXT")){
+			return jobRobot2;
+		}
+		else {
+			return jobRobot3;
+		}
+		//Eventually, when we know all robot names, return jobRobot3.
 	}
 	
 	/**
-	 * Sets the job to a new one
-	 * @param job the new job
+	 * Sets the jobRobot1 to a new one
+	 * @param jobRobot1 the new jobRobot1
 	 */
 	
-	public void setJob(Job job){
-		this.job = Optional.of(job);
+	public void setJob(Job job, String robotName){
+		if(robotName.equals("Ricardo")) {
+			this.jobRobot1 = Optional.of(job);
+		}
+		else if (robotName.equals("NXT")) {
+			this.jobRobot2 = Optional.of(job);
+		}
+		else {
+			this.jobRobot3 = Optional.of(job);
+		}
+		
 	}
 	
 	/**
-	 * Gets the job ID, in order to display it
-	 * @return the Job ID as an int
+	 * Gets the jobRobot1 ID, in order to display it
+	 * @return the jobRobot1 ID as an int
 	 */
 	
-	public int getJobID(){
-		return job.get().getID();
+	public int getJobID(String robotName){
+		if(robotName.equals("Ricardo")) {
+			return jobRobot1.get().getID();
+		}
+		else if (robotName.equals("NXT")) {
+			return jobRobot2.get().getID();
+		}
+		else {
+			return jobRobot3.get().getID();
+		}
+		
 	}
 	
 	/**
@@ -46,30 +76,48 @@ public class Information {
 	 * @return the item as a string at the given index
 	 */
 	
-	public String getJobItem(int index) {
-		return job.get().getItem(index);
+	public String getJobItem(String robotName, int index) {
+		if(robotName.equals("Ricardo")) {
+			return jobRobot1.get().getItem(index);
+		}
+		else if (robotName.equals("NXT")) {
+			return jobRobot2.get().getItem(index);
+		}
+		else {
+			return jobRobot3.get().getItem(index);
+		}
+		
+	}
+	
+	public double getJobReward(String robotName) {
+		if(robotName.equals("Ricardo")) {
+			return jobRobot1.get().getJobReward();
+		}
+		else if (robotName.equals("NXT")) {
+			return jobRobot2.get().getJobReward();
+		}
+		else {
+			return jobRobot3.get().getJobReward();
+		}
+		
 	}
 	
 	/**
-	 * Gets the total utility of the job. 
-	 * @return the utility
+	 * Returns the number of items that are in the job.
+	 * @return The total number of items in the job.
 	 */
 	
-	public double getUtility() {
-		return job.get().getUtility();
-	}
-	
-	public double getJobReward() {
-		return job.get().getJobReward();
-	}
-	
-	/**
-	 * Returns the number of items that are in the job. 
-	 * @return The total number of items in the job
-	 */
-	
-	public int numberItems() {
-		return job.get().numberItems();
+	public int numberItems(String robotName) {
+		if(robotName.equals("Ricardo")) {
+			return jobRobot1.get().numberItems();
+		}
+		else if (robotName.equals("NXT")) {
+			return jobRobot2.get().numberItems();
+		}
+		else {
+			return jobRobot3.get().numberItems();
+		}
+		
 	}
 
 }

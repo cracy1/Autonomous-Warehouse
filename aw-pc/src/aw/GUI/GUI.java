@@ -20,13 +20,14 @@ public class GUI {
 		model = new InformationModel(info);
 		InformationComponent grid = new InformationComponent(model);
 		frame.add(grid);
+		setJob(new Job("10016,bi,2,ah,2,aj,1,ac,2,bb,3,af,4"), "Dave");
 
 		
 		frame.setVisible(true);
 	}
 	
-	public void setJob(Job job) {
-		model.setJob(job);
+	public void setJob(Job job, String name) {
+		model.setJob(job, name);
 	}
 
 }

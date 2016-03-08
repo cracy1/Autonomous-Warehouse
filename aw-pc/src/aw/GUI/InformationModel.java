@@ -13,34 +13,30 @@ public class InformationModel extends Observable{
 		this.info = info;
 	}
 	
-	public Optional<Job> getJob() {
-		return info.getJob();
+	public Optional<Job> getJob(String robotName) {
+		return info.getJob(robotName);
 	}
 	
-	public void setJob(Job job){
-		info.setJob(job);
+	public void setJob(Job job, String robotName){
+		info.setJob(job, robotName);
 		setChanged();
-		notifyObservers();
+		notifyObservers(robotName);
 	}
 	
-	public int getJobId(){
-		return info.getJobID();
+	public int getJobId(String robotName){
+		return info.getJobID(robotName);
 	}
 	
-	public String getJobItem(int index) {
-		return info.getJobItem(index);
+	public String getJobItem(String robotName, int index) {
+		return info.getJobItem(robotName, index);
 	}
 	
-	public double getUtility(){
-		return info.getUtility();
+	public double getJobReward(String robotName) {
+		return info.getJobReward(robotName);
 	}
 	
-	public double getJobReward() {
-		return info.getJobReward();
-	}
-	
-	public int numberItems(){
-		return info.numberItems();
+	public int numberItems(String robotName){
+		return info.numberItems(robotName);
 	}
 	
 	
