@@ -21,7 +21,7 @@ public class CommsTestRobot {
 				int input = dis.readInt();
 				System.out.println("Received: " + input);
 			} catch (IOException e) {
-				e.printStackTrace();
+				run = false;
 			}
 		}
 	}

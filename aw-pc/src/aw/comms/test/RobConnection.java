@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
+import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
 public class RobConnection {
@@ -16,8 +17,10 @@ public class RobConnection {
 		this.nxt = nxt;
 	}
 
-	public void connect(NXTComm nxtComm) {
+	public void connect() {
 		try {
+			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+			
 			if (nxtComm.open(nxt)) {
 				this.dos = new DataOutputStream(nxtComm.getOutputStream());
 				System.out.println("Successfully connected to robot '" + nxt.name + "'");
