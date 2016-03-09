@@ -18,17 +18,11 @@ public class Communication {
 	 * Initialises all of the warehouse robots connections.
 	 */
 	public static void addRobots() {
-		try {
-			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			
-			for (NXTInfo nxt : BluetoothRobots.NXTs) {
-				addRobotConnection(nxtComm, nxt);
-			}
-
-			System.out.println("All robots connected");
-		} catch (NXTCommException e) {
-			e.printStackTrace();
+		for (NXTInfo nxt : BluetoothRobots.NXTs) {
+			addRobotConnection(nxt);
 		}
+
+		System.out.println("All robots connected");
 	}
 
 	/**
@@ -42,10 +36,10 @@ public class Communication {
 	 *            The NXTInfo describing the robot's information
 	 * @throws NXTCommException
 	 */
-	public static void addRobotConnection(NXTComm nxtComm, NXTInfo nxt) {
+	public static void addRobotConnection(NXTInfo nxt) {
 		RobotConnection robotConnection = new RobotConnection(nxt);
-		robotConnection.connect(nxtComm);
-		
+		robotConnection.connect();
+
 		robotConnections.put(nxt.name, robotConnection);
 	}
 
@@ -59,7 +53,7 @@ public class Communication {
 	public static RobotConnection getRobotConnection(String name) {
 		return robotConnections.get(name);
 	}
-	
+
 	@Deprecated
 	public static CommandSender getCommandSender(String name) {
 		return getRobotConnection(name).getCommandSender();

@@ -6,6 +6,7 @@ import java.io.PrintStream;
 
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
+import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
 /**
@@ -35,8 +36,10 @@ public class RobotConnection {
 	 *            The NXTComm object
 	 * @throws NXTCommException
 	 */
-	public void connect(NXTComm nxtComm) {
+	public void connect() {
 		try {
+			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+			
 			if (nxtComm.open(nxt)) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
 				PrintStream ps = new PrintStream(nxtComm.getOutputStream());
