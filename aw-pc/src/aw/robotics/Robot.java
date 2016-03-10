@@ -104,6 +104,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			
 			waitForAllRobotsReady();
 		}
+		
+		this.x = target.x;
+		this.y = target.y;
 	}
 	
 	public boolean isReady(){
