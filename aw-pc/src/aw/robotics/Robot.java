@@ -2,13 +2,14 @@ package aw.robotics;
 
 import java.util.LinkedList;
 
-import aw.GUI.GUI;
 import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
-import aw.file.ItemList;
+import aw.controller.MultiRobotController;
+import aw.file.Item;
 import aw.file.Job;
+import aw.file.JobList;
 import aw.test.Map;
 import aw.test.Node;
 import lejos.util.Delay;
@@ -18,7 +19,7 @@ import lejos.util.Delay;
  * 
  * @author aranscope
  */
-public class Robot implements BluetoothCommandListener{
+public class Robot implements BluetoothCommandListener, Runnable{
 	private String name;
 	private int x, y;
 	private int angle;
@@ -27,10 +28,11 @@ public class Robot implements BluetoothCommandListener{
 	
 	private boolean running;
 	private Map map;
-	private GUI gui;
-	
+
 	private boolean ready = true;
 	public boolean requesting = false;
+	
+	private JobList jobList;
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -39,7 +41,7 @@ public class Robot implements BluetoothCommandListener{
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
 	 */
-	public Robot(String name, int startX, int startY, int angle){
+	public Robot(String name, int startX, int startY, int angle, JobList jobList){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
@@ -50,29 +52,21 @@ public class Robot implements BluetoothCommandListener{
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		map = new Map(8, 12);
-		gui = new GUI();
+		
+		new Thread(this).start();
 	}
 	
 	/**
 	 * Set the job for the robot to complete.
 	 * @param job Job for the robot to complete.
 	 */
-	public void setJob(Job job){
-		int jobLength = job.numberItems();
+	private void setJob(Job job){
 		Node current = new Node(this.x, this.y);
-		ItemList itemList = new ItemList();
-		
-		for(int i = 0; i < jobLength; i++){
-			String item = job.getItem(i);
-			int index = itemList.getIndex(item);
-			int itemX = itemList.getX(index);
-			int itemY = itemList.getY(index);
-			int quantity = job.getQuantity(i);
-	
-			Node target = new Node(itemX, itemY);
-			
+
+		for(Item item: job.getItems()){
+			Node target = item.getPosition();
 			LinkedList<Node> route = map.getPath(current, target);
-		
+			
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
@@ -83,22 +77,45 @@ public class Robot implements BluetoothCommandListener{
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
 				
-				waitForResponse();
+				waitForAllRobotsReady();
 
 			}
 			
 			ready = false;
 			requesting = true;
-			sender.sendCommand("i " + item + " " + quantity);
-			waitForResponse();
+			sender.sendCommand("i " + item + " " + item.getAmount());
+			waitForAllRobotsReady();
 			requesting = false;
 			current = target;
 		}
+		
+		Node target = job.getDropPoint();
+		LinkedList<Node> route = map.getPath(current, target);
+		
+		char[] moves = map.getMoves(route, angle).toCharArray();
+		
+		for(char c: moves){
+			ready = false;
+			sender.sendCommand("" + c);
+			System.out.println(c);
+			if(c == 'r') angle = (angle + 90) % 360;
+			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+			if(c == 't') angle = (angle + 180) % 360;
+			
+			waitForAllRobotsReady();
+		}
 	}
 	
-	public void waitForResponse(){
-		while(!ready){
-			Delay.msDelay(50);
+	public boolean isReady(){
+		if(requesting) return true;
+		else return ready;
+	}
+	
+	public void waitForAllRobotsReady(){
+		while(!MultiRobotController.ready()){
+			try{
+				Thread.sleep(20);
+			}catch(Exception ex){}
 		}
 	}
 	
@@ -141,5 +158,20 @@ public class Robot implements BluetoothCommandListener{
 	@Override
 	public void commandReceived(String name, String command) {
 		 ready = true;
+	}
+
+	@Override
+	public void run() {
+		while(running){
+			try {
+				Job job = jobList.getJob();
+				setJob(job);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
 	}
 }

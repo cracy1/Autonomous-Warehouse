@@ -28,7 +28,7 @@ public class Robot {
 		robotReceiver.start();
 
 		robotSender = new RobotSender(ps);
-		robotSender.sendMessage("Robot->PC message");
+		//robotSender.sendMessage("Robot->PC message");
 	}
 	
 	public static RobotSender getRobotSender() {
