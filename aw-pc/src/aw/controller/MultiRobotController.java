@@ -29,8 +29,8 @@ public class MultiRobotController implements Runnable{
 		Job job1 = new Job(jobList.getJob(1));
 		rob1.setJob(job1);
 		
-		Job job2 = new Job(jobList.getJob(9));
-		rob2.setJob(job2);
+//		Job job2 = new Job(jobList.getJob(9));
+//		rob2.setJob(job2);
 	}
 	
 	@Override

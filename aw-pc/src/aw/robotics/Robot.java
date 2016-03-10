@@ -11,13 +11,14 @@ import aw.file.ItemList;
 import aw.file.Job;
 import aw.test.Map;
 import aw.test.Node;
+import lejos.util.Delay;
 
 /**
  * Abstraction of the NXT robot.
  * 
  * @author aranscope
  */
-public class Robot implements Runnable, BluetoothCommandListener{
+public class Robot implements BluetoothCommandListener{
 	private String name;
 	private int x, y;
 	private int angle;
@@ -27,6 +28,9 @@ public class Robot implements Runnable, BluetoothCommandListener{
 	private boolean running;
 	private Map map;
 	private GUI gui;
+	
+	private boolean ready = true;
+	public boolean requesting = false;
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -40,6 +44,9 @@ public class Robot implements Runnable, BluetoothCommandListener{
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
+		
+		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
+
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		map = new Map(8, 12);
@@ -69,36 +76,30 @@ public class Robot implements Runnable, BluetoothCommandListener{
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
+				ready = false;
 				sender.sendCommand("" + c);
 				System.out.println(c);
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
+				
+				waitForResponse();
+
 			}
 			
+			ready = false;
+			requesting = true;
 			sender.sendCommand("i " + item + " " + quantity);
+			waitForResponse();
+			requesting = false;
 			current = target;
 		}
-		
-		gui.setJob(job, name);
 	}
-
-	/**
-	 * Set to route of the robot, as a list of nodes.
-	 * @param route List of nodes.
-	 */
-	public void setRoute(LinkedList<Node> route){
-		char[] moves = map.getMoves(route, angle).replace("t", "rr").toCharArray();
-		
-		for(char c: moves){
-			if(c == 'r') angle = (angle + 90) % 360;
-			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
-
-			sender.sendCommand("" + c);
-			
+	
+	public void waitForResponse(){
+		while(!ready){
+			Delay.msDelay(50);
 		}
-		
-		sender.sendCommand("i");
 	}
 	
 	/**
@@ -136,36 +137,9 @@ public class Robot implements Runnable, BluetoothCommandListener{
 	/**
 	 * Main robot thread.
 	 */
-	@Override
-	public void run() {
-		Thread robotInput = new Thread(){
-			@Override
-			public void run(){
-				while(running){
-					//String message = receiver.read();
-				}
-			}
-		};
-//		
-//		robotInput.start();
-//		while(running){
-//			Job currentJob = jobList.getNext();
-//			Item item;
-//			while((item = currentJob.getNext()) != null){
-//				Node robotPos = new Node(x, y);
-//				Node targetPos = new Node(item.getX(), item.getY());
-//				LinkedList<Node> route = map.getPath(robotPos, targetPos);
-//				String moves = map.getMoves(route);
-//				for(char move: moves){
-//					sender.sendActionCommand(move);
-//				}
-//			}
-//		}
-	}
 
 	@Override
 	public void commandReceived(String name, String command) {
-		 System.out.println(name + ": " + command);
-		
+		 ready = true;
 	}
 }

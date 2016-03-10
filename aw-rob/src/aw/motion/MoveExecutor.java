@@ -13,15 +13,10 @@ import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
 import rp.robotics.DifferentialDriveRobot;
 
-public class MoveExecutor implements Runnable {
+public class MoveExecutor {
 	private final DifferentialPilot pilot;
 	private final LightSensor leftLightSensor, rightLightSensor;
-	
-	private Route route;
-	private Move currentMove;
-	
-	private LinkedList<ItemRequest> itemRequests;
-	
+
 	private final Display display;
 	
 	private final float gain = 15.0f;
@@ -36,55 +31,32 @@ public class MoveExecutor implements Runnable {
 		
 		leftLightSensor = new LightSensor(SensorPort.S3);
 		rightLightSensor = new LightSensor(SensorPort.S4);
-		
-		route = new Route(); //create a new route.
-		itemRequests = new LinkedList<>();
-		
+
 		display = new Display();
-		
-		new Thread(this).start();
 	}
 	
-	/**
-	 * Run loop.
-	 */
-	@Override
-	public void run(){
-		while(true){
-			Delay.msDelay(5);
-			currentMove = route.next();
-			
-			switch(currentMove){ //manage route moves.
-				case FORWARD:
-					forwardToJunction();
-					break;
-				case FULL_TURN:
-					pilot.rotate(360);
-					break;
-				case HALF_TURN:
-					pilot.rotate(180);
-					break;
-				case LEFT_TURN:
-					pilot.rotate(-90);
-					break;
-				case RIGHT_TURN:
-					pilot.rotate(90);
-					break;
-				case REQUEST_ITEM:
-					ItemRequest req = itemRequests.remove(0);
-					display.requestItem(req.getName(), req.getAmount());
-					break;
-				case STOP:
-					pilot.stop();
-					break;
-				default:
-					System.out.println("No moves left in route");
-					break;
-					
-			}
+	public void execute(Move move){
+		switch(move){ //manage route moves.
+			case FORWARD:
+				forwardToJunction();
+				break;
+			case FULL_TURN:
+				pilot.rotate(360);
+				break;
+			case HALF_TURN:
+				pilot.rotate(180);
+				break;
+			case LEFT_TURN:
+				pilot.rotate(-90);
+				break;
+			case RIGHT_TURN:
+				pilot.rotate(90);
+				break;
+			case STOP:
+				pilot.stop();
+				break;			
 		}
 	}
-
 	
 	/**
 	 * Move forward until a junction is detected.
@@ -108,15 +80,6 @@ public class MoveExecutor implements Runnable {
 		pilot.travel(0.075);
 	}
 	
-	/**
-	 * Add a move to the current route.
-	 * @param move
-	 * @return
-	 */
-	public boolean addMove(Move move){
-		route.addMove(move);
-		return true;
-	}
 	
 	/**
 	 * Add an item request to the current route.
@@ -124,7 +87,6 @@ public class MoveExecutor implements Runnable {
 	 * @param amount
 	 */
 	public void requestItem(String name, int amount){
-		itemRequests.add(new ItemRequest(name, amount));
-		addMove(Move.REQUEST_ITEM);
+		display.requestItem(name, amount);
 	}
 }
