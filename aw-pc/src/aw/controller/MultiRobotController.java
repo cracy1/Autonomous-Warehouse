@@ -16,7 +16,7 @@ public class MultiRobotController implements Runnable{
 		map = new Map(8, 12);
 		Communication.addRobots();
 		rob1 = new Robot("Ricardo", 0, 3, 0);
-		rob2 = new Robot("NXT", 0, 5, 0);
+		rob2 = new Robot("NXT", 3, 3, 0);
 		testJob();
 	}
 	
