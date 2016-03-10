@@ -2,6 +2,9 @@ package aw.GUI;
 
 
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 
@@ -21,5 +24,9 @@ public class InformationComponent extends JPanel{
 		add(grid);
 		add(view);
 		
+	}
+	
+	public void setRoute(ArrayList<Point> route, String name){
+		grid.setRoute(route, name);
 	}
 }
