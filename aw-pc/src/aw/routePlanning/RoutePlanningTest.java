@@ -1,24 +1,19 @@
 package aw.routePlanning;
 
-import java.awt.Point;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class RoutePlanningTest {
 	public static void main(String[] args){
-	 AStar test = new AStar(0, 5 , 7, 5);
-	 for (int y = 0; y < 8;y++){
-		 for (int x = 0; x < 12; x++){
-			 System.out.print(test.getWalkable(x, y)  + "|");
-		 }
-		 System.out.println();
-		
-	 }
+	
+	 AStar test = new AStar(new Node (0,3),new Node (9,5));
+	
+	
 	 
-	 ArrayList<Point> route = test.getRoute();
+	 LinkedList<Node> route = test.getPath();
 	 System.out.println(route);
-	 System.out.println(test.getWalkable(1, 5));
-	 for (int x = 0; x < route.size(); x++) {
-		 System.out.println("move to :" + route.get(x).x +", " + route.get(x).y);
-	 }
+	
+//	 for (int x = 0; x < route.size(); x++) {
+//		 System.out.println("move to :" + route.get(x) +", " + route.get(x));
+//	 }
 	}
 }
