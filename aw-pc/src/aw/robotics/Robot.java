@@ -7,6 +7,7 @@ import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
+import aw.controller.MultiRobotController;
 import aw.file.ItemList;
 import aw.file.Job;
 import aw.test.Map;
@@ -18,7 +19,7 @@ import lejos.util.Delay;
  * 
  * @author aranscope
  */
-public class Robot implements BluetoothCommandListener{
+public class Robot implements BluetoothCommandListener, Runnable{
 	private String name;
 	private int x, y;
 	private int angle;
@@ -32,6 +33,8 @@ public class Robot implements BluetoothCommandListener{
 	private boolean ready = true;
 	public boolean requesting = false;
 	
+	private LinkedList<Job> jobs;
+	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
 	 * @param name The name of the NXT robot.
@@ -44,20 +47,26 @@ public class Robot implements BluetoothCommandListener{
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
-		
+		this.jobs = new LinkedList();
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
-		map = new Map(8, 12);
-		gui = new GUI();
+		this.map = new Map(8, 12);
+		
+		new Thread(this).start();
+		
+	}
+	
+	public void addJob(Job job){
+		jobs.add(job);
 	}
 	
 	/**
 	 * Set the job for the robot to complete.
 	 * @param job Job for the robot to complete.
 	 */
-	public void setJob(Job job){
+	private void executeJob(Job job){
 		int jobLength = job.numberItems();
 		Node current = new Node(this.x, this.y);
 		ItemList itemList = new ItemList();
@@ -97,7 +106,7 @@ public class Robot implements BluetoothCommandListener{
 	}
 	
 	public void waitForResponse(){
-		while(!ready){
+		while(MultiRobotController.robotsReady()){
 			Delay.msDelay(50);
 		}
 	}
@@ -141,5 +150,18 @@ public class Robot implements BluetoothCommandListener{
 	@Override
 	public void commandReceived(String name, String command) {
 		 ready = true;
+	}
+	
+	public boolean isReady(){
+		return ready || requesting;
+	}
+
+	@Override
+	public void run() {
+		while(running){
+			if(jobs.size() > 0){
+				executeJob(jobs.removeFirst());
+			}
+		}
 	}
 }

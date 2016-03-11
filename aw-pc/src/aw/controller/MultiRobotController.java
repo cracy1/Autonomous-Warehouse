@@ -6,10 +6,10 @@ import aw.file.JobList;
 import aw.robotics.Robot;
 import aw.test.Map;
 
-public class MultiRobotController implements Runnable{
-	private Robot rob1;
-	private Robot rob2;
-	private Robot rob3;
+public class MultiRobotController {
+	private static Robot rob1;
+	private static Robot rob2;
+	private static Robot rob3;
 	private Map map;
 	
 	public MultiRobotController(){
@@ -20,6 +20,21 @@ public class MultiRobotController implements Runnable{
 		testJob();
 	}
 	
+	public void allocateJobs(){
+		JobList jobList = new JobList();
+		
+		for(int i = 0; i < 100; i++){
+			Job job = new Job(jobList.getJob(i));
+			if(i % 3 == 0) rob1.addJob(job);
+			else if(i % 2 == 0) rob2.addJob(job);
+			else rob3.addJob(job);
+		}
+	}
+	
+	public static boolean robotsReady(){
+		return rob1.isReady() && rob2.isReady() && rob3.isReady();
+	}
+	
 	/**
 	 * Run robot job allocation with a single job.
 	 */
@@ -27,20 +42,15 @@ public class MultiRobotController implements Runnable{
 		JobList jobList = new JobList();
 		
 		Job job1 = new Job(jobList.getJob(1));
-		rob1.setJob(job1);
+		rob1.addJob(job1);
 		
 //		Job job2 = new Job(jobList.getJob(9));
 //		rob2.setJob(job2);
 	}
 	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public static void main(String[] args){
-		new Thread(new MultiRobotController()).start();
+		new MultiRobotController();
 	}
 
 	
