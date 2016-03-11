@@ -2,14 +2,13 @@ package aw.robotics;
 
 import java.util.LinkedList;
 
+import aw.GUI.GUI;
 import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
-import aw.controller.MultiRobotController;
-import aw.file.Item;
+import aw.file.ItemList;
 import aw.file.Job;
-import aw.file.JobList;
 import aw.test.Map;
 import aw.test.Node;
 import lejos.util.Delay;
@@ -19,7 +18,7 @@ import lejos.util.Delay;
  * 
  * @author aranscope
  */
-public class Robot implements BluetoothCommandListener, Runnable{
+public class Robot implements BluetoothCommandListener{
 	private String name;
 	private int x, y;
 	private int angle;
@@ -28,11 +27,10 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 	private boolean running;
 	private Map map;
-
+	private GUI gui;
+	
 	private boolean ready = true;
 	public boolean requesting = false;
-	
-	private JobList jobList;
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -41,7 +39,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
 	 */
-	public Robot(String name, int startX, int startY, int angle, JobList jobList){
+	public Robot(String name, int startX, int startY, int angle){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
@@ -52,21 +50,29 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		map = new Map(8, 12);
-		
-		new Thread(this).start();
+		gui = new GUI();
 	}
 	
 	/**
 	 * Set the job for the robot to complete.
 	 * @param job Job for the robot to complete.
 	 */
-	private void setJob(Job job){
+	public void setJob(Job job){
+		int jobLength = job.numberItems();
 		Node current = new Node(this.x, this.y);
-
-		for(Item item: job.getItems()){
-			Node target = item.getPosition();
-			LinkedList<Node> route = map.getPath(current, target);
+		ItemList itemList = new ItemList();
+		
+		for(int i = 0; i < jobLength; i++){
+			String item = job.getItem(i);
+			int index = itemList.getIndex(item);
+			int itemX = itemList.getX(index);
+			int itemY = itemList.getY(index);
+			int quantity = job.getQuantity(i);
+	
+			Node target = new Node(itemX, itemY);
 			
+			LinkedList<Node> route = map.getPath(current, target);
+		
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
@@ -77,48 +83,22 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
 				
-				waitForAllRobotsReady();
+				waitForResponse();
 
 			}
 			
 			ready = false;
 			requesting = true;
-			sender.sendCommand("i " + item + " " + item.getAmount());
-			waitForAllRobotsReady();
+			sender.sendCommand("i " + item + " " + quantity);
+			waitForResponse();
 			requesting = false;
 			current = target;
 		}
-		
-		Node target = job.getDropPoint();
-		LinkedList<Node> route = map.getPath(current, target);
-		
-		char[] moves = map.getMoves(route, angle).toCharArray();
-		
-		for(char c: moves){
-			ready = false;
-			sender.sendCommand("" + c);
-			System.out.println(c);
-			if(c == 'r') angle = (angle + 90) % 360;
-			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
-			if(c == 't') angle = (angle + 180) % 360;
-			
-			waitForAllRobotsReady();
-		}
-		
-		this.x = target.x;
-		this.y = target.y;
 	}
 	
-	public boolean isReady(){
-		if(requesting) return true;
-		else return ready;
-	}
-	
-	public void waitForAllRobotsReady(){
-		while(!MultiRobotController.ready()){
-			try{
-				Thread.sleep(20);
-			}catch(Exception ex){}
+	public void waitForResponse(){
+		while(!ready){
+			Delay.msDelay(50);
 		}
 	}
 	
@@ -161,20 +141,5 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	@Override
 	public void commandReceived(String name, String command) {
 		 ready = true;
-	}
-
-	@Override
-	public void run() {
-		while(running){
-			try {
-				Job job = jobList.getJob();
-				setJob(job);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-		
 	}
 }

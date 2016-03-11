@@ -1,69 +1,123 @@
 package aw.file;
 
+import aw.file.interfaces.JobInterface;
 
-import java.util.LinkedList;
-import java.util.List;
+public class Job implements JobInterface {
 
-import aw.test.Node;
+	private String[] items;
+	private int[] quantity;
+	private int JobID;
+	private int counter;
+	private ItemList item = new ItemList();
 
-public class Job implements Comparable<Job>{
-    private int id;
-    private Node dropPoint;
-    private List<Item> items;
+	public Job(String row) {
+		JobID = Integer.parseInt(row.split(",")[0]);
+		counter = 0;
+		int i = 0;
+		int k = 1;
 
-    public void setId(int id) {
-        this.id = id;
-        this.items = new LinkedList<>();
-    }
+		while (i < row.length()) {
+			if (row.charAt(i) == ',') {
+				counter++;
+			}
+			i++;
+		}
 
-    public void setDropPoint(Node dropPoint) {
-        this.dropPoint = dropPoint;
-    }
+		items = new String[numberItems()];
+		quantity = new int[numberItems()];
 
-    public void addItem(Item item, int amount){
-        Item clone = item.clone();
-        clone.setAmount(amount);
-        items.add(clone);
-    }
+		for (int j = 0; j < numberItems(); j++) {
+			items[j] = row.split(",")[k];
+			int q = Integer.parseInt(row.split(",")[k + 1]);
+			quantity[j] = q;
+			k = k + 2;
+		}
 
-    public void setItems(List<Item> items){
-        this.items = items;
-    }
+		// sort();
 
-    public int getId() {
-        return id;
-    }
+	}
 
-    public Node getDropPoint() {
-        return dropPoint;
-    }
+	public String getItem(int index) {
+		return items[index];
+	}
 
-    public List<Item> getItems() {
-        return items;
-    }
+	public int getQuantity(int index) {
+		return quantity[index];
+	}
 
-    public double getValue(){
-        double value = 0;
-        int numOfItems = 0;
+	public int numberItems() {
+		return counter / 2;
+	}
 
-        for(Item item: items){
-            numOfItems += item.getAmount();
-            value += item.getValue() * item.getAmount();
-        }
+	public int getID() {
+		return JobID;
+	}
 
-        value /= numOfItems;
+	@Override
+	public ItemList getNext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        return value;
-    }
+// to be modified	
+	
+	@Override
+	public void sort() {
+		for (int i = 0; i < items.length - 1; i++) {
+			if (getItemReward(i) < getItemReward(i + 1)) {
+				String temp = items[i];
+				items[i] = items[i + 1];
+				items[i + 1] = temp;
 
-    @Override
-    public String toString(){
-        return "Job: " + id + " Items: " + items + " Drop point: " + dropPoint + " Value: " + getValue();
-    }
+				int y = quantity[i];
+				quantity[i] = quantity[i + 1];
+				quantity[i + 1] = y;
+			}
+		}
 
-    @Override
-    public int compareTo(Job job) {
-        if(this.getValue() > job.getValue()) return -1;
-        else return 1;
-    }
+	}
+
+	@Override
+	public double getItemReward(int index) {
+		int j = item.getIndex(items[index]);
+		double reward = item.getReward(j) * quantity[index];
+		return reward;
+	}
+
+	@Override
+	public double getJobReward() {
+
+		double totalReward = 0;
+
+		for (int i = 0; i < numberItems(); i++) {
+			int j = item.getIndex(items[i]);
+			double utility = item.getReward(j) * quantity[i];
+			totalReward += utility;
+
+		}
+		return totalReward;
+	}
+
+	@Override
+	public double getUtility() {
+		double utility = getJobReward() / numberItems();
+		return utility;
+	}
+
+	public String toString() {
+		String string = JobID + "";
+		for (int i = 0; i < items.length; i++) {
+			string += " " + items[i] + " " + quantity[i];
+		}
+		return string;
+	}
+
+	// using Manhattan distance
+
+	public int getDistance(int x1, int y1, int x2, int y2) {
+
+		return Math.abs(x2 - x1) + Math.abs(y2 - y1);
+
+	}
+
 }
