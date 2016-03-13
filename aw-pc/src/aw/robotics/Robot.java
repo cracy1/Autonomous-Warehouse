@@ -26,7 +26,6 @@ public class Robot implements Runnable, BluetoothCommandListener{
 	
 	private boolean running;
 	private Map map;
-	private GUI gui;
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -43,7 +42,6 @@ public class Robot implements Runnable, BluetoothCommandListener{
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		map = new Map(8, 12);
-		gui = new GUI();
 	}
 	
 	/**
@@ -79,8 +77,6 @@ public class Robot implements Runnable, BluetoothCommandListener{
 			sender.sendCommand("i " + item + " " + quantity);
 			current = target;
 		}
-		
-		gui.setJob(job, name);
 	}
 
 	/**
