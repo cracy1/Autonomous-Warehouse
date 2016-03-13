@@ -71,12 +71,24 @@ public class InformationView extends JPanel implements Observer {
 	
 	public void RobotInfo(String name, int robotNumber) {
 //Fonts
-		Font titleFont = new Font("Times New Roman", Font.BOLD + Font.ITALIC, 18);
+		Font titleFont = new Font("Times New Roman", Font.BOLD, 18);
 
 			if(model.getJob(name).isPresent()) {
 //Job information
 				JLabel mainTitle = new JLabel("Robot " + robotNumber + ", " + name);
-				mainTitle.setForeground(Color.RED);
+
+//Set colour of main title to the corresponding robot's colour			
+				if(robotNumber ==1) {
+					mainTitle.setForeground(Color.RED);
+				}
+				else if(robotNumber ==2) {
+					mainTitle.setForeground(Color.BLUE);
+				}
+				else {
+					mainTitle.setForeground(Color.GREEN);
+				}
+				
+				
 				masterArray.get(robotNumber -1).add(mainTitle);
 				mainTitle.setFont(titleFont);
 				jobId = new JLabel("Job ID:   " + model.getJobId(name));
@@ -99,7 +111,18 @@ public class InformationView extends JPanel implements Observer {
 			}
 			else {
 				JLabel mainTitle = new JLabel("Robot " + robotNumber + ", " + name);
-				mainTitle.setForeground(Color.RED);
+//Set colour of main title to the corresponding robot's colour
+				
+				if(robotNumber ==1) {
+					mainTitle.setForeground(Color.RED);
+				}
+				else if(robotNumber ==2) {
+					mainTitle.setForeground(Color.BLUE);
+				}
+				else {
+					mainTitle.setForeground(Color.GREEN);
+				}
+				
 				masterArray.get(robotNumber -1).add(mainTitle);
 				mainTitle.setFont(titleFont);
 				jobId = new JLabel("Job ID:   ");
