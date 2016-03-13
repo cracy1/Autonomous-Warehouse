@@ -1,7 +1,6 @@
 package aw.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -33,7 +32,7 @@ public class GUI {
 		model.setJob(job, name);
 	}
 	
-	public void setRoute(ArrayList<Point> route, String name){
+	public void setRoute(ArrayList<Node> route, String name){
 		grid.setRoute(route, name);
 	}
 

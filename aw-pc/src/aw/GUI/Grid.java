@@ -7,11 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import aw.routePlanning.AStar;
+import aw.test.Node;
 import rp.robotics.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -36,9 +36,9 @@ public class Grid extends JPanel{
 	private int height,width, xSize, ySize, robot1X, robot1Y, robot2X, robot2Y, robot3X, robot3Y, xConvert, yConvert;
 	private GridMap grid;
 	
-	private ArrayList<Point> route1;
-	private ArrayList<Point> route2;
-	private ArrayList<Point> route3;
+	private ArrayList<Node> route1;
+	private ArrayList<Node> route2;
+	private ArrayList<Node> route3;
 	
 	public Grid() {
 		super();
@@ -47,9 +47,9 @@ public class Grid extends JPanel{
 		this.ySize = grid.getYSize();
 		this.height = 800;
 		this.width = 800;
-		route1 = new ArrayList<Point>();
-		route2 = new ArrayList<Point>();
-		route3 = new ArrayList<Point>();
+		route1 = new ArrayList<Node>();
+		route2 = new ArrayList<Node>();
+		route3 = new ArrayList<Node>();
 		
 		
 		//Square just goes around the perimeter of the grid for the moment
@@ -86,29 +86,29 @@ public class Grid extends JPanel{
 				
 				//Draws the location of the first robot along its given route
 				if(!route1.isEmpty()){
-					Point nextCoord = route1.get(0);
-					if(robot1CenterX < nextCoord.getX()*50 + 50){
+					Node nextCoord = route1.get(0);
+					if(robot1CenterX < nextCoord.x*50 + 50){
 						robot1CenterX++;
 						robot1X = robot1CenterX - (robotWidth /2);
 						robot1Y = robot1CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot1CenterX > nextCoord.getX()*50 + 50){
+					else if(robot1CenterX > nextCoord.x*50 + 50){
 						robot1CenterX--;
 						robot1X = robot1CenterX - (robotWidth /2);
 						robot1Y = robot1CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot1CenterY < nextCoord.getY()*50 + 100){
+					else if(robot1CenterY < nextCoord.y*50 + 100){
 						robot1CenterY++;
 						robot1X = robot1CenterX - (robotWidth /2);
 						robot1Y = robot1CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot1CenterY > nextCoord.getY()*50 + 100){
+					else if(robot1CenterY > nextCoord.y*50 + 100){
 						robot1CenterY--;
 						robot1X = robot1CenterX - (robotWidth /2);
 						robot1Y = robot1CenterY - (robotHeight/2);
@@ -116,36 +116,36 @@ public class Grid extends JPanel{
 						repaint();
 					}
 					//Removes nodes of the route that the robot has passed
-					if((int)route1.get(0).getX()*50 + 50 == robot1CenterX && (int)route1.get(0).getY()*50 + 100 == robot1CenterY){
+					if((int)route1.get(0).x*50 + 50 == robot1CenterX && (int)route1.get(0).y*50 + 100 == robot1CenterY){
 						route1.remove(0);
 					}
 				}
 				
 				//Draws the location of the second robot along its given route
 				if(!route2.isEmpty()){
-					Point nextCoord = route2.get(0);
-					if(robot2CenterX < nextCoord.getX()*50 + 50){
+					Node nextCoord = route2.get(0);
+					if(robot2CenterX < nextCoord.x*50 + 50){
 						robot2CenterX++;
 						robot2X = robot2CenterX - (robotWidth /2);
 						robot2Y = robot2CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot2CenterX > nextCoord.getX()*50 + 50){
+					else if(robot2CenterX > nextCoord.x*50 + 50){
 						robot2CenterX--;
 						robot2X = robot2CenterX - (robotWidth /2);
 						robot2Y = robot2CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot2CenterY < nextCoord.getY()*50 + 100){
+					else if(robot2CenterY < nextCoord.y*50 + 100){
 						robot2CenterY++;
 						robot2X = robot2CenterX - (robotWidth /2);
 						robot2Y = robot2CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot2CenterY > nextCoord.getY()*50 + 100){
+					else if(robot2CenterY > nextCoord.y*50 + 100){
 						robot2CenterY--;
 						robot2X = robot2CenterX - (robotWidth /2);
 						robot2Y = robot2CenterY - (robotHeight/2);
@@ -153,36 +153,36 @@ public class Grid extends JPanel{
 						repaint();
 					}
 					//Removes nodes of the route that the robot has passed
-					if((int)route2.get(0).getX()*50 + 50 == robot2CenterX && (int)route2.get(0).getY()*50 + 100 == robot2CenterY){
+					if((int)route2.get(0).x*50 + 50 == robot2CenterX && (int)route2.get(0).y*50 + 100 == robot2CenterY){
 						route2.remove(0);
 					}
 				}
 				
 				//Draws the location of the third robot along its given route
 				if(!route3.isEmpty()){
-					Point nextCoord = route3.get(0);
-					if(robot3CenterX < nextCoord.getX()*50 + 50){
+					Node nextCoord = route3.get(0);
+					if(robot3CenterX < nextCoord.x*50 + 50){
 						robot3CenterX++;
 						robot3X = robot3CenterX - (robotWidth /2);
 						robot3Y = robot3CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot3CenterX > nextCoord.getX()*50 + 50){
+					else if(robot3CenterX > nextCoord.x*50 + 50){
 						robot3CenterX--;
 						robot3X = robot3CenterX - (robotWidth /2);
 						robot3Y = robot3CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot3CenterY < nextCoord.getY()*50 + 100){
+					else if(robot3CenterY < nextCoord.y*50 + 100){
 						robot3CenterY++;
 						robot3X = robot3CenterX - (robotWidth /2);
 						robot3Y = robot3CenterY - (robotHeight/2);
 						
 						repaint();
 					}
-					else if(robot3CenterY > nextCoord.getY()*50 + 100){
+					else if(robot3CenterY > nextCoord.y*50 + 100){
 						robot3CenterY--;
 						robot3X = robot3CenterX - (robotWidth /2);
 						robot3Y = robot3CenterY - (robotHeight/2);
@@ -190,7 +190,7 @@ public class Grid extends JPanel{
 						repaint();
 					}
 					//Removes nodes of the route that the robot has passed
-					if((int)route3.get(0).getX()*50 + 50 == robot3CenterX && (int)route3.get(0).getY()*50 + 100 == robot3CenterY){
+					if((int)route3.get(0).x*50 + 50 == robot3CenterX && (int)route3.get(0).y*50 + 100 == robot3CenterY){
 						route3.remove(0);
 					}
 				}
@@ -202,14 +202,14 @@ public class Grid extends JPanel{
 		timer.start();
 	}
 	
-	private void drawRoute(ArrayList<Point> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
+	private void drawRoute(ArrayList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
 		g2.setStroke(new BasicStroke(8));
 		g2.setColor(color);
-		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).getX()*50), (int)(100 + route.get(0).getY()*50));
+		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).x*50), (int)(100 + route.get(0).y*50));
 		for(int i = 0; i < route.size() - 1; i++){
-			g2.drawLine((int)(50 + route.get(i).getX()*50), (int)(100 + route.get(i).getY()*50), (int)(50 + route.get(i+1).getX()*50), (int)(100 + route.get(i+1).getY()*50));
+			g2.drawLine((int)(50 + route.get(i).x*50), (int)(100 + route.get(i).y*50), (int)(50 + route.get(i+1).x*50), (int)(100 + route.get(i+1).y*50));
 		}
-		g2.drawOval((int)(50 + route.get(route.size() - 1).getX()*50) - 5, (int)(95 + route.get(route.size() - 1).getY()*50), 10, 10);
+		g2.drawOval((int)(50 + route.get(route.size() - 1).x*50) - 5, (int)(95 + route.get(route.size() - 1).y*50), 10, 10);
 	}
 	
 	public void draw(Graphics g) {
@@ -264,24 +264,24 @@ public class Grid extends JPanel{
 	}
 	
 	//Sets the routes of the different robots to a locally stored variable
-	public void setRoute(ArrayList<Point> route, String robot){
+	public void setRoute(ArrayList<Node> route, String robot){
 		if(robot.equals("Ricardo")){
 			route1 = route;
-			robot1CenterX = (int)route1.get(0).getX()*50 + 50;
-			robot1CenterY = (int)route1.get(0).getY()*50 + 100;
+			robot1CenterX = (int)route1.get(0).x*50 + 50;
+			robot1CenterY = (int)route1.get(0).y*50 + 100;
 			route1.remove(0);
 			
 		}
 		else if(robot.equals("NXT")){
 			route2 = route;
-			robot2CenterX = (int)route2.get(0).getX()*50 + 50;
-			robot2CenterY = (int)route2.get(0).getY()*50 + 100;
+			robot2CenterX = (int)route2.get(0).x*50 + 50;
+			robot2CenterY = (int)route2.get(0).y*50 + 100;
 			route2.remove(0);
 		}
 		else if(robot.equals("TheOtherRobot")){
 			route3 = route;
-			robot3CenterX = (int)route3.get(0).getX()*50 + 50;
-			robot3CenterY = (int)route3.get(0).getY()*50 + 100;
+			robot3CenterX = (int)route3.get(0).x*50 + 50;
+			robot3CenterY = (int)route3.get(0).y*50 + 100;
 			route3.remove(0);
 		}
 	}

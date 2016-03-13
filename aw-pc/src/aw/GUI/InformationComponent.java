@@ -2,10 +2,11 @@ package aw.GUI;
 
 
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+
+import aw.test.Node;
 
 
 public class InformationComponent extends JPanel{
@@ -26,7 +27,7 @@ public class InformationComponent extends JPanel{
 		
 	}
 	
-	public void setRoute(ArrayList<Point> route, String name){
+	public void setRoute(ArrayList<Node> route, String name){
 		grid.setRoute(route, name);
 	}
 }
