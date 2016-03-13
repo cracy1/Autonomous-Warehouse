@@ -2,6 +2,7 @@ package aw.controller;
 
 import java.util.LinkedList;
 
+import aw.GUI.GUI;
 import aw.file.Job;
 import aw.file.JobList;
 import aw.robotics.Robot;
@@ -16,6 +17,7 @@ import aw.test.Node;
 public class SingleRobotDemoController {
 	private Robot rob;
 	private Map map;
+	private GUI gui;
 	
 	/**
 	 * Initialise map, robot.
@@ -23,6 +25,8 @@ public class SingleRobotDemoController {
 	public SingleRobotDemoController(){
 		map = new Map(8, 12);
 		rob = new Robot("NXT", 0, 3, 0);
+		gui = new GUI();
+		gui.setRobCoord("NXT", 0, 3);
 		testJob();
 		//testMultiRoute();
 	}
@@ -34,6 +38,7 @@ public class SingleRobotDemoController {
 		JobList jobList = new JobList();
 		Job job = new Job(jobList.getJob(1));
 		rob.setJob(job);
+		gui.setJob(job, "NXT");
 	}
 	
 	/**
@@ -42,6 +47,7 @@ public class SingleRobotDemoController {
 	public void testRoute(){
 		LinkedList<Node> path = map.getPath(rob, new Node(5, 3));
 		rob.setRoute(path);
+		gui.setRoute(path, "NXT");
 	}
 	
 	/**
