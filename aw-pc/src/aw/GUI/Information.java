@@ -91,13 +91,13 @@ public class Information {
 	
 	public double getJobReward(String robotName) {
 		if(robotName.equals("Ricardo")) {
-			return jobRobot1.get().getJobReward();
+			return Math.round(jobRobot1.get().getJobReward() * 100.0) /100.0;
 		}
 		else if (robotName.equals("NXT")) {
-			return jobRobot2.get().getJobReward();
+			return Math.round(jobRobot2.get().getJobReward() * 100.0) / 100.0;
 		}
 		else {
-			return jobRobot3.get().getJobReward();
+			return Math.round(jobRobot3.get().getJobReward() * 100.0) /100.0;
 		}
 		
 	}

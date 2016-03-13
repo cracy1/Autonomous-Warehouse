@@ -2,6 +2,7 @@ package aw.GUI;
 
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -36,9 +37,9 @@ public class Grid extends JPanel{
 	private int height,width, xSize, ySize, robot1X, robot1Y, robot2X, robot2Y, robot3X, robot3Y, xConvert, yConvert;
 	private GridMap grid;
 	
-	private ArrayList<Node> route1;
-	private ArrayList<Node> route2;
-	private ArrayList<Node> route3;
+	private LinkedList<Node> route1;
+	private LinkedList<Node> route2;
+	private LinkedList<Node> route3;
 	
 	public Grid() {
 		super();
@@ -47,9 +48,9 @@ public class Grid extends JPanel{
 		this.ySize = grid.getYSize();
 		this.height = 800;
 		this.width = 800;
-		route1 = new ArrayList<Node>();
-		route2 = new ArrayList<Node>();
-		route3 = new ArrayList<Node>();
+		route1 = new LinkedList<Node>();
+		route2 = new LinkedList<Node>();
+		route3 = new LinkedList<Node>();
 		
 		
 		//Square just goes around the perimeter of the grid for the moment
@@ -58,32 +59,6 @@ public class Grid extends JPanel{
 		robot1Y = robot1CenterY - (robotHeight/2);
 		ActionListener movingRec = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if(recCenterY == 100 && recCenterX >= 50 && recCenterX < 50 * xSize) {
-//					recCenterX++;
-//					recX = recCenterX - (recWidth /2);
-//					recY = recCenterY - (recHeight/2);
-//					
-//					repaint();
-//				}
-//				else if (recCenterX == 600 && recCenterY >= 100 && recCenterY < 450) {
-//					recCenterY++;
-//					recX = recCenterX - (recWidth /2);
-//					recY = recCenterY - (recHeight/2);
-//					repaint();
-//				}
-//				else if(recCenterY == 450 && recCenterX <= 600 && recCenterX > 50) {
-//					recCenterX--;
-//					recX = recCenterX - (recWidth /2);
-//					recY = recCenterY - (recHeight/2);
-//					repaint();
-//				}
-//				else if(recCenterX == 50 && recCenterY<= 450 && recCenterY > 100){
-//					recCenterY--;
-//					recX = recCenterX - (recWidth /2);
-//					recY = recCenterY - (recHeight/2);
-//					repaint();
-//				}
-				
 				//Draws the location of the first robot along its given route
 				if(!route1.isEmpty()){
 					Node nextCoord = route1.get(0);
@@ -196,13 +171,13 @@ public class Grid extends JPanel{
 				}
 			}
 		};
-		//Updates the position of the red square every 20 milliseconds.		
+		//Updates the position of every square every 20 milliseconds.		
 		Timer timer = new Timer(20, movingRec);
 		
 		timer.start();
 	}
 	
-	private void drawRoute(ArrayList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
+	private void drawRoute(LinkedList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
 		g2.setStroke(new BasicStroke(8));
 		g2.setColor(color);
 		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).x*50), (int)(100 + route.get(0).y*50));
@@ -264,7 +239,7 @@ public class Grid extends JPanel{
 	}
 	
 	//Sets the routes of the different robots to a locally stored variable
-	public void setRoute(ArrayList<Node> route, String robot){
+	public void setRoute(LinkedList<Node> route, String robot){
 		if(robot.equals("Ricardo")){
 			route1 = route;
 			robot1CenterX = (int)route1.get(0).x*50 + 50;
@@ -284,6 +259,23 @@ public class Grid extends JPanel{
 			robot3CenterY = (int)route3.get(0).y*50 + 100;
 			route3.remove(0);
 		}
+	}
+	
+	
+	public void setRobCoord(String name, int x, int y) {
+		if(name.equals("Ricardo")) {
+			this.robot1CenterX = x;
+			this.robot1CenterY = y;
+		}
+		else if(name.equals("NXT")) {
+			this.robot2CenterX = x;
+			this.robot2CenterY = y;
+		}
+		else {
+			this.robot3CenterX = x;
+			this.robot3CenterY = y;
+		}
+		
 	}
 }
 	

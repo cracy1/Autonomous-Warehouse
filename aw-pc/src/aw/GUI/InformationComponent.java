@@ -3,6 +3,7 @@ package aw.GUI;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
@@ -27,7 +28,7 @@ public class InformationComponent extends JPanel{
 		
 	}
 	
-	public void setRoute(ArrayList<Node> route, String name){
+	public void setRoute(LinkedList<Node> route, String name){
 		grid.setRoute(route, name);
 	}
 }

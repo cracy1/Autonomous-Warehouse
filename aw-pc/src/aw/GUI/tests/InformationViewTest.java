@@ -22,7 +22,7 @@ public class InformationViewTest {
 
 @Test
 	public void testUpdate() {
-		model.setJob(job1);
+		model.setJob(job1, "Ricardo");
 		InformationView view = new InformationView(model);
 		ArrayList<JLabel> itemsArray = view.getItemsArray();
 		String jobID = itemsArray.get(1).getText();
