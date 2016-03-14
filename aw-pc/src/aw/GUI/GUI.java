@@ -23,7 +23,6 @@ public class GUI {
 		model = new InformationModel(info);
 		grid = new InformationComponent(model);
 		frame.add(grid);
-		setJob(new Job("10016,bi,2,ah,2,aj,1,ac,2,bb,3,af,4"), "Dave");
 
 		
 		frame.setVisible(true);
@@ -35,6 +34,10 @@ public class GUI {
 	
 	public void setRoute(LinkedList<Node> route, String name){
 		grid.setRoute(route, name);
+	}
+	
+	public void setRobCoord(String name, int x, int y) {
+		grid.setRobCoord(name, x, y);
 	}
 
 }

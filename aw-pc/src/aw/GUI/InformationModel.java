@@ -18,6 +18,10 @@ public class InformationModel extends Observable{
 	}
 	
 	public void setJob(Job job, String robotName){
+		Optional<Job> oldJob = info.getJob(robotName);
+		if(oldJob.isPresent()) {
+			setTotalReward(oldJob.get().getJobReward());
+		}
 		info.setJob(job, robotName);
 		setChanged();
 		notifyObservers(robotName);
@@ -39,6 +43,13 @@ public class InformationModel extends Observable{
 		return info.numberItems(robotName);
 	}
 	
+	public void setTotalReward(double jobReward) {
+		info.setTotalReward(jobReward);
+	}
+	
+	public double getTotalReward() {
+		return info.getTotalReward();
+	}
 	
 
 }

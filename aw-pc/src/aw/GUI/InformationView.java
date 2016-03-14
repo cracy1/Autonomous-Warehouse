@@ -22,10 +22,11 @@ public class InformationView extends JPanel implements Observer {
 	private JLabel jobId, totalReward, itemsInfoTitle;
 	private ArrayList<JLabel> ricardoArray, nxtArray, daveArray;
 	private ArrayList<ArrayList<JLabel>> masterArray;
-	private Box box, box2, box3;
+	private Box box, box2, box3, box4;
 	private final String robotName = "Ricardo";
 	private final String robotName2 = "NXT";
 	private final String robotName3 = "Dave";
+	private Font titleFont, subFont;
 	
 	public InformationView(InformationModel model) {
 		this.model = model;
@@ -33,6 +34,13 @@ public class InformationView extends JPanel implements Observer {
 		ricardoArray = new ArrayList<JLabel>();
 		nxtArray = new ArrayList<JLabel>();
 		daveArray = new ArrayList<JLabel>();
+		
+		//Fonts
+		this.titleFont = new Font("Times New Roman", Font.BOLD, 22);
+		this.subFont = new Font("Courier", Font.BOLD + Font.ITALIC, 18);
+				
+//So that we can generalise the RoboInfo() method to all three robots,
+//And not have an unnecessary amount of if statements
 		masterArray = new ArrayList<ArrayList<JLabel>>();
 		masterArray.add(ricardoArray);
 		masterArray.add(nxtArray);
@@ -50,6 +58,7 @@ public class InformationView extends JPanel implements Observer {
 		add(box);
 		add(box2);
 		add(box3);
+		
 		
 				
 		for(int i = 0; i< ricardoArray.size(); i++) {
@@ -70,8 +79,7 @@ public class InformationView extends JPanel implements Observer {
 	}
 	
 	public void RobotInfo(String name, int robotNumber) {
-//Fonts
-		Font titleFont = new Font("Times New Roman", Font.BOLD, 18);
+
 
 			if(model.getJob(name).isPresent()) {
 //Job information

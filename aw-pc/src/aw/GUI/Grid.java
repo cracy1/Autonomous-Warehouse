@@ -172,10 +172,19 @@ public class Grid extends JPanel{
 			}
 		};
 		//Updates the position of every square every 20 milliseconds.		
-		Timer timer = new Timer(20, movingRec);
+		Timer timer = new Timer(25, movingRec);
 		
 		timer.start();
 	}
+	
+	/**
+	 * Draws the route of the robot
+	 * @param route the route to be drawn
+	 * @param robotCenterX The x coord of the center of the square representing the robot
+	 * @param robotCenterY The y coord of the center of the square representing the robot
+	 * @param g2 Graphics
+	 * @param color the colour 
+	 */
 	
 	private void drawRoute(LinkedList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
 		g2.setStroke(new BasicStroke(8));
@@ -227,7 +236,8 @@ public class Grid extends JPanel{
 		float thickness = 5;
 		Stroke oldStroke = g2.getStroke();
 		g2.setStroke(new BasicStroke(thickness));
-		
+		g2.setColor(Color.BLACK);
+		g2.drawLine(630, 0, 630, 800);
 		g2.setColor(Color.RED);
 		g2.drawRect(robot1X, robot1Y, robotWidth, robotHeight);
 		
@@ -238,6 +248,11 @@ public class Grid extends JPanel{
 		g2.drawRect(robot3X, robot3Y, robotWidth, robotHeight);
 	}
 	
+	/**
+	 * Sets the route for one of the robots
+	 * @param route the route to be taken
+	 * @param robot the name of the robot
+	 */
 	//Sets the routes of the different robots to a locally stored variable
 	public void setRoute(LinkedList<Node> route, String robot){
 		if(robot.equals("Ricardo")){
@@ -261,19 +276,25 @@ public class Grid extends JPanel{
 		}
 	}
 	
+	/**
+	 * Set the robot coordinates of a given robot
+	 * @param name the name of the robot
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 */
 	
 	public void setRobCoord(String name, int x, int y) {
 		if(name.equals("Ricardo")) {
-			this.robot1CenterX = x;
-			this.robot1CenterY = y;
+			this.robot1CenterX = x * 50 + 50;
+			this.robot1CenterY = y *50 + 100;
 		}
 		else if(name.equals("NXT")) {
-			this.robot2CenterX = x;
-			this.robot2CenterY = y;
+			this.robot2CenterX = x * 50 + 50;;
+			this.robot2CenterY = y *50 + 100;;
 		}
 		else {
-			this.robot3CenterX = x;
-			this.robot3CenterY = y;
+			this.robot3CenterX = x * 50 + 50;;
+			this.robot3CenterY = y *50 + 100;;
 		}
 		
 	}

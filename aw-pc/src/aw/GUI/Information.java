@@ -8,6 +8,7 @@ import aw.file.Job;
 public class Information {
 	
 	private Optional<Job> jobRobot1, jobRobot2, jobRobot3;
+	private int rewardCounter =0;
 	
 	public Information(){
 		this.jobRobot1 = Optional.empty();
@@ -118,6 +119,14 @@ public class Information {
 			return jobRobot3.get().numberItems();
 		}
 		
+	}
+	
+	public void setTotalReward(double jobReward) {
+		rewardCounter += jobReward;
+	}
+	
+	public double getTotalReward() {
+		return rewardCounter;
 	}
 
 }
