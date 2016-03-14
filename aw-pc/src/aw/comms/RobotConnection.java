@@ -15,7 +15,7 @@ import lejos.pc.comm.NXTInfo;
  */
 public class RobotConnection {
 	private NXTInfo nxt;
-	
+
 	private CommandSender cs;
 	private CommandReceiver cr;
 
@@ -30,20 +30,17 @@ public class RobotConnection {
 	}
 
 	/**
-	 * Initialises the connection beteween the PC and the robot.
-	 * 
-	 * @param nxtComm
-	 *            The NXTComm object
-	 * @throws NXTCommException
+	 * Initialises the connection between the PC and the robot contained in this
+	 * class.
 	 */
 	public void connect() {
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			
+
 			if (nxtComm.open(nxt)) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(nxtComm.getInputStream()));
 				PrintStream ps = new PrintStream(nxtComm.getOutputStream());
-				
+
 				cs = new CommandSender(nxt.name, ps);
 				cs.sendCommand("f");
 
@@ -56,11 +53,22 @@ public class RobotConnection {
 			System.err.println("Failed to connect to robot '" + nxt.name + "'");
 		}
 	}
-	
+
+	/**
+	 * Gets the command sender to send messages from the PC to the robot.
+	 * 
+	 * @return The command sender
+	 */
 	public CommandSender getCommandSender() {
 		return cs;
 	}
-	
+
+	/**
+	 * Gets the command receiver to allow you to add a listener to receive
+	 * information from the robot
+	 * 
+	 * @return The command receiver
+	 */
 	public CommandReceiver getCommandReceiver() {
 		return cr;
 	}
