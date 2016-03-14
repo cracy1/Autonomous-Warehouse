@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import aw.file.Drop;
 import aw.routePlanning.AStar;
 import aw.test.Node;
 import rp.robotics.mapping.GridMap;
@@ -36,6 +37,7 @@ public class Grid extends JPanel{
 	private int robot3CenterY = 400;
 	private int height,width, xSize, ySize, robot1X, robot1Y, robot2X, robot2Y, robot3X, robot3Y, xConvert, yConvert;
 	private GridMap grid;
+	private Drop drop;
 	
 	private LinkedList<Node> route1;
 	private LinkedList<Node> route2;
@@ -51,6 +53,7 @@ public class Grid extends JPanel{
 		route1 = new LinkedList<Node>();
 		route2 = new LinkedList<Node>();
 		route3 = new LinkedList<Node>();
+		drop = new Drop();
 		
 		
 		//Square just goes around the perimeter of the grid for the moment
@@ -230,6 +233,11 @@ public class Grid extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+//Drop locations		
+		int xDrop1 = drop.getX(0) * 50 +50;
+		int yDrop1 = drop.getY(0) *50 +100;
+		int xDrop2 = drop.getX(1) *50 +50;
+		int yDrop2 = drop.getY(1) * 50 +100;
 		//makes the square moving a lot smoother.
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		draw(g2);
@@ -237,7 +245,15 @@ public class Grid extends JPanel{
 		Stroke oldStroke = g2.getStroke();
 		g2.setStroke(new BasicStroke(thickness));
 		g2.setColor(Color.BLACK);
+//Just a line to divide the frame into two
 		g2.drawLine(630, 0, 630, 800);
+//Draw the drops		
+		g2.setColor(Color.MAGENTA);
+		g2.drawLine(xDrop1, yDrop1 -20, xDrop1, yDrop1 +20);
+		g2.drawLine(xDrop1 -20, yDrop1, xDrop1 +20, yDrop1);
+		g2.drawLine(xDrop2, yDrop2 -20, xDrop2, yDrop2 +20);
+		g2.drawLine(xDrop2 -20, yDrop2, xDrop2 +20, yDrop2);
+		
 		g2.setColor(Color.RED);
 		g2.drawRect(robot1X, robot1Y, robotWidth, robotHeight);
 		
