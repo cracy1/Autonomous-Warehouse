@@ -23,8 +23,9 @@ public class SingleRobotDemoController {
 	 * Initialise map, robot.
 	 */
 	public SingleRobotDemoController(){
+		gui = new GUI();
 		map = new Map(8, 12);
-		rob = new Robot("NXT", 0, 3, 0);
+		rob = new Robot("NXT", 0, 3, 0, gui);
 		gui = new GUI();
 		gui.setRobCoord("NXT", 0, 3);
 		testJob();
