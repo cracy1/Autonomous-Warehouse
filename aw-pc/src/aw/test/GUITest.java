@@ -1,6 +1,8 @@
 package aw.test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 import aw.GUI.GUI;
 import aw.file.Job;
 
@@ -20,7 +22,7 @@ public class GUITest {
 		Node p6 = new Node(3, 2);
 		Node p7 = new Node(3, 3);
 		Node p8 = new Node(3, 4);
-		ArrayList<Node> route = new ArrayList<Node>();
+		LinkedList<Node> route = new LinkedList<Node>();
 		route.add(p1);
 		route.add(p2);
 		route.add(p3);
@@ -40,7 +42,7 @@ public class GUITest {
 		Node p14 = new Node(5, 7);
 		Node p15 = new Node(5, 6);
 		Node p16 = new Node(5, 5);
-		ArrayList<Node> route2 = new ArrayList<Node>();
+		LinkedList<Node> route2 = new LinkedList<Node>();
 		route2.add(p9);
 		route2.add(p10);
 		route2.add(p11);
@@ -60,7 +62,7 @@ public class GUITest {
 		Node p22 = new Node(11, 5);
 		Node p23 = new Node(11, 6);
 		Node p24 = new Node(11, 7);
-		ArrayList<Node> route3 = new ArrayList<Node>();
+		LinkedList<Node> route3 = new LinkedList<Node>();
 		route3.add(p17);
 		route3.add(p18);
 		route3.add(p19);
@@ -69,7 +71,7 @@ public class GUITest {
 		route3.add(p22);
 		route3.add(p23);
 		route3.add(p24);
-		guiTest.setRoute(route3, "TheOtherRobot");		
+		guiTest.setRoute(route3, "Dave");		
 		
 	}
 

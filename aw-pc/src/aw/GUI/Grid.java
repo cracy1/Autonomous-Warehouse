@@ -268,7 +268,7 @@ public class Grid extends JPanel{
 			robot2CenterY = (int)route2.get(0).y*50 + 100;
 			route2.remove(0);
 		}
-		else if(robot.equals("TheOtherRobot")){
+		else if(robot.equals("Dave")){
 			route3 = route;
 			robot3CenterX = (int)route3.get(0).x*50 + 50;
 			robot3CenterY = (int)route3.get(0).y*50 + 100;
