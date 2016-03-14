@@ -15,10 +15,11 @@ public class MultiRobotController implements Runnable{
 	private GUI gui;
 	
 	public MultiRobotController(){
+		gui = new GUI();
 		map = new Map(8, 12);
 		Communication.addRobots();
-		rob1 = new Robot("Ricardo", 0, 3, 0);
-		rob2 = new Robot("NXT", 0, 5, 0);
+		rob1 = new Robot("Ricardo", 0, 3, 0, gui);
+		rob2 = new Robot("NXT", 0, 5, 0, gui);
 		gui.setRobCoord("Ricardo", 0, 3);
 		gui.setRobCoord("NXT", 0, 5);
 		testJob();
