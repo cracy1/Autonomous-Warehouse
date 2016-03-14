@@ -24,7 +24,7 @@ public class InformationViewTest {
 	public void testUpdate() {
 		model.setJob(job1, "Ricardo");
 		InformationView view = new InformationView(model);
-		ArrayList<JLabel> itemsArray = view.getItemsArray();
+		ArrayList<JLabel> itemsArray = view.getRicardoArray();
 		String jobID = itemsArray.get(1).getText();
 		assertEquals(jobID, "Job ID:   10001");
 	}

@@ -204,4 +204,16 @@ public class InformationView extends JPanel implements Observer {
 				
 					
 	}
+	
+	public ArrayList<JLabel> getRicardoArray(){
+		return ricardoArray;
+	}
+	
+	public ArrayList<JLabel> getNxtArray(){
+		return nxtArray;
+	}
+	
+	public ArrayList<JLabel> getDaveArray(){
+		return daveArray;
+	}
 }
