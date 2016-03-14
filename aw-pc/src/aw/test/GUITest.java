@@ -1,6 +1,5 @@
 package aw.test;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import aw.GUI.GUI;
