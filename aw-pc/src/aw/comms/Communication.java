@@ -3,9 +3,6 @@ package aw.comms;
 import java.util.HashMap;
 import java.util.Map;
 
-import lejos.pc.comm.NXTComm;
-import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
 /**
@@ -15,7 +12,7 @@ public class Communication {
 	private static Map<String, RobotConnection> robotConnections = new HashMap<>();
 
 	/**
-	 * Initialises all of the warehouse robots connections.
+	 * Initialises the connections for all robots.
 	 */
 	public static void addRobots() {
 		for (NXTInfo nxt : BluetoothRobots.NXTs) {
@@ -26,15 +23,11 @@ public class Communication {
 	}
 
 	/**
-	 * Initialises a robot connection and adds the CommandSender object of the
-	 * connection's DataOutputStream to a HashMap for use to send commands to a
-	 * robot.
+	 * Adds a new robot connection for the NXT information passed in.
 	 * 
-	 * @param nxtComm
-	 *            The NXTComm object
 	 * @param nxt
-	 *            The NXTInfo describing the robot's information
-	 * @throws NXTCommException
+	 *            The NXT information representing the robot and it's bluetooth
+	 *            information
 	 */
 	public static void addRobotConnection(NXTInfo nxt) {
 		RobotConnection robotConnection = new RobotConnection(nxt);
@@ -44,16 +37,24 @@ public class Communication {
 	}
 
 	/**
-	 * Get the CommandSender object of a named robot
+	 * Gets the robot connection object for a named robot.
 	 * 
 	 * @param name
 	 *            The robot's name
-	 * @return The CommandSender object
+	 * @return The robot's connection object, giving access to the command
+	 *         sender and receiver
 	 */
 	public static RobotConnection getRobotConnection(String name) {
 		return robotConnections.get(name);
 	}
 
+	/**
+	 * For compatibility, old method to get the command sender of a named robot.
+	 * 
+	 * @param name
+	 *            The robot's name
+	 * @return The command sender for the robot
+	 */
 	@Deprecated
 	public static CommandSender getCommandSender(String name) {
 		return getRobotConnection(name).getCommandSender();
