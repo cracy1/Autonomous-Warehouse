@@ -95,8 +95,8 @@ public class JobList implements JobListInterface {
 
 	// for testing purposes
 	public void tell() {
-		quickSort(utility, job, 0, 100);
-		for (int i = 100; i >= 0; i--)
+		quickSort(utility, job, 0, 300);
+		for (int i = 300; i >= 0; i--)
 			System.out.println(utility[i] + " " + job[i]);
 	}
 

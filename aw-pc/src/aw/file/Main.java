@@ -18,7 +18,10 @@ public class Main {
 		// System.out.println(jobList);
 //		for (int i = 0; i < jobList.numberJobs(); i++)
 //			System.out.println(job1.getUtility());
-		jobList.tell();
+//		jobList.tell();
+//		System.out.println(job2);
+		job2.sortItems(4, 4);
+//		System.out.println(job1);
 //		Drop abc = new Drop();
 //		System.out.println(abc);
 //		for(int j = 0; j < abc.numberDrops(); j++){
