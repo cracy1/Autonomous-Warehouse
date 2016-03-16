@@ -14,9 +14,9 @@ public class GUITest {
 		
 		//Setting route for Ricardo
 		Node p1 = new Node(0, 0);
-		Node p2 = new Node(0, 1);
-		Node p3 = new Node(1, 1);
-		Node p4 = new Node(2, 1);
+		Node p2 = new Node(1, 0);
+		Node p3 = new Node(2, 0);
+		Node p4 = new Node(3, 0);
 		Node p5 = new Node(3, 1);
 		Node p6 = new Node(3, 2);
 		Node p7 = new Node(3, 3);

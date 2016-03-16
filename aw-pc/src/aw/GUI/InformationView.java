@@ -28,6 +28,10 @@ public class InformationView extends JPanel implements Observer {
 	private final String robotName3 = "Dave";
 	private Font titleFont, subFont;
 	
+	private Color green = new Color(34, 139, 34);
+	private Color red = new Color(205, 0, 0);
+	private Color blue = new Color(0, 154, 205);
+	
 	public InformationView(InformationModel model) {
 		this.model = model;
 		
@@ -87,13 +91,13 @@ public class InformationView extends JPanel implements Observer {
 
 //Set colour of main title to the corresponding robot's colour			
 				if(robotNumber ==1) {
-					mainTitle.setForeground(Color.RED);
+					mainTitle.setForeground(red);
 				}
 				else if(robotNumber ==2) {
-					mainTitle.setForeground(Color.BLUE);
+					mainTitle.setForeground(blue);
 				}
 				else {
-					mainTitle.setForeground(Color.GREEN);
+					mainTitle.setForeground(green);
 				}
 				
 				
@@ -122,13 +126,13 @@ public class InformationView extends JPanel implements Observer {
 //Set colour of main title to the corresponding robot's colour
 				
 				if(robotNumber ==1) {
-					mainTitle.setForeground(Color.RED);
+					mainTitle.setForeground(red);
 				}
 				else if(robotNumber ==2) {
-					mainTitle.setForeground(Color.BLUE);
+					mainTitle.setForeground(blue);
 				}
 				else {
-					mainTitle.setForeground(Color.GREEN);
+					mainTitle.setForeground(green);
 				}
 				
 				masterArray.get(robotNumber -1).add(mainTitle);

@@ -23,18 +23,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Grid extends JPanel{
-	private ArrayList<Line2D.Double> xLines;
-	private ArrayList<Line2D.Double> yLines; 
-	
-
 	private int robotWidth = 30;
 	private int robotHeight = 30;
 	private int robot1CenterX = 50;
-	private int robot1CenterY = 100;
+	private int robot1CenterY = 450;
 	private int robot2CenterX = 600;
-	private int robot2CenterY = 100;
+	private int robot2CenterY = 450;
 	private int robot3CenterX = 50;
-	private int robot3CenterY = 400;
+	private int robot3CenterY = 150;
 	private int height,width, xSize, ySize, robot1X, robot1Y, robot2X, robot2Y, robot3X, robot3Y, xConvert, yConvert;
 	private GridMap grid;
 	private Drop drop;
@@ -42,6 +38,10 @@ public class Grid extends JPanel{
 	private LinkedList<Node> route1;
 	private LinkedList<Node> route2;
 	private LinkedList<Node> route3;
+	
+	private Color green = new Color(34, 139, 34);
+	private Color red = new Color(205, 0, 0);
+	private Color blue = new Color(0, 154, 205);
 	
 	public Grid() {
 		super();
@@ -79,22 +79,22 @@ public class Grid extends JPanel{
 						
 						repaint();
 					}
-					else if(robot1CenterY < nextCoord.y*50 + 100){
-						robot1CenterY++;
-						robot1X = robot1CenterX - (robotWidth /2);
-						robot1Y = robot1CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot1CenterY > nextCoord.y*50 + 100){
+					else if(robot1CenterY > 450 - nextCoord.y*50 ){
 						robot1CenterY--;
 						robot1X = robot1CenterX - (robotWidth /2);
 						robot1Y = robot1CenterY - (robotHeight/2);
 						
 						repaint();
 					}
+					else if(robot1CenterY < 450 - nextCoord.y*50 ){
+						robot1CenterY++;
+						robot1X = robot1CenterX - (robotWidth /2);
+						robot1Y = robot1CenterY - (robotHeight/2);
+						
+						repaint();
+					}
 					//Removes nodes of the route that the robot has passed
-					if((int)route1.get(0).x*50 + 50 == robot1CenterX && (int)route1.get(0).y*50 + 100 == robot1CenterY){
+					if((int)route1.get(0).x*50 + 50 == robot1CenterX && (int) 450 - route1.get(0).y*50  == robot1CenterY){
 						route1.remove(0);
 					}
 				}
@@ -116,22 +116,22 @@ public class Grid extends JPanel{
 						
 						repaint();
 					}
-					else if(robot2CenterY < nextCoord.y*50 + 100){
-						robot2CenterY++;
-						robot2X = robot2CenterX - (robotWidth /2);
-						robot2Y = robot2CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot2CenterY > nextCoord.y*50 + 100){
+					else if(robot2CenterY > 450 - nextCoord.y*50 ){
 						robot2CenterY--;
 						robot2X = robot2CenterX - (robotWidth /2);
 						robot2Y = robot2CenterY - (robotHeight/2);
 						
 						repaint();
 					}
+					else if(robot2CenterY < 450 - nextCoord.y*50 ){
+						robot2CenterY++;
+						robot2X = robot2CenterX - (robotWidth /2);
+						robot2Y = robot2CenterY - (robotHeight/2);
+						
+						repaint();
+					}
 					//Removes nodes of the route that the robot has passed
-					if((int)route2.get(0).x*50 + 50 == robot2CenterX && (int)route2.get(0).y*50 + 100 == robot2CenterY){
+					if((int)route2.get(0).x*50 + 50 == robot2CenterX && (int)450 - route2.get(0).y*50  == robot2CenterY){
 						route2.remove(0);
 					}
 				}
@@ -153,22 +153,22 @@ public class Grid extends JPanel{
 						
 						repaint();
 					}
-					else if(robot3CenterY < nextCoord.y*50 + 100){
-						robot3CenterY++;
-						robot3X = robot3CenterX - (robotWidth /2);
-						robot3Y = robot3CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot3CenterY > nextCoord.y*50 + 100){
+					else if(robot3CenterY > 450 - nextCoord.y*50){
 						robot3CenterY--;
 						robot3X = robot3CenterX - (robotWidth /2);
 						robot3Y = robot3CenterY - (robotHeight/2);
 						
 						repaint();
 					}
+					else if(robot3CenterY < 450 - nextCoord.y*50 ){
+						robot3CenterY++;
+						robot3X = robot3CenterX - (robotWidth /2);
+						robot3Y = robot3CenterY - (robotHeight/2);
+						
+						repaint();
+					}
 					//Removes nodes of the route that the robot has passed
-					if((int)route3.get(0).x*50 + 50 == robot3CenterX && (int)route3.get(0).y*50 + 100 == robot3CenterY){
+					if((int)route3.get(0).x*50 + 50 == robot3CenterX && (int)450 - route3.get(0).y*50 == robot3CenterY){
 						route3.remove(0);
 					}
 				}
@@ -192,18 +192,18 @@ public class Grid extends JPanel{
 	private void drawRoute(LinkedList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
 		g2.setStroke(new BasicStroke(8));
 		g2.setColor(color);
-		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).x*50), (int)(100 + route.get(0).y*50));
+		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).x*50), (int)(450 - route.get(0).y*50));
 		for(int i = 0; i < route.size() - 1; i++){
-			g2.drawLine((int)(50 + route.get(i).x*50), (int)(100 + route.get(i).y*50), (int)(50 + route.get(i+1).x*50), (int)(100 + route.get(i+1).y*50));
+			g2.drawLine((int)(50 + route.get(i).x*50), (int)(450 - route.get(i).y*50), (int)(50 + route.get(i+1).x*50), (int)(450 - route.get(i+1).y*50));
 		}
-		g2.drawOval((int)(50 + route.get(route.size() - 1).x*50) - 5, (int)(95 + route.get(route.size() - 1).y*50), 10, 10);
+		g2.drawOval((int)(50 + route.get(route.size() - 1).x*50) - 5, (int)(445 - route.get(route.size() - 1).y*50), 10, 10);
 	}
 	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		
 		for(int i = 0; i < ySize; i++) {
-			g2.drawLine(50, (i *50) + 100,  50 * xSize, (i*50) + 100);
+			g2.drawLine(50, 450 - (i *50),  50 * xSize, 450 - (i*50) );
 		}
 		for(int i = 0; i < xSize; i++) {
 			g2.drawLine(50 + (i*50), 100, 50 + (i*50), 50* ySize + 50);
@@ -213,20 +213,20 @@ public class Grid extends JPanel{
 			for(int j = 0; j < ySize; j++){
 				if(grid.isObstructed(i, j)){
 					g2.setColor(Color.BLACK);
-					g2.fillRect(25 + i * 50, 125 + j * 50, 50, 50);
+					g2.fillRect(25 + i * 50, 425 - j * 50, 50, 50);
 				}
 			}
 		}
 		
 		//Drawing route of the robot
 		if(!route1.isEmpty()){
-			drawRoute(route1, robot1CenterX, robot1CenterY, g2, Color.RED);
+			drawRoute(route1, robot1CenterX, robot1CenterY, g2, red);
 		}
 		if(!route2.isEmpty()){
-			drawRoute(route2, robot2CenterX, robot2CenterY, g2, Color.BLUE);
+			drawRoute(route2, robot2CenterX, robot2CenterY, g2, blue);
 		}
 		if(!route3.isEmpty()){
-			drawRoute(route3, robot3CenterX, robot3CenterY, g2, Color.GREEN);
+			drawRoute(route3, robot3CenterX, robot3CenterY, g2, green);
 		}
 	}
 	
@@ -235,32 +235,31 @@ public class Grid extends JPanel{
 		Graphics2D g2 = (Graphics2D)g;
 //Drop locations		
 		int xDrop1 = drop.getX(0) * 50 +50;
-		int yDrop1 = drop.getY(0) *50 +100;
+		int yDrop1 = 450 - drop.getY(0) *50;
 		int xDrop2 = drop.getX(1) *50 +50;
-		int yDrop2 = drop.getY(1) * 50 +100;
+		int yDrop2 = 450 - drop.getY(1) * 50;
 		//makes the square moving a lot smoother.
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		draw(g2);
 		float thickness = 5;
-		Stroke oldStroke = g2.getStroke();
 		g2.setStroke(new BasicStroke(thickness));
 		g2.setColor(Color.BLACK);
 //Just a line to divide the frame into two
 		g2.drawLine(630, 0, 630, 800);
 //Draw the drops		
-		g2.setColor(Color.MAGENTA);
+		g2.setColor(Color.DARK_GRAY);
 		g2.drawLine(xDrop1, yDrop1 -20, xDrop1, yDrop1 +20);
 		g2.drawLine(xDrop1 -20, yDrop1, xDrop1 +20, yDrop1);
 		g2.drawLine(xDrop2, yDrop2 -20, xDrop2, yDrop2 +20);
 		g2.drawLine(xDrop2 -20, yDrop2, xDrop2 +20, yDrop2);
 		
-		g2.setColor(Color.RED);
+		g2.setColor(red);
 		g2.drawRect(robot1X, robot1Y, robotWidth, robotHeight);
 		
-		g2.setColor(Color.BLUE);
+		g2.setColor(blue);
 		g2.drawRect(robot2X, robot2Y, robotWidth, robotHeight);
 		
-		g2.setColor(Color.GREEN);
+		g2.setColor(green);
 		g2.drawRect(robot3X, robot3Y, robotWidth, robotHeight);
 	}
 	
@@ -274,20 +273,20 @@ public class Grid extends JPanel{
 		if(robot.equals("Ricardo")){
 			route1 = route;
 			robot1CenterX = (int)route1.get(0).x*50 + 50;
-			robot1CenterY = (int)route1.get(0).y*50 + 100;
+			robot1CenterY = (int)450 - route1.get(0).y*50;
 			route1.remove(0);
 			
 		}
 		else if(robot.equals("NXT")){
 			route2 = route;
 			robot2CenterX = (int)route2.get(0).x*50 + 50;
-			robot2CenterY = (int)route2.get(0).y*50 + 100;
+			robot2CenterY = (int)450 - route2.get(0).y*50 ;
 			route2.remove(0);
 		}
 		else if(robot.equals("Dave")){
 			route3 = route;
 			robot3CenterX = (int)route3.get(0).x*50 + 50;
-			robot3CenterY = (int)route3.get(0).y*50 + 100;
+			robot3CenterY = (int)450 - route3.get(0).y*50 ;
 			route3.remove(0);
 		}
 	}
@@ -302,15 +301,15 @@ public class Grid extends JPanel{
 	public void setRobCoord(String name, int x, int y) {
 		if(name.equals("Ricardo")) {
 			this.robot1CenterX = x * 50 + 50;
-			this.robot1CenterY = y *50 + 100;
+			this.robot1CenterY = 450 - y *50;
 		}
 		else if(name.equals("NXT")) {
-			this.robot2CenterX = x * 50 + 50;;
-			this.robot2CenterY = y *50 + 100;;
+			this.robot2CenterX = x * 50 + 50;
+			this.robot2CenterY = 450 - y *50 ;
 		}
 		else {
-			this.robot3CenterX = x * 50 + 50;;
-			this.robot3CenterY = y *50 + 100;;
+			this.robot3CenterX = x * 50 + 50;
+			this.robot3CenterY = 450 - y *50 ;
 		}
 		
 	}
