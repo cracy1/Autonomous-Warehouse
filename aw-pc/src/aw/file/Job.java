@@ -13,7 +13,6 @@ public class Job implements JobInterface {
 	private int JobID;
 	private int counter;
 	private ItemList item = new ItemList();
-	private int index;
 
 	public Job(String row) {
 		JobID = Integer.parseInt(row.split(",")[0]);
@@ -126,92 +125,78 @@ public class Job implements JobInterface {
 	}
 
 	public void sortItems(int xCoord, int yCoord) {
+		System.out.println(items);
+		System.out.println(quantity);
 		ArrayList<String> res = new ArrayList<String>();
 		ArrayList<String> P = new ArrayList<String>();
+		ArrayList<Integer> quantityList = new ArrayList<Integer>();
 		for (int i = 0; i < numberItems(); i++) {
 			P.add(items[i]);
 		}
-		System.out.println("Initial P = " + P);
-		//int index;
-		int x = xCoord; int y = yCoord;
-//		int xTemp = -1, yTemp = -1;
-		int sizeOfP = P.size();
-		System.out.println("Initial size of P = " + sizeOfP);
-		while (sizeOfP != 0) {
-			int i = 0;
+		//System.out.println("Initial P = " + P);
+		String closestItem = "";
+		int index = 0;
+		//System.out.println("Initial size of P = " + P.size());
+		while (!P.isEmpty()) {
 			int minDist = Integer.MAX_VALUE;
 			if(!res.isEmpty()){
-				while(i < sizeOfP) {
-					minDist = Integer.MAX_VALUE;
+				//System.out.println("When res isnt empty:");
+				String[] Ptemp = new String[P.size()];
+				P.toArray(Ptemp);
+				for(int i = 0; i < P.size(); i++) {
 					ItemList item = new ItemList();
 					String[] temp = new String[res.size()];
-					for(int j = 0; j < res.size(); j++ ){
+					for(int j = 0; j < res.size(); j++){
 						res.toArray(temp);
-						if (minDist > getDistance(item.getX(item.getIndex(temp[j])), item.getY(item.getIndex(temp[j])), item.getX(item.getIndex(items[i])),item.getY(item.getIndex(items[i])))) {
-							minDist = getDistance(item.getX(item.getIndex(temp[j])), item.getY(item.getIndex(temp[j])), item.getX(item.getIndex(items[i])), item.getY(item.getIndex(items[i])));
+						int distance = getDistance(item.getX(item.getIndex(temp[j])), item.getY(item.getIndex(temp[j])), item.getX(item.getIndex(Ptemp[i])),item.getY(item.getIndex(Ptemp[i])));
+						if (minDist > distance) {
+							minDist = distance;
+							closestItem = Ptemp[i];
 							index = i;
 						}
-						System.out.println("items[j]:" + items[j]);
 					}
-					res.add(item.getName(item.getIndex(items[index])));
-					P.remove(index); 
-					P.trimToSize();
-					sizeOfP--;
-					i++;
-					System.out.println(P.size());
-					System.out.println("P: " + P);
-					System.out.println(res.size());
-					System.out.println("res: " + res);
-					System.out.println("item removed from P and added to res: " + items[index]);
-					System.out.println();
-					
 				}
-			}
-			else{
-				while(i < sizeOfP){
-					ItemList item = new ItemList();
-					if (minDist > getDistance(x, y, item.getX(item.getIndex(items[i])),item.getY(item.getIndex(items[i])))) {
-						minDist = getDistance(x, y, item.getX(item.getIndex(items[i])), item.getY(item.getIndex(items[i])));
-						index = i;
-						}
-					i++;
-				}
-				res.add(item.getName(item.getIndex(items[index])));
+				res.add(item.getName(item.getIndex(closestItem)));
+				quantityList.add(quantity[index]);
 				P.remove(index); 
 				P.trimToSize();
-				sizeOfP--;
-				System.out.println("res: " + res);
+//				System.out.println("P size:" + P.size());
+//				System.out.println("P: " + P);
+//				System.out.println("res size:" + res.size());
+//				System.out.println("res: " + res);
+//				System.out.println("item removed from P and added to res: " + Ptemp[index]);
+//				System.out.println();
 			}
-				
-
-
+			else{
+				//System.out.println("When res is empty:");
+				String[] Ptemp = new String[P.size()];
+				P.toArray(Ptemp);
+				for(int i = 0; i < P.size(); i++){
+					ItemList item = new ItemList();
+					int distance = getDistance(xCoord, yCoord, item.getX(item.getIndex(Ptemp[i])),item.getY(item.getIndex(Ptemp[i])));
+					if (minDist > distance) {
+						minDist = distance;
+						closestItem = Ptemp[i];
+						index = i;
+						}
+				}
+				res.add(item.getName(item.getIndex(items[index])));
+				quantityList.add(quantity[index]);
+				P.remove(index); 
+				P.trimToSize();
+//				System.out.println("res: " + res);
+//				System.out.println("P size: " + P.size());
+//				System.out.println("P: " + P);
+//				System.out.println("res size:" + res.size());
+//				System.out.println("item removed from P and added to res: " + Ptemp[index]);
+//				System.out.println();
 			}
-
-//			System.out.println(res.size());
 		}
+		res.toArray(items);
+		for(int i = 0; i < quantityList.size(); i++)
+			quantity[i] = quantityList.get(i);
+		System.out.println(items);	
+		System.out.println(quantity);
 
-		// for (int i = 0; i < P.size(); i++) {
-		// ItemList item = new ItemList();
-		//
-		// }
-//	
-//	private String closest(String[] a){
-//		for(int i = 0; i < a.length; i ++){
-//		return null;
-//		}
-	
 	}
-
-
-	// public void tsp(int[] arr ){
-	// int i = 0;
-	//
-	//
-	//
-	// for(i = 0; i < arr.length; i++){
-	//
-	//
-	// }
-	// }
-
-
+}
