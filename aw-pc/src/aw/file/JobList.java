@@ -10,6 +10,7 @@ public class JobList implements JobListInterface {
 	String path = "/home/students/add511/workspace/JobSelection/Autonomous-Warehouse/aw-pc/res/";
 	String jobs = path + "jobs.csv";
 	String drops = path + "drops.csv";
+	int numberOfJobs;
 	private double[] utility;
 
 	private String[] job;
@@ -24,17 +25,18 @@ public class JobList implements JobListInterface {
 			System.out.println(e.getMessage());
 		}
 
-		utility = new double[job.length];
-		for (int i = 0; i < job.length; i++) {
+		utility = new double[numberJobs()];
+		for (int i = 0; i < numberJobs(); i++) {
 			Job job = new Job(getJob(i));
 			utility[i] = job.getUtility();
 
 		}
+		quickSort(utility, job, 0, numberJobs());
 
 	}
 
 	public int numberJobs() {
-		return job.length;
+		return numberOfJobs;
 	}
 
 	public String getJob(int index) {
