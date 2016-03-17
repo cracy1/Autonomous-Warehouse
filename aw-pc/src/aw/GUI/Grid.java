@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import aw.comms.BluetoothCommandListener;
 import aw.file.Drop;
 import aw.routePlanning.AStar;
 import aw.test.Node;
@@ -22,15 +23,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Grid extends JPanel{
+public class Grid extends JPanel implements BluetoothCommandListener{
 	private int robotWidth = 30;
 	private int robotHeight = 30;
 	private int robot1CenterX = 50;
 	private int robot1CenterY = 450;
-	private int robot2CenterX = 600;
-	private int robot2CenterY = 450;
-	private int robot3CenterX = 50;
-	private int robot3CenterY = 150;
+	private int robot2CenterX = 50;
+	private int robot2CenterY = 100;
+	private int robot3CenterX = 600;
+	private int robot3CenterY = 450;
 	private int height,width, xSize, ySize, robot1X, robot1Y, robot2X, robot2Y, robot3X, robot3Y, xConvert, yConvert;
 	private GridMap grid;
 	private Drop drop;
@@ -56,128 +57,16 @@ public class Grid extends JPanel{
 		drop = new Drop();
 		
 		
-		//Square just goes around the perimeter of the grid for the moment
-		//Just tester code for the moment.
+
 		robot1X = robot1CenterX - (robotWidth /2);
 		robot1Y = robot1CenterY - (robotHeight/2);
-		ActionListener movingRec = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Draws the location of the first robot along its given route
-				if(!route1.isEmpty()){
-					Node nextCoord = route1.get(0);
-					if(robot1CenterX < nextCoord.x*50 + 50){
-						robot1CenterX++;
-						robot1X = robot1CenterX - (robotWidth /2);
-						robot1Y = robot1CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot1CenterX > nextCoord.x*50 + 50){
-						robot1CenterX--;
-						robot1X = robot1CenterX - (robotWidth /2);
-						robot1Y = robot1CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot1CenterY > 450 - nextCoord.y*50 ){
-						robot1CenterY--;
-						robot1X = robot1CenterX - (robotWidth /2);
-						robot1Y = robot1CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot1CenterY < 450 - nextCoord.y*50 ){
-						robot1CenterY++;
-						robot1X = robot1CenterX - (robotWidth /2);
-						robot1Y = robot1CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					//Removes nodes of the route that the robot has passed
-					if((int)route1.get(0).x*50 + 50 == robot1CenterX && (int) 450 - route1.get(0).y*50  == robot1CenterY){
-						route1.remove(0);
-					}
-				}
-				
-				//Draws the location of the second robot along its given route
-				if(!route2.isEmpty()){
-					Node nextCoord = route2.get(0);
-					if(robot2CenterX < nextCoord.x*50 + 50){
-						robot2CenterX++;
-						robot2X = robot2CenterX - (robotWidth /2);
-						robot2Y = robot2CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot2CenterX > nextCoord.x*50 + 50){
-						robot2CenterX--;
-						robot2X = robot2CenterX - (robotWidth /2);
-						robot2Y = robot2CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot2CenterY > 450 - nextCoord.y*50 ){
-						robot2CenterY--;
-						robot2X = robot2CenterX - (robotWidth /2);
-						robot2Y = robot2CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot2CenterY < 450 - nextCoord.y*50 ){
-						robot2CenterY++;
-						robot2X = robot2CenterX - (robotWidth /2);
-						robot2Y = robot2CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					//Removes nodes of the route that the robot has passed
-					if((int)route2.get(0).x*50 + 50 == robot2CenterX && (int)450 - route2.get(0).y*50  == robot2CenterY){
-						route2.remove(0);
-					}
-				}
-				
-				//Draws the location of the third robot along its given route
-				if(!route3.isEmpty()){
-					Node nextCoord = route3.get(0);
-					if(robot3CenterX < nextCoord.x*50 + 50){
-						robot3CenterX++;
-						robot3X = robot3CenterX - (robotWidth /2);
-						robot3Y = robot3CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot3CenterX > nextCoord.x*50 + 50){
-						robot3CenterX--;
-						robot3X = robot3CenterX - (robotWidth /2);
-						robot3Y = robot3CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot3CenterY > 450 - nextCoord.y*50){
-						robot3CenterY--;
-						robot3X = robot3CenterX - (robotWidth /2);
-						robot3Y = robot3CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					else if(robot3CenterY < 450 - nextCoord.y*50 ){
-						robot3CenterY++;
-						robot3X = robot3CenterX - (robotWidth /2);
-						robot3Y = robot3CenterY - (robotHeight/2);
-						
-						repaint();
-					}
-					//Removes nodes of the route that the robot has passed
-					if((int)route3.get(0).x*50 + 50 == robot3CenterX && (int)450 - route3.get(0).y*50 == robot3CenterY){
-						route3.remove(0);
-					}
-				}
-			}
-		};
-		//Updates the position of every square every 20 milliseconds.		
-		Timer timer = new Timer(25, movingRec);
 		
-		timer.start();
+		robot2X = robot2CenterX - (robotWidth /2);
+		robot2Y = robot2CenterY - (robotHeight/2);
+		
+		robot3X = robot3CenterX - (robotWidth /2);
+		robot3Y = robot3CenterY - (robotHeight/2);
+		
 	}
 	
 	/**
@@ -310,6 +199,127 @@ public class Grid extends JPanel{
 		else {
 			this.robot3CenterX = x * 50 + 50;
 			this.robot3CenterY = 450 - y *50 ;
+		}
+		
+	}
+
+	@Override
+	public void commandReceived(String name, String command) {
+		assert(command.equals("c"));
+		if(name.equals("Ricardo")) {
+			//Draws the location of the first robot along its given route
+			if(!route1.isEmpty()){
+				Node nextCoord = route1.get(0);
+				if(robot1CenterX < nextCoord.x*50 + 50){
+					robot1CenterX++;
+					robot1X = robot1CenterX - (robotWidth /2);
+					robot1Y = robot1CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot1CenterX > nextCoord.x*50 + 50){
+					robot1CenterX--;
+					robot1X = robot1CenterX - (robotWidth /2);
+					robot1Y = robot1CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot1CenterY > 450 - nextCoord.y*50 ){
+					robot1CenterY--;
+					robot1X = robot1CenterX - (robotWidth /2);
+					robot1Y = robot1CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot1CenterY < 450 - nextCoord.y*50 ){
+					robot1CenterY++;
+					robot1X = robot1CenterX - (robotWidth /2);
+					robot1Y = robot1CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				//Removes nodes of the route that the robot has passed
+				if((int)route1.get(0).x*50 + 50 == robot1CenterX && (int) 450 - route1.get(0).y*50  == robot1CenterY){
+					route1.remove(0);
+				}
+			}
+		}
+		else if (name.equals("NXT")) {
+			//Draws the location of the second robot along its given route
+			if(!route2.isEmpty()){
+				Node nextCoord = route2.get(0);
+				if(robot2CenterX < nextCoord.x*50 + 50){
+					robot2CenterX++;
+					robot2X = robot2CenterX - (robotWidth /2);
+					robot2Y = robot2CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot2CenterX > nextCoord.x*50 + 50){
+					robot2CenterX--;
+					robot2X = robot2CenterX - (robotWidth /2);
+					robot2Y = robot2CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot2CenterY > 450 - nextCoord.y*50 ){
+					robot2CenterY--;
+					robot2X = robot2CenterX - (robotWidth /2);
+					robot2Y = robot2CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot2CenterY < 450 - nextCoord.y*50 ){
+					robot2CenterY++;
+					robot2X = robot2CenterX - (robotWidth /2);
+					robot2Y = robot2CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				//Removes nodes of the route that the robot has passed
+				if((int)route2.get(0).x*50 + 50 == robot2CenterX && (int)450 - route2.get(0).y*50  == robot2CenterY){
+					route2.remove(0);
+				}
+			}
+			
+		}
+		else {
+			//Draws the location of the third robot along its given route
+			if(!route3.isEmpty()){
+				Node nextCoord = route3.get(0);
+				if(robot3CenterX < nextCoord.x*50 + 50){
+					robot3CenterX++;
+					robot3X = robot3CenterX - (robotWidth /2);
+					robot3Y = robot3CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot3CenterX > nextCoord.x*50 + 50){
+					robot3CenterX--;
+					robot3X = robot3CenterX - (robotWidth /2);
+					robot3Y = robot3CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot3CenterY > 450 - nextCoord.y*50){
+					robot3CenterY--;
+					robot3X = robot3CenterX - (robotWidth /2);
+					robot3Y = robot3CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				else if(robot3CenterY < 450 - nextCoord.y*50 ){
+					robot3CenterY++;
+					robot3X = robot3CenterX - (robotWidth /2);
+					robot3Y = robot3CenterY - (robotHeight/2);
+					
+					repaint();
+				}
+				//Removes nodes of the route that the robot has passed
+				if((int)route3.get(0).x*50 + 50 == robot3CenterX && (int)450 - route3.get(0).y*50 == robot3CenterY){
+					route3.remove(0);
+				}
+			}
 		}
 		
 	}
