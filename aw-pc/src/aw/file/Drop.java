@@ -51,16 +51,16 @@ public class Drop implements DropInterface {
 		int closest = Integer.MAX_VALUE;
 		int tempX = 0;
 		int tempY = 0;
-		for(int k = 0; k < x.length; k++){
-			int distance = Math.abs(i - x[i]) + Math.abs(j - y[i]);
+		for(int k = 0; k < numberDrops(); k++){
+			int distance = Math.abs(i - x[k]) + Math.abs(j - y[k]);
 			if(closest > distance){
 				closest = distance;
-				tempX = x[1];
-				tempY = x[1];
-				x[1] = x[i];
-				y[1] = y[i];
-				x[i] = tempX;
-				y[i] = tempY;
+				tempX = x[0];
+				tempY = y[0];
+				x[0] = x[k];
+				y[0] = y[k];
+				x[k] = tempX;
+				y[k] = tempY;
 			}
 		}
 		
