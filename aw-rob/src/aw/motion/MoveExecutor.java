@@ -21,7 +21,7 @@ public class MoveExecutor {
 	
 	private final float gain = 15.0f;
 	//private final float maxSpeed = Motor.A.getMaxSpeed();
-	private final float baseSpeed = Motor.A.getMaxSpeed() / 1.2f;
+	private final float baseSpeed = Motor.A.getMaxSpeed() / 2f;
 	
 	/**
 	 * Construct a MoveExecutor object.

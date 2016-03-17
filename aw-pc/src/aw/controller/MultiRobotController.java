@@ -9,7 +9,7 @@ import aw.test.Map;
 public class MultiRobotController {
 	private static Robot rob1;
 	private static Robot rob2;
-	private static Robot rob3;
+	//private static Robot rob3;
 	private Map map;
 	
 	public MultiRobotController(){
@@ -18,7 +18,7 @@ public class MultiRobotController {
 		rob1 = new Robot("Ricardo", 0, 3, 0);
 		rob2 = new Robot("NXT", 3, 3, 0);
 		//rob3 = new Robot("Dave", 3, 3, 0);
-		testJob();
+		allocateJobs();
 	}
 	
 	public void allocateJobs(){
