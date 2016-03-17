@@ -19,7 +19,7 @@ public class AStar {
 
 	private LinkedList<Node> finalPath;
 
-	public AStar(Node start, Node goal, Map map, MapObstacles robot) {
+	public AStar(Node start, Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
 		heuristicMap = new int[width][height];
 		movementCostMap = new int[width][height]; // g score
 		previousNodeMap = new HashMap<Node, Node>();
@@ -42,21 +42,21 @@ public class AStar {
 		}
 		addMap(map);
 		this.finalPath = findRoute(start, goal);
-		whichRobot(this.finalPath, robot, map);
+		whichRobot(this.finalPath., robot, map);
 
 	}
 
-	private void whichRobot(LinkedList<Node> path, MapObstacles robot, Map map) {
+	private void whichRobot(Node path, MapObstacles robot, Map map) {
 		if (robot.equals(MapObstacles.ROBOTONE)) {
-			map.update(path, new LinkedList<Node>(), new LinkedList<Node>());
+			map.update(path, MapObstacles.ROBOTONE);
 		} else if (robot.equals(MapObstacles.ROBOTTWO)) {
-			map.update(new LinkedList<Node>(), path, new LinkedList<Node>());
+			map.update(path, MapObstacles.ROBOTTWO);
 		} else if (robot.equals(MapObstacles.ROBOTTHREE)) {
-			map.update(new LinkedList<Node>(), new LinkedList<Node>(), path);
+			map.update(path, MapObstacles.ROBOTTHREE);
 		}
 	}
 
-	private void addMap(Map map){
+	private void addMap(Map map, int i){
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (!map.getMapObstacle(x,y).equals(MapObstacles.EMPTY)){
@@ -68,7 +68,7 @@ public class AStar {
 
 	}
 
-	private LinkedList<Node> findRoute(Node start, Node goal) {
+	private LinkedList<Node> findRoute(Node start, Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
 		// adding start node to the openSet
 		openSet.add(start);
 		Node currentNode;
@@ -117,7 +117,7 @@ public class AStar {
 
 		}
 		// no path found
-		new Exception("no path found");
+		new RuntimeException("found");
 		return null;
 
 	}
