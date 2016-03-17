@@ -17,7 +17,7 @@ public class MultiRobotController {
 		Communication.addRobots();
 		rob1 = new Robot("Ricardo", 0, 3, 0);
 		rob2 = new Robot("NXT", 3, 3, 0);
-		rob3 = new Robot("Dave", 3, 3, 0);
+		//rob3 = new Robot("Dave", 3, 3, 0);
 		testJob();
 	}
 	
@@ -28,12 +28,12 @@ public class MultiRobotController {
 			Job job = new Job(jobList.getJob(i));
 			if(i % 3 == 0) rob1.addJob(job);
 			else if(i % 2 == 0) rob2.addJob(job);
-			else rob3.addJob(job);
+			//else rob3.addJob(job);
 		}
 	}
 	
 	public static boolean robotsReady(){
-		return rob1.isReady() && rob2.isReady() && rob3.isReady();
+		return rob1.isReady() && rob2.isReady(); //&& rob3.isReady();
 	}
 	
 	/**

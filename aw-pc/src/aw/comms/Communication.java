@@ -9,7 +9,7 @@ import lejos.pc.comm.NXTInfo;
  * Handles setting up usage of communication between the PC and the NXT robots.
  */
 public class Communication {
-	private static Map<String, RobotConnection> robotConnections = new HashMap<>();
+	private static Map<String, RobotConnection> robotConnections = new HashMap<String, RobotConnection>();
 
 	/**
 	 * Initialises the connections for all robots.
