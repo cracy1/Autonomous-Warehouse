@@ -66,10 +66,10 @@ public class RobotReceiver extends Thread {
 					moveExecutor.execute(Move.HALF_TURN);
 					break;
 				case "i":
+					Robot.getRobotSender().sendMessage("c");
 					String item = actionSplit[1];
 					int amount = Integer.parseInt(actionSplit[2]);
 					moveExecutor.requestItem(item, amount);
-					Robot.getRobotSender().sendMessage("c");
 					break;
 				case "d":
 					item = actionSplit[1];
