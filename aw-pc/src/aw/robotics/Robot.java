@@ -92,8 +92,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
 				
-				waitForResponse();
-
+				if(c == 'f'){
+					waitForResponse();
+				}
 			}
 			
 			ready = false;
@@ -122,8 +123,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 	public void waitForResponse(){
 		while(!MultiRobotController.robotsReady()){
-			Delay.msDelay(50);
+			Delay.msDelay(1);
 		}
+		Delay.msDelay(50);
 	}
 	
 	/**
