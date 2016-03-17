@@ -20,7 +20,8 @@ public class MoveExecutor {
 	private final Display display;
 	
 	private final float gain = 15.0f;
-	private final float maxSpeed = Motor.A.getMaxSpeed();
+	//private final float maxSpeed = Motor.A.getMaxSpeed();
+	private final float baseSpeed = Motor.A.getMaxSpeed() / 1.2f;
 	
 	/**
 	 * Construct a MoveExecutor object.
@@ -33,6 +34,7 @@ public class MoveExecutor {
 		rightLightSensor = new LightSensor(SensorPort.S4);
 
 		display = new Display();
+		pilot.setTravelSpeed(baseSpeed);
 	}
 	
 	public void execute(Move move){
@@ -73,8 +75,8 @@ public class MoveExecutor {
 			Motor.C.forward(); 
 			Motor.B.forward();
 			
-			Motor.C.setSpeed( (maxSpeed/2) - (error * gain)); //proportional line following.
-			Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
+			Motor.C.setSpeed( baseSpeed - (error * gain)); //proportional line following.
+			Motor.B.setSpeed( baseSpeed + (error * gain));
 		}
 		
 		pilot.travel(0.075);
