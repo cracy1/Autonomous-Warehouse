@@ -152,6 +152,10 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		 ready = true;
 	}
 	
+	public LinkedList<Job> getJobs(){
+		return jobs;
+	}
+	
 	public boolean isReady(){
 		return ready || requesting;
 	}
@@ -162,6 +166,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			if(jobs.size() > 0){
 				executeJob(jobs.removeFirst());
 			}
+			
 		}
 	}
 }

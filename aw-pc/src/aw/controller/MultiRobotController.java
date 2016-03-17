@@ -26,10 +26,13 @@ public class MultiRobotController {
 		
 		for(int i = 0; i < 100; i++){
 			Job job = new Job(jobList.getJob(i));
-			if(i % 3 == 0) rob1.addJob(job);
-			else if(i % 2 == 0) rob2.addJob(job);
+			if(i % 2 == 0) rob1.addJob(job);
+			else rob2.addJob(job);
 			//else rob3.addJob(job);
 		}
+		
+		System.out.println("Robot 1: " + rob1.getJobs().size());
+		System.out.println("Robot 2: " + rob2.getJobs().size());
 	}
 	
 	public static boolean robotsReady(){

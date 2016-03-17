@@ -42,7 +42,6 @@ public class RobotConnection {
 				PrintStream ps = new PrintStream(nxtComm.getOutputStream());
 
 				cs = new CommandSender(nxt.name, ps);
-				cs.sendCommand("f");
 
 				cr = new CommandReceiver(nxt.name, br);
 				cr.start();
