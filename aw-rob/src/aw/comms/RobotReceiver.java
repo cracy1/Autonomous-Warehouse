@@ -51,22 +51,17 @@ public class RobotReceiver extends Thread {
 				switch (actionSplit[0]) {
 				case "f":
 					moveExecutor.execute(Move.FORWARD);
-					Robot.getRobotSender().sendMessage("c");
 					break;
 				case "l":
-					Robot.getRobotSender().sendMessage("c");
 					moveExecutor.execute(Move.LEFT_TURN);
 					break;
 				case "r":
-					Robot.getRobotSender().sendMessage("c");
 					moveExecutor.execute(Move.RIGHT_TURN);
 					break;
 				case "t":
-					Robot.getRobotSender().sendMessage("c");
 					moveExecutor.execute(Move.HALF_TURN);
 					break;
 				case "i":
-					Robot.getRobotSender().sendMessage("c");
 					String item = actionSplit[1];
 					int amount = Integer.parseInt(actionSplit[2]);
 					moveExecutor.requestItem(item, amount);
@@ -75,9 +70,10 @@ public class RobotReceiver extends Thread {
 					item = actionSplit[1];
 					amount = Integer.parseInt(actionSplit[2]);
 					moveExecutor.dropRequest(item, amount, 1000);
-					Robot.getRobotSender().sendMessage("c");
 					break;
 				}
+				
+				Robot.getRobotSender().sendMessage("c");
 
 			} catch (IOException e) {
 				e.printStackTrace();

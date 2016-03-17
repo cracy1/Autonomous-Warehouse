@@ -35,9 +35,6 @@ public class MultiRobotController {
 		System.out.println("Robot 2: " + rob2.getJobs().size());
 	}
 	
-	public static boolean robotsReady(){
-		return rob1.isReady() && rob2.isReady(); //&& rob3.isReady();
-	}
 	
 	/**
 	 * Run robot job allocation with a single job.

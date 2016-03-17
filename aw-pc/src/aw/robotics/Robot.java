@@ -31,7 +31,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private GUI gui;
 	
 	private boolean ready = true;
-	public boolean requesting = false;
 	
 	private LinkedList<Job> jobs;
 	
@@ -96,10 +95,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			}
 			
 			ready = false;
-			requesting = true;
 			sender.sendCommand("i " + item + " " + quantity);
 			waitForResponse();
-			requesting = false;
 			current = target;
 		}
 		
@@ -120,10 +117,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	}
 	
 	public void waitForResponse(){
-		while(!MultiRobotController.robotsReady()){
-			Delay.msDelay(1);
+		while(ready){
+			Delay.msDelay(25);
 		}
-		Delay.msDelay(50);
 	}
 	
 	/**
@@ -169,10 +165,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 	public LinkedList<Job> getJobs(){
 		return jobs;
-	}
-	
-	public boolean isReady(){
-		return ready || requesting;
 	}
 
 	@Override
