@@ -56,6 +56,16 @@ public class Job implements JobInterface {
 	public int getID() {
 		return JobID;
 	}
+	
+	public int getItemIndexInJob(String string) {
+		int i = 0;
+		while (i < items.length) {
+			if (items[i].equals(string))
+				break;
+			i++;
+		}
+		return i;
+	}
 
 	@Override
 	public ItemList getNext() {
@@ -125,8 +135,9 @@ public class Job implements JobInterface {
 	}
 
 	public void sortItems(int xCoord, int yCoord) {
-		System.out.println(items);
-		System.out.println(quantity);
+		for(int i = 0; i < items.length; i++)
+			System.out.println(items[i] + " " + quantity[i] + "");
+		System.out.println();
 		ArrayList<String> res = new ArrayList<String>();
 		ArrayList<String> P = new ArrayList<String>();
 		ArrayList<Integer> quantityList = new ArrayList<Integer>();
@@ -157,7 +168,9 @@ public class Job implements JobInterface {
 					}
 				}
 				res.add(item.getName(item.getIndex(closestItem)));
-				quantityList.add(quantity[index]);
+				System.out.println(item.getName(item.getIndex(closestItem)));
+				quantityList.add(quantity[getItemIndexInJob(closestItem)]);
+				System.out.println(quantity[getItemIndexInJob(closestItem)]);
 				P.remove(index); 
 				P.trimToSize();
 //				System.out.println("P size:" + P.size());
@@ -181,7 +194,9 @@ public class Job implements JobInterface {
 						}
 				}
 				res.add(item.getName(item.getIndex(items[index])));
-				quantityList.add(quantity[index]);
+				System.out.println(item.getName(item.getIndex(closestItem)));
+				quantityList.add(quantity[getItemIndexInJob(closestItem)]);
+				System.out.println(quantity[getItemIndexInJob(closestItem)]);
 				P.remove(index); 
 				P.trimToSize();
 //				System.out.println("res: " + res);
@@ -195,8 +210,8 @@ public class Job implements JobInterface {
 		res.toArray(items);
 		for(int i = 0; i < quantityList.size(); i++)
 			quantity[i] = quantityList.get(i);
-		System.out.println(items);	
-		System.out.println(quantity);
+		for(int i = 0; i < items.length; i++)
+			System.out.println(items[i] + " " + quantity[i] + "");
 
 	}
 }

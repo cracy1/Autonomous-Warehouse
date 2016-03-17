@@ -6,7 +6,7 @@ import aw.file.interfaces.DropInterface;
 
 public class Drop implements DropInterface {
 
-	private String path = "/Users/Andrei/Documents/workspace/aw/Autonomous-Warehouse/aw-pc/res/";
+	private String path = "/home/students/add511/workspace/JobSelection/Autonomous-Warehouse/aw-pc/res/";
 	private String drops = path + "drops.csv";
 
 	private int[] x;
@@ -45,6 +45,25 @@ public class Drop implements DropInterface {
 
 	public int numberDrops() {
 		return numberDrops;
+	}
+	
+	public void sortClosestDropToRobot(int i, int j){
+		int closest = Integer.MAX_VALUE;
+		int tempX = 0;
+		int tempY = 0;
+		for(int k = 0; k < x.length; k++){
+			int distance = Math.abs(i - x[i]) + Math.abs(j - y[i]);
+			if(closest > distance){
+				closest = distance;
+				tempX = x[1];
+				tempY = x[1];
+				x[1] = x[i];
+				y[1] = y[i];
+				x[i] = tempX;
+				y[i] = tempY;
+			}
+		}
+		
 	}
 
 }
