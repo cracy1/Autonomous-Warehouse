@@ -91,4 +91,14 @@ public class MoveExecutor {
 	public void requestItem(String name, int amount){
 		display.requestItem(name, amount);
 	}
+	
+	/**
+	 * Add an item drop request to the current route.
+	 * @param name
+	 * @param amount
+	 * @param delay
+	 */
+	public void dropRequest(String name, int amount, int delay){
+		display.dropOffItem(name, amount, 1000);
+	}
 }
