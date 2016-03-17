@@ -105,18 +105,18 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		}
 		
 		
-		requesting = true;
-		/**
-		 * Drop point logic.
-		 */
-		for(int i = 0; i < jobLength; i++){
-			String item = job.getItem(i);
-			int quantity = job.getQuantity(i);
-			sender.sendCommand("d " + item + " " + quantity);
-			Delay.msDelay(1000);
-			
-		}
-		requesting = false;
+//		requesting = true;
+//		/**
+//		 * Drop point logic.
+//		 */
+//		for(int i = 0; i < jobLength; i++){
+//			String item = job.getItem(i);
+//			int quantity = job.getQuantity(i);
+//			sender.sendCommand("d " + item + " " + quantity);
+//			Delay.msDelay(1000);
+//			
+//		}
+//		requesting = false;
 		
 	}
 	
@@ -181,7 +181,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			if(jobs.size() > 0){
 				executeJob(jobs.removeFirst());
 			}
-			
 		}
 	}
 }
