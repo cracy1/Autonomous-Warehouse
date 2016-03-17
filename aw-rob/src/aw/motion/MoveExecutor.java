@@ -99,6 +99,6 @@ public class MoveExecutor {
 	 * @param delay
 	 */
 	public void dropRequest(String name, int amount, int delay){
-		display.dropOffItem(name, amount, 1000);
+		display.dropOffItem(name, amount, delay);
 	}
 }

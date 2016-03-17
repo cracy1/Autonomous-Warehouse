@@ -104,21 +104,24 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			current = target;
 		}
 		
-		requesting = true;
+		
 		/**
 		 * Drop point logic.
 		 */
 		for(int i = 0; i < jobLength; i++){
 			String item = job.getItem(i);
 			int quantity = job.getQuantity(i);
+			ready = false;
+			requesting = true;
 			sender.sendCommand("d " + item + " " + quantity);
 			waitForResponse();
+			requesting = false;
 		}
-		requesting = false;
+		
 	}
 	
 	public void waitForResponse(){
-		while(MultiRobotController.robotsReady()){
+		while(!MultiRobotController.robotsReady()){
 			Delay.msDelay(50);
 		}
 	}
