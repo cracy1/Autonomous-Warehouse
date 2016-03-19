@@ -1,5 +1,6 @@
 package aw.routePlanning;
 
+import java.io.Console;
 import java.util.Currency;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -17,62 +18,112 @@ public class CoopAStar {
 	private int[][] heuristicTable;
 	private final int width = 12;
 	private final int height = 8;
-
-	public CoopAStar(Node start, Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
-
-		this.start = start;
+	private boolean found = false;
+	public CoopAStar(Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
+		int lastMoveIndex = spaceAndTime.getLastMove(robot);
+		this.start = spaceAndTime.getSpaceAndTime().get(lastMoveIndex).getRobotPosition(robot);
+		
 		this.goal = goal;
 		this.spaceAndTime = spaceAndTime;
 		this.robot = robot;
 		heuristicTable = new int[width][height];
+		fillHeuristics();
 		openSet = new LinkedList<TreeMap>();
 		closeSet = new LinkedList<TreeMap>();
+		findRoute();
 		
 	}
 
-	public LinkedList<Node> findRoute() {
+	public void findRoute() {
 		int timeStampCounter = spaceAndTime.getLastMove(this.robot);
 		openSet.add(new TreeMap(spaceAndTime.getMap(timeStampCounter), timeStampCounter, 0,
 				heuristicTable[start.getX()][start.getY()], null, this.robot));
 		TreeMap currentTreeMap = null;
 		while (!openSet.isEmpty()) {
 			currentTreeMap = getSmallestFromOpenSet();
+			Map currentMap = spaceAndTime.getMap(currentTreeMap.getTimeStamp());
+			
+			
 			openSet.remove(currentTreeMap);
 			closeSet.add(currentTreeMap);
 
+			
 			if (currentTreeMap.getRobotPosition().equals(goal)) {
-				return convertToNodeList(reconstructRoute(currentTreeMap));
-			}
-			Node currentNode = currentTreeMap.getRobotPosition();
-			for (int x = currentNode.getX() - 1; x <= currentNode.getX() + 1; x++) {
-				for (int y = currentNode.getY() - 1; y <= currentNode.getY() + 1; y++) {
-					if (x < width && x >= 0 && y >= 0 && y < height
-							&& (x == currentNode.getX() || y == currentNode.getY())) {
-						int newTimeStamp = currentTreeMap.getTimeStamp() + 1;
-						int newGCost = currentTreeMap.getgCost() + 1;
-						int newFCost = newGCost + heuristicTable[x][y];
+				found = true;
+				spaceAndTime.addPath(convertToNodeList(reconstructRoute(currentTreeMap)),robot);
+				return;
+			}else{
+				Node currentNode = currentTreeMap.getRobotPosition();
+				for (int x = currentNode.getX() - 1; x <= currentNode.getX() + 1; x++) {
+					for (int y = currentNode.getY() - 1; y <= currentNode.getY() + 1; y++) {
+						if (x < width && x >= 0 && y >= 0 && y < height
+								&& (x == currentNode.getX() || y == currentNode.getY())) {
+							int newTimeStamp = currentTreeMap.getTimeStamp() + 1;
+							int newGCost = currentTreeMap.getgCost() + 1;
+							int newFCost = newGCost + heuristicTable[x][y];
+							Map newMap = new Map();
+							for (int i = 0; i < width; i ++){
+								for (int j = 0; j < height; j++){
+									 newMap.setMapObstacle(i, j, spaceAndTime.getMap(newTimeStamp).getMapObstacle(i, j));
+								}
+								
+							}
+							
+							
+							if(spaceAndTime.getMap(spaceAndTime.getLastMove(robot) + 1).getMapObstacle(x, y).equals(MapObstacles.EMPTY)){
+								newMap.update(new Node(x,y), robot);
+								
+								TreeMap neighbour = new TreeMap(newMap, newTimeStamp, newGCost, newFCost, currentTreeMap, robot);
+								
+								if (!closeSetContains(neighbour)) {
+									if (!openSetContains(neighbour)) {	
+										
+										openSet.add(neighbour);
+									}
 
-						Map newMap = spaceAndTime.getMap(newTimeStamp);
-
-						TreeMap neighbour = new TreeMap(newMap, newTimeStamp, newGCost, newFCost, currentTreeMap,
-								robot);
-
-						if (!closeSet.contains(neighbour)) {
-							if (!openSet.contains(neighbour)) {
-								openSet.add(neighbour);
+								}
 							}
 
 						}
-
 					}
 				}
 			}
+			
 
 		}
+		if (found == false){
+			LinkedList<Node> path = new LinkedList<Node>();
+			path.add(start);
+			path.add(start);
+			
+			spaceAndTime.addPath(path, robot);
+			new CoopAStar(goal, spaceAndTime, robot);
+			
+		}
 		// no path found
-		new RuntimeException("found");
-		return null;
+		new RuntimeException("not found");
+		
 
+	}
+
+	private boolean openSetContains(TreeMap neighbour) {
+		for (TreeMap n : openSet) {
+			if (n.equals(neighbour)) {
+			
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean closeSetContains(TreeMap neighbour) {
+		for (TreeMap n : closeSet) {
+			if (n.equals(neighbour)) {
+				
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private int smallestGCost(TreeMap currentTreeMap) {
@@ -103,16 +154,18 @@ public class CoopAStar {
 	}
 
 	private LinkedList<TreeMap> reconstructRoute(TreeMap currentTreeMap) {
+	
 		LinkedList<TreeMap> path = new LinkedList<TreeMap>();
 
 		TreeMap previousTreeMap = currentTreeMap;
-
+		
 		path.add(previousTreeMap);
 		while (previousTreeMap.getPreviousTreeMap() != null) {
 			previousTreeMap = previousTreeMap.getPreviousTreeMap();
-			path.addLast(previousTreeMap);
+			
+			path.add(previousTreeMap);
 		}
-
+		
 		return path;
 
 	}
@@ -127,11 +180,14 @@ public class CoopAStar {
 
 	private TreeMap getSmallestFromOpenSet() {
 		TreeMap smallest = openSet.getFirst();
+		
 		for (TreeMap t : openSet) {
-			if (smallest.getfCost() > t.getfCost()) {
+		
+			if (smallest.getfCost() >= t.getfCost()) {
 				smallest = t;
 			}
 		}
+		
 		return smallest;
 	}
 

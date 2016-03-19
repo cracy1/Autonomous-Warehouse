@@ -9,6 +9,10 @@ public class Map {
 
 	public Map() {
 
+		
+		addObstacles();
+	}
+	private void addObstacles(){
 		map = new MapObstacles[width][height];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -21,6 +25,15 @@ public class Map {
 			}
 		}
 	}
+	public Map(Node robotOne, Node robotTwo, Node robotThree) {
+		
+		addObstacles();
+		
+		this.map[robotOne.getX()][robotOne.getY()] = MapObstacles.ROBOTONE;
+		
+		this.map[robotTwo.getX()][robotTwo.getY()] = MapObstacles.ROBOTTWO;
+		this.map[robotThree.getX()][robotThree.getY()] = MapObstacles.ROBOTTHREE;
+	}
 
 	public Map(Map map) {
 		this.map = map.getMap();
@@ -30,7 +43,9 @@ public class Map {
 	public MapObstacles[][] getMap() {
 		return map;
 	}
-
+	public MapObstacles setMapObstacle(int x, int y, MapObstacles obstacle) {
+		return map[x][y] = obstacle;
+	}
 	public MapObstacles getMapObstacle(int x, int y) {
 		return map[x][y];
 	}
@@ -87,7 +102,7 @@ public class Map {
 	}
 
 	private void addMoveToMap(Node path, MapObstacles robot) {
-
+		
 		map[path.getX()][path.getY()] = robot;
 
 	}
