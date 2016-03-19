@@ -5,6 +5,8 @@ import java.util.Currency;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+import lejos.nxt.addon.DIMUGyro.TemperatureUnits;
+
 public class CoopAStar {
 	private LinkedList<TreeMap> openSet;
 	private LinkedList<TreeMap> closeSet;
@@ -19,10 +21,11 @@ public class CoopAStar {
 	private final int width = 12;
 	private final int height = 8;
 	private boolean found = false;
+
 	public CoopAStar(Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
 		int lastMoveIndex = spaceAndTime.getLastMove(robot);
 		this.start = spaceAndTime.getSpaceAndTime().get(lastMoveIndex).getRobotPosition(robot);
-		
+
 		this.goal = goal;
 		this.spaceAndTime = spaceAndTime;
 		this.robot = robot;
@@ -31,7 +34,7 @@ public class CoopAStar {
 		openSet = new LinkedList<TreeMap>();
 		closeSet = new LinkedList<TreeMap>();
 		findRoute();
-		
+
 	}
 
 	public void findRoute() {
@@ -41,19 +44,18 @@ public class CoopAStar {
 		TreeMap currentTreeMap = null;
 		while (!openSet.isEmpty()) {
 			currentTreeMap = getSmallestFromOpenSet();
-			Map currentMap = spaceAndTime.getMap(currentTreeMap.getTimeStamp());
-			
-			
+
 			openSet.remove(currentTreeMap);
 			closeSet.add(currentTreeMap);
 
-			
 			if (currentTreeMap.getRobotPosition().equals(goal)) {
+				System.out.println("Path found!");
 				found = true;
-				spaceAndTime.addPath(convertToNodeList(reconstructRoute(currentTreeMap)),robot);
+				spaceAndTime.addPath(convertToNodeList(reconstructRoute(currentTreeMap)), robot);
 				return;
-			}else{
+			} else {
 				Node currentNode = currentTreeMap.getRobotPosition();
+				System.out.println(" current " + currentNode.getX() + " " + currentNode.getY());
 				for (int x = currentNode.getX() - 1; x <= currentNode.getX() + 1; x++) {
 					for (int y = currentNode.getY() - 1; y <= currentNode.getY() + 1; y++) {
 						if (x < width && x >= 0 && y >= 0 && y < height
@@ -62,54 +64,68 @@ public class CoopAStar {
 							int newGCost = currentTreeMap.getgCost() + 1;
 							int newFCost = newGCost + heuristicTable[x][y];
 							Map newMap = new Map();
-							for (int i = 0; i < width; i ++){
-								for (int j = 0; j < height; j++){
-									 newMap.setMapObstacle(i, j, spaceAndTime.getMap(newTimeStamp).getMapObstacle(i, j));
+							for (int i = 0; i < width; i++) {
+								for (int j = 0; j < height; j++) {
+									newMap.setMapObstacle(i, j, spaceAndTime.getMap(newTimeStamp).getMapObstacle(i, j));
 								}
-								
+
 							}
-							
-							
-							if(spaceAndTime.getMap(spaceAndTime.getLastMove(robot) + 1).getMapObstacle(x, y).equals(MapObstacles.EMPTY)){
-								newMap.update(new Node(x,y), robot);
-								
-								TreeMap neighbour = new TreeMap(newMap, newTimeStamp, newGCost, newFCost, currentTreeMap, robot);
-								
+
+							if (window(currentTreeMap, 2, x, y)) {
+								newMap.update(new Node(x, y), robot);
+
+								TreeMap neighbour = new TreeMap(newMap, newTimeStamp, newGCost, newFCost,
+										currentTreeMap, robot);
+
 								if (!closeSetContains(neighbour)) {
-									if (!openSetContains(neighbour)) {	
-										
+									if (!openSetContains(neighbour)) {
+										System.out.println(x + " " + y);
 										openSet.add(neighbour);
 									}
 
 								}
+							} else {
+							
+
 							}
 
 						}
 					}
 				}
 			}
-			
 
 		}
-		if (found == false){
+		if (found == false) {
 			LinkedList<Node> path = new LinkedList<Node>();
 			path.add(start);
 			path.add(start);
-			
+
 			spaceAndTime.addPath(path, robot);
 			new CoopAStar(goal, spaceAndTime, robot);
-			
+
 		}
 		// no path found
 		new RuntimeException("not found");
-		
+
+	}
+
+	private boolean window(TreeMap currentTreeMap, int index, int x, int y) {
+		int timestamp = currentTreeMap.getTimeStamp();
+		for (int i = index; i > 0; i--){
+			if (!spaceAndTime.getMap(i + timestamp).getMapObstacle(x, y).equals(MapObstacles.EMPTY)){
+				return false;
+			}
+		}
+	
+
+		return true;
 
 	}
 
 	private boolean openSetContains(TreeMap neighbour) {
 		for (TreeMap n : openSet) {
 			if (n.equals(neighbour)) {
-			
+
 				return true;
 			}
 		}
@@ -119,7 +135,7 @@ public class CoopAStar {
 	private boolean closeSetContains(TreeMap neighbour) {
 		for (TreeMap n : closeSet) {
 			if (n.equals(neighbour)) {
-				
+
 				return true;
 			}
 		}
@@ -154,18 +170,18 @@ public class CoopAStar {
 	}
 
 	private LinkedList<TreeMap> reconstructRoute(TreeMap currentTreeMap) {
-	
+
 		LinkedList<TreeMap> path = new LinkedList<TreeMap>();
 
 		TreeMap previousTreeMap = currentTreeMap;
-		
+
 		path.add(previousTreeMap);
 		while (previousTreeMap.getPreviousTreeMap() != null) {
 			previousTreeMap = previousTreeMap.getPreviousTreeMap();
-			
+
 			path.add(previousTreeMap);
 		}
-		
+
 		return path;
 
 	}
@@ -180,14 +196,14 @@ public class CoopAStar {
 
 	private TreeMap getSmallestFromOpenSet() {
 		TreeMap smallest = openSet.getFirst();
-		
+
 		for (TreeMap t : openSet) {
-		
+
 			if (smallest.getfCost() >= t.getfCost()) {
 				smallest = t;
 			}
 		}
-		
+
 		return smallest;
 	}
 
