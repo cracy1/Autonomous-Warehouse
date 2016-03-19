@@ -49,13 +49,13 @@ public class CoopAStar {
 			closeSet.add(currentTreeMap);
 
 			if (currentTreeMap.getRobotPosition().equals(goal)) {
-				System.out.println("Path found!");
+				System.out.println("Path Found");
 				found = true;
 				spaceAndTime.addPath(convertToNodeList(reconstructRoute(currentTreeMap)), robot);
 				return;
 			} else {
 				Node currentNode = currentTreeMap.getRobotPosition();
-				System.out.println(" current " + currentNode.getX() + " " + currentNode.getY());
+				
 				for (int x = currentNode.getX() - 1; x <= currentNode.getX() + 1; x++) {
 					for (int y = currentNode.getY() - 1; y <= currentNode.getY() + 1; y++) {
 						if (x < width && x >= 0 && y >= 0 && y < height
@@ -71,7 +71,7 @@ public class CoopAStar {
 
 							}
 
-							if (window(currentTreeMap, 2, x, y)) {
+							if (window(currentTreeMap, 3, x, y)) {
 								newMap.update(new Node(x, y), robot);
 
 								TreeMap neighbour = new TreeMap(newMap, newTimeStamp, newGCost, newFCost,
@@ -79,7 +79,7 @@ public class CoopAStar {
 
 								if (!closeSetContains(neighbour)) {
 									if (!openSetContains(neighbour)) {
-										System.out.println(x + " " + y);
+									
 										openSet.add(neighbour);
 									}
 
@@ -111,8 +111,13 @@ public class CoopAStar {
 
 	private boolean window(TreeMap currentTreeMap, int index, int x, int y) {
 		int timestamp = currentTreeMap.getTimeStamp();
-		for (int i = index; i > 0; i--){
+		for (int i = 0; i < index; i++){
+		
+			if (x == 0 && y == 3){
+				
+			}
 			if (!spaceAndTime.getMap(i + timestamp).getMapObstacle(x, y).equals(MapObstacles.EMPTY)){
+				
 				return false;
 			}
 		}

@@ -19,8 +19,8 @@ public class RoutePlanningTest {
 		new CoopAStar(robotOneGoal, spaceAndTime, MapObstacles.ROBOTONE);
 		new CoopAStar(robotTwoGoal, spaceAndTime, MapObstacles.ROBOTTWO);
 		new CoopAStar(robotThreeGoal, spaceAndTime, MapObstacles.ROBOTTHREE);
-
-
+		robotOneGoal = new Node(11,7 );
+		new CoopAStar(robotOneGoal, spaceAndTime, MapObstacles.ROBOTONE);
 		 for (Map n : spaceAndTime.getSpaceAndTime()){
 			 System.out.println(n);
 		 }
