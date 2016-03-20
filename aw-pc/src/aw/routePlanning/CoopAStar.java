@@ -21,9 +21,10 @@ public class CoopAStar {
 	private final int width = 12;
 	private final int height = 8;
 	private boolean found = false;
-
-	public CoopAStar(Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
-		int lastMoveIndex = spaceAndTime.getLastMove(robot);
+	private int lastMoveIndex = 0;
+	public CoopAStar(Node goal, SpaceAndTime spaceAndTime, MapObstacles robot, int timeAtStart) {
+	
+	this.lastMoveIndex =  timeAtStart;
 		this.start = spaceAndTime.getSpaceAndTime().get(lastMoveIndex).getRobotPosition(robot);
 
 		this.goal = goal;
@@ -101,7 +102,7 @@ public class CoopAStar {
 			path.add(start);
 
 			spaceAndTime.addPath(path, robot);
-			new CoopAStar(goal, spaceAndTime, robot);
+			new CoopAStar(goal, spaceAndTime, robot,this.lastMoveIndex + 1);
 
 		}
 		// no path found
@@ -113,9 +114,7 @@ public class CoopAStar {
 		int timestamp = currentTreeMap.getTimeStamp();
 		for (int i = 0; i < index; i++){
 		
-			if (x == 0 && y == 3){
-				
-			}
+		
 			if (!spaceAndTime.getMap(i + timestamp).getMapObstacle(x, y).equals(MapObstacles.EMPTY)){
 				
 				return false;
@@ -179,7 +178,7 @@ public class CoopAStar {
 		LinkedList<TreeMap> path = new LinkedList<TreeMap>();
 
 		TreeMap previousTreeMap = currentTreeMap;
-
+		
 		path.add(previousTreeMap);
 		while (previousTreeMap.getPreviousTreeMap() != null) {
 			previousTreeMap = previousTreeMap.getPreviousTreeMap();
@@ -194,7 +193,12 @@ public class CoopAStar {
 	private void fillHeuristics() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				heuristicTable[x][y] = manhattan(new Node(x, y), this.goal);
+				AStar astar = new AStar(this.start, new Node(x,y), this.spaceAndTime, this.robot);
+				
+				
+				heuristicTable[x][y] = astar.findRoute(this.start, new Node(x,y), this.spaceAndTime, this.robot).size();
+
+				
 			}
 		}
 	}

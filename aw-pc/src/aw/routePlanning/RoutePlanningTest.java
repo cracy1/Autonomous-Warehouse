@@ -16,13 +16,20 @@ public class RoutePlanningTest {
 		SpaceAndTime spaceAndTime = new SpaceAndTime(robotOneStart, robotTwoStart, robotThreeStart);
 	
 
-		new CoopAStar(robotOneGoal, spaceAndTime, MapObstacles.ROBOTONE);
-		new CoopAStar(robotTwoGoal, spaceAndTime, MapObstacles.ROBOTTWO);
-		new CoopAStar(robotThreeGoal, spaceAndTime, MapObstacles.ROBOTTHREE);
-		robotOneGoal = new Node(11,7 );
-		new CoopAStar(robotOneGoal, spaceAndTime, MapObstacles.ROBOTONE);
+		new CoopAStar(robotOneGoal, spaceAndTime, MapObstacles.ROBOTONE,0);
+		new CoopAStar(robotTwoGoal, spaceAndTime, MapObstacles.ROBOTTWO,0);
+		new CoopAStar(robotThreeGoal, spaceAndTime, MapObstacles.ROBOTTHREE,0);
+//		robotOneGoal = new Node(11,7 );
+//		robotTwoGoal = new Node(11,0);
+//		robotThreeGoal = new Node(11,2);
+//		new CoopAStar(robotOneGoal, spaceAndTime, MapObstacles.ROBOTONE);
+//		new CoopAStar(robotTwoGoal, spaceAndTime, MapObstacles.ROBOTTWO);
+//		new CoopAStar(robotThreeGoal, spaceAndTime, MapObstacles.ROBOTTHREE);
 		 for (Map n : spaceAndTime.getSpaceAndTime()){
 			 System.out.println(n);
+			 
+			 n.getRobotPosition(MapObstacles.ROBOTONE);
+			 
 		 }
 		// for (int x = 0; x < route.size(); x++) {
 		// System.out.println("move to :" + route.get(x) +", " + route.get(x));

@@ -40,10 +40,9 @@ public class AStar {
 
 			}
 		}
-		addMap(map);
-		this.finalPath = findRoute(start, goal);
-		whichRobot(this.finalPath., robot, map);
-
+		
+	
+		
 	}
 
 	private void whichRobot(Node path, MapObstacles robot, Map map) {
@@ -68,7 +67,7 @@ public class AStar {
 
 	}
 
-	private LinkedList<Node> findRoute(Node start, Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
+	 LinkedList<Node> findRoute(Node start, Node goal, SpaceAndTime spaceAndTime, MapObstacles robot) {
 		// adding start node to the openSet
 		openSet.add(start);
 		Node currentNode;
@@ -82,7 +81,7 @@ public class AStar {
 			closeSet.add(currentNode);
 
 			if (currentNode.equals(goal)) {
-				System.out.println("DONE");
+				
 				// return completed path
 				return constructPath(currentNode);
 			}
