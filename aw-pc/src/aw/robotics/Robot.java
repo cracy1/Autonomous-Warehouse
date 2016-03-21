@@ -34,6 +34,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private boolean requesting = false;
 	
 	private LinkedList<Job> jobs;
+
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -42,12 +43,13 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
 	 */
-	public Robot(String name, int startX, int startY, int angle){
+	public Robot(String name, int startX, int startY, int angle, GUI gui){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
-		this.jobs = new LinkedList();
+		this.gui = gui;
+		this.jobs = new LinkedList<>();
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
@@ -181,6 +183,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	public void run() {
 		while(running){
 			if(jobs.size() > 0){
+				gui.setJob(jobs.getFirst(), name);
 				executeJob(jobs.removeFirst());
 			}
 		}

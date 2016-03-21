@@ -20,8 +20,8 @@ public class MultiRobotController implements Runnable{
 		gui = new GUI();
 		
 		Communication.addRobots();
-		robots.add(new Robot("Ricardo", 0, 3, 0));
-		robots.add(new Robot("NXT", 3, 3, 0));
+		robots.add(new Robot("Ricardo", 0, 3, 0, gui));
+		robots.add(new Robot("NXT", 3, 3, 0, gui));
 		//rob3 = new Robot("Dave", 3, 3, 0);
 		allocateJobs();
 		
@@ -57,21 +57,6 @@ public class MultiRobotController implements Runnable{
 		new MultiRobotController();
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		while(true){
-			for(Robot r: robots){
-				gui.setJob(r.getJobs().getFirst(), r.getName());
-			}
-			
-			try{
-				Thread.sleep(500);
-			}catch(Exception ex){
-				
-			}
-		}
-	}
 
 	
 }
