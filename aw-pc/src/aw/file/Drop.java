@@ -6,8 +6,8 @@ import aw.file.interfaces.DropInterface;
 
 public class Drop implements DropInterface {
 
-	private String path = "/home/students/add511/workspace/JobSelection/Autonomous-Warehouse/aw-pc/res/";
-	private String drops = path + "drops.csv";
+	FilesPath pathForFiles = new FilesPath();
+	private String drops = pathForFiles.path + "drops.csv";
 
 	private int[] x;
 	private int[] y;
@@ -34,19 +34,41 @@ public class Drop implements DropInterface {
 		}
 		
 	}
-
+	/*
+	 * Gets the x coordinate of the drop point at the given index.
+	 * @param index the index of the drop point
+	 * @return the x coordinate of the specific drop point
+	 */
+	@Override
 	public int getX(int index) {
 		return x[index];
 	}
 
+	/*
+	 * Gets the y coordinate of the drop point at the given index.
+	 * @param index the index of the drop point
+	 * @return the y coordinate of the specific drop point
+	 */
+	@Override
 	public int getY(int index) {
 		return y[index];
 	}
 
+	/*
+	 * Gets the number of drop points on the map.
+	 * @return the number of drop points on the map
+	 */
+	@Override
 	public int numberDrops() {
 		return numberDrops;
 	}
 	
+	/*
+	 * Sorts the drop points in a way that the drop point closest to the robot becomes the one at index 0 in the array.
+	 * @param i the x coordinate of the robot's position
+	 * @param j the y coordinate of the robot's position
+	 */
+	@Override
 	public void sortClosestDropToRobot(int i, int j){
 		int closest = Integer.MAX_VALUE;
 		int tempX = 0;

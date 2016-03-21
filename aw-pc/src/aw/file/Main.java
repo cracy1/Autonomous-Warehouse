@@ -2,15 +2,15 @@ package aw.file;
 
 public class Main {
 	public static void main(String[] args) {
-		Drop drop = new Drop();
-		drop.sortClosestDropToRobot(3, 7);
-		System.out.println(drop.getX(0) + " " + drop.getY(0));
+//		Drop drop = new Drop();
+//		drop.sortClosestDropToRobot(8, 8);
+//		System.out.println(drop.getX(0) + " " + drop.getY(0));
 		JobList jobList = new JobList();
 		Job job1 = new Job(jobList.getJob(0));
-	//	System.out.println(job1.getUtility());
-		Job job2 = new Job(jobList.getJob(1));
+		System.out.println(job1.getJobReward());
+		//Job job2 = new Job(jobList.getJob(1));
 	//	System.out.println(job2.getItemReward(1));
-		Job job3 = new Job(jobList.getJob(2));
+		//Job job3 = new Job(jobList.getJob(2));
 	//	System.out.println(job3.getUtility());
 		// System.out.println(job.numberItems());
 		// System.out.println(jobList.getJob(2));

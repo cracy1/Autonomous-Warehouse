@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import aw.file.interfaces.JobInterface;
 
-// try to extend Comparable
-
 public class Job implements JobInterface {
 
 	private String[] items;
@@ -14,6 +12,11 @@ public class Job implements JobInterface {
 	private int counter;
 	private ItemList item = new ItemList();
 
+	/*
+	 * The constructor initialises and builds array where information about the job is stored. Each index corresponds to one unique 
+	 * item in the job, and this index is common through both arrays.
+	 * @param row the string that represents the job in its raw state
+	 */
 	public Job(String row) {
 		JobID = Integer.parseInt(row.split(",")[0]);
 		counter = 0;
@@ -37,181 +40,168 @@ public class Job implements JobInterface {
 			k = k + 2;
 		}
 
-		// sort();
-
 	}
-
+	
+	/*
+	 * Gets the particular item at the given position in the array.
+	 * @param index the position of the item in the array
+	 * @return the item at the given index
+	 */
+	@Override
 	public String getItem(int index) {
 		return items[index];
 	}
 
+	/*
+	 * Gets the quantity of the particular item at the given position in the array.
+	 * @param index the position of the item that has its quantity on the same position in a different array.
+	 * @return the quantity of the item at the given index
+	 */
+	@Override
 	public int getQuantity(int index) {
 		return quantity[index];
 	}
-
+	
+	/*
+	 * Gets the number of items in a job.
+	 * @return the number of items in the job
+	 */
+	@Override
 	public int numberItems() {
 		return counter / 2;
 	}
 
+	/*
+	 * Gets the id of the job.
+	 * @return the id of the job
+	 */
+	@Override
 	public int getID() {
 		return JobID;
 	}
 	
-	public int getItemIndexInJob(String string) {
+	/*
+	 * Calculates the utility of the job, represented by the job reward divided by the number of items in the job.
+	 * @return the utility of the job
+	 */
+	@Override
+	public double getUtility() {
+		double utility = getJobReward() / numberItems();
+		return utility;
+	}
+	
+	/*
+	 * Gets the index of a particular item in the job.
+	 * @param item the item whose index should be found
+	 * @return the index of the item 
+	 */
+	private int getItemIndexInJob(String item) {
 		int i = 0;
 		while (i < items.length) {
-			if (items[i].equals(string))
+			if (items[i].equals(item))
 				break;
 			i++;
 		}
 		return i;
 	}
 
-	@Override
-	public ItemList getNext() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// to be modified
-
-	@Override
-	public void sort() {
-		for (int i = 0; i < items.length - 1; i++) {
-			if (getItemReward(i) < getItemReward(i + 1)) {
-				String temp = items[i];
-				items[i] = items[i + 1];
-				items[i + 1] = temp;
-
-				int y = quantity[i];
-				quantity[i] = quantity[i + 1];
-				quantity[i + 1] = y;
-			}
-		}
-
-	}
-
+	/*
+	 * Gets the reward of the item in a job considering the fact that a job can contain an item more than once.
+	 * @param index the index of the item whose reward should be found
+	 * @return the reward of the item 
+	 */
 	@Override
 	public double getItemReward(int index) {
 		int j = item.getIndex(items[index]);
 		double reward = item.getReward(j) * quantity[index];
 		return reward;
 	}
-
+	
+	/*
+	 * Gets the reward of the job by summing up the rewards of all the items in the job.
+	 * @return the reward of the job
+	 */
 	@Override
 	public double getJobReward() {
 
 		double totalReward = 0;
 
 		for (int i = 0; i < numberItems(); i++) {
-			int j = item.getIndex(items[i]);
-			double utility = item.getReward(j) * quantity[i];
-			totalReward += utility;
+			double reward = getItemReward(i);
+			totalReward += reward;
 
 		}
 		return totalReward;
 	}
 
-	@Override
-	public double getUtility() {
-		double utility = getJobReward() / numberItems();
-		return utility;
-	}
-
-	public String toString() {
-		String string = JobID + "";
-		for (int i = 0; i < items.length; i++) {
-			string += " " + items[i] + " " + quantity[i];
-		}
-		return string;
-	}
-
-	// using Manhattan distance
-
-	public int getDistance(int x1, int y1, int x2, int y2) {
+	/*
+	 * Gets the distance between 2 points using the Manhattan distance.
+	 * @return the Manhattan distance between the 2 points
+	 */
+	private int getDistance(int x1, int y1, int x2, int y2) {
 
 		return Math.abs(x2 - x1) + Math.abs(y2 - y1);
 
 	}
-
-	public void sortItems(int xCoord, int yCoord) {
-		for(int i = 0; i < items.length; i++)
-			System.out.println(items[i] + " " + quantity[i] + "");
-		System.out.println();
-		ArrayList<String> res = new ArrayList<String>();
-		ArrayList<String> P = new ArrayList<String>();
-		ArrayList<Integer> quantityList = new ArrayList<Integer>();
+	/*
+	 * Sorts the items in the job using a sub-optimal TSP algorithm by taking the robot's position into account.
+	 * @param xCoord the x coordinate of the position of the robot
+	 * @param yCoord the y coordinate of the position of the robot
+	 */
+	@Override
+	public void sort(int xCoord, int yCoord) {
+		ArrayList<String> res = new ArrayList<String>();			// the array list that will contain the items in the right order
+		ArrayList<String> P = new ArrayList<String>();				// the array list that contains the items in the current order
+		ArrayList<Integer> quantityList = new ArrayList<Integer>();	// the array list that will contain the quantity of items in the right order
 		for (int i = 0; i < numberItems(); i++) {
 			P.add(items[i]);
 		}
-		//System.out.println("Initial P = " + P);
 		String closestItem = "";
 		int index = 0;
-		//System.out.println("Initial size of P = " + P.size());
 		while (!P.isEmpty()) {
 			int minDist = Integer.MAX_VALUE;
-			if(!res.isEmpty()){
-				//System.out.println("When res isnt empty:");
+			if(!res.isEmpty()){										// if the array list is empty then it adds the closest item to the robot's current position
 				String[] Ptemp = new String[P.size()];
-				P.toArray(Ptemp);
+				P.toArray(Ptemp);									// converting the array list into an array for easier access to elements
 				for(int i = 0; i < P.size(); i++) {
 					ItemList item = new ItemList();
 					String[] temp = new String[res.size()];
 					for(int j = 0; j < res.size(); j++){
-						res.toArray(temp);
+						res.toArray(temp);							// converting the array list into an array for easier access to elements
 						int distance = getDistance(item.getX(item.getIndex(temp[j])), item.getY(item.getIndex(temp[j])), item.getX(item.getIndex(Ptemp[i])),item.getY(item.getIndex(Ptemp[i])));
 						if (minDist > distance) {
 							minDist = distance;
-							closestItem = Ptemp[i];
-							index = i;
+							closestItem = Ptemp[i];					// keeps track of the item in P closest to any items in res
+							index = i;								// keeps track of the index of the item
 						}
 					}
 				}
 				res.add(item.getName(item.getIndex(closestItem)));
-				System.out.println(item.getName(item.getIndex(closestItem)));
 				quantityList.add(quantity[getItemIndexInJob(closestItem)]);
-				System.out.println(quantity[getItemIndexInJob(closestItem)]);
 				P.remove(index); 
 				P.trimToSize();
-//				System.out.println("P size:" + P.size());
-//				System.out.println("P: " + P);
-//				System.out.println("res size:" + res.size());
-//				System.out.println("res: " + res);
-//				System.out.println("item removed from P and added to res: " + Ptemp[index]);
-//				System.out.println();
 			}
+			
 			else{
-				//System.out.println("When res is empty:");
 				String[] Ptemp = new String[P.size()];
-				P.toArray(Ptemp);
+				P.toArray(Ptemp);									// converting the array list into an array for easier access to elements
 				for(int i = 0; i < P.size(); i++){
 					ItemList item = new ItemList();
 					int distance = getDistance(xCoord, yCoord, item.getX(item.getIndex(Ptemp[i])),item.getY(item.getIndex(Ptemp[i])));
 					if (minDist > distance) {
 						minDist = distance;
-						closestItem = Ptemp[i];
-						index = i;
+						closestItem = Ptemp[i];						// keeps track of the item in P closest to the robot's current position
+						index = i;									// keeps track of the index of the item
 						}
 				}
 				res.add(item.getName(item.getIndex(items[index])));
-				System.out.println(item.getName(item.getIndex(closestItem)));
 				quantityList.add(quantity[getItemIndexInJob(closestItem)]);
-				System.out.println(quantity[getItemIndexInJob(closestItem)]);
 				P.remove(index); 
 				P.trimToSize();
-//				System.out.println("res: " + res);
-//				System.out.println("P size: " + P.size());
-//				System.out.println("P: " + P);
-//				System.out.println("res size:" + res.size());
-//				System.out.println("item removed from P and added to res: " + Ptemp[index]);
-//				System.out.println();
 			}
 		}
-		res.toArray(items);
+		res.toArray(items);											// replaces our initial unsorted array of items with the sorted one
 		for(int i = 0; i < quantityList.size(); i++)
-			quantity[i] = quantityList.get(i);
-		for(int i = 0; i < items.length; i++)
-			System.out.println(items[i] + " " + quantity[i] + "");
-
+			quantity[i] = quantityList.get(i);						// replaces our initial unsorted array of quantities with the sorted one
 	}
 }

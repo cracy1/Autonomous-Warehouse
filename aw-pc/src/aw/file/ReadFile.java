@@ -19,10 +19,9 @@ public class ReadFile {
 		FileReader fileToRead = new FileReader(path);
 		BufferedReader bf = new BufferedReader(fileToRead);
 
-		String aLine;
 		int numberOfLines = 0;
 
-		while ((aLine = bf.readLine()) != null) {
+		while ((bf.readLine()) != null) {
 			numberOfLines++;
 
 		}
