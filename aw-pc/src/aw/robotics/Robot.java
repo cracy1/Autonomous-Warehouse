@@ -31,6 +31,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private GUI gui;
 	
 	private boolean ready = true;
+	private boolean requesting = false;
 	
 	private LinkedList<Job> jobs;
 	
@@ -90,13 +91,14 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
-				
-				waitForResponse();
+				MultiRobotController.waitForRobotsReady();
 			}
 			
 			ready = false;
+			requesting = true;
 			sender.sendCommand("i " + item + " " + quantity);
 			waitForResponse();
+			requesting = false;
 			current = target;
 		}
 		
@@ -117,7 +119,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	}
 	
 	public void waitForResponse(){
-		while(ready){
+		while(!ready){
 			Delay.msDelay(25);
 		}
 	}
@@ -174,5 +176,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				executeJob(jobs.removeFirst());
 			}
 		}
+	}
+
+	public boolean isReady() {
+		return ready || requesting;
 	}
 }
