@@ -41,18 +41,22 @@ public class MoveExecutor {
 		switch(move){ //manage route moves.
 			case FORWARD:
 				forwardToJunction();
+				display.move("f");
 				break;
 			case FULL_TURN:
 				pilot.rotate(360);
 				break;
 			case HALF_TURN:
 				pilot.rotate(180);
+				display.move("t");
 				break;
 			case LEFT_TURN:
 				pilot.rotate(-90);
+				display.move("l");
 				break;
 			case RIGHT_TURN:
 				pilot.rotate(90);
+				display.move("r");
 				break;
 			case STOP:
 				pilot.stop();

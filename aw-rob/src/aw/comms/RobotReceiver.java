@@ -44,7 +44,7 @@ public class RobotReceiver extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				LCD.clear();
+				//LCD.clear();
 				String action = br.readLine();
 				String[] actionSplit = StringUtils.splitBySpace(action);
 

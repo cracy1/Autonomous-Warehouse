@@ -19,6 +19,15 @@ public class Display {
 	private int screenWidth;
 	private Graphics g = new Graphics();
 	
+	private int direction;
+	private int x;
+	private int y;
+	
+	private int goalX;
+	private int goalY;
+	private String name;
+	private int amount;
+	
 	public Display(){
 		screenHeight = LCD.SCREEN_HEIGHT;
 		screenWidth = LCD.SCREEN_WIDTH;
@@ -36,6 +45,42 @@ public class Display {
 		}
 		else{
 			showPosition(currentX, currentY, goalX, goalY);
+		}
+	}
+	
+	public void move(String c){
+		if(c.equals("f")){
+			if(direction == 0){
+				x++;
+			}
+			else if(direction == 90){
+				y--;
+			}
+			if(direction == 180){
+				x--;
+			}
+			if(direction == 270){
+				y++;
+			}
+			showPosition(x, y, goalX, goalY);
+		}
+		else if(c.equals("l")){
+			direction = direction - 90;
+			if(direction < 0){
+				direction = direction + 360;
+			}
+		}
+		else if(c.equals("r")){
+			direction = direction + 90;
+			if(direction > 270){
+				direction = direction - 360;
+			}
+		}
+		else if(c.equals("t")){
+			direction = direction + 180;
+			if(direction > 270){
+				direction = direction - 360;
+			}
 		}
 	}
 	
@@ -124,6 +169,9 @@ public class Display {
 		Integer xCoord = 0;
 		Integer yCoord = 0;
 		Integer direction = 0;
+		
+		g.clear();
+		
 		while(xInput){
 			locationSetText("X Coordinate", xCoord);
 			drawArrows();
@@ -221,6 +269,8 @@ public class Display {
 	}
 	
 	public void showPosition(Integer currentCoordX, Integer currentCoordY, Integer goalCoordX, Integer goalCoordY){
+		g.clear();
+		
 		g.setFont(Font.getDefaultFont());
 		g.drawString("At", 2, 0, Graphics.LEFT);
 		g.drawString("To", screenWidth/2 + 2, 0, Graphics.LEFT);
@@ -250,8 +300,6 @@ public class Display {
 		}
 		
 		g.drawRect(currentCoordX * xConvert, ((ySize - currentCoordY - 1) * yConvert) + screenHeight/8 - 1, xConvert, yConvert);
-		
-		Button.waitForAnyPress();
 	}
 }
 
