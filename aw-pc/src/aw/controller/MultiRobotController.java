@@ -9,7 +9,7 @@ import aw.robotics.Robot;
 import aw.test.Map;
 
 public class MultiRobotController {
-	private static LinkedList<Robot> robots;
+	private static LinkedList<Robot> robots = new LinkedList<>();
 	
 	private Map map;
 	
@@ -23,9 +23,9 @@ public class MultiRobotController {
 	}
 	
 	public static void waitForRobotsReady(){
-		boolean ready = false;
+		boolean ready = true;
 		do{
-			ready = false;
+			ready = true;
 			
 			for(Robot r: robots) ready &= r.isReady();
 			
