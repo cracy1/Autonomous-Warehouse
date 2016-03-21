@@ -210,28 +210,28 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 			if(!route1.isEmpty()){
 				Node nextCoord = route1.get(0);
 				if(robot1CenterX < nextCoord.x*50 + 50){
-					robot1CenterX++;
+					robot1CenterX = nextCoord.x;
 					robot1X = robot1CenterX - (robotWidth /2);
 					robot1Y = robot1CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot1CenterX > nextCoord.x*50 + 50){
-					robot1CenterX--;
+					robot1CenterX = nextCoord.x;
 					robot1X = robot1CenterX - (robotWidth /2);
 					robot1Y = robot1CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot1CenterY > 450 - nextCoord.y*50 ){
-					robot1CenterY--;
+					robot1CenterY = nextCoord.y;
 					robot1X = robot1CenterX - (robotWidth /2);
 					robot1Y = robot1CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot1CenterY < 450 - nextCoord.y*50 ){
-					robot1CenterY++;
+					robot1CenterY = nextCoord.y;
 					robot1X = robot1CenterX - (robotWidth /2);
 					robot1Y = robot1CenterY - (robotHeight/2);
 					
@@ -248,28 +248,28 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 			if(!route2.isEmpty()){
 				Node nextCoord = route2.get(0);
 				if(robot2CenterX < nextCoord.x*50 + 50){
-					robot2CenterX++;
+					robot2CenterX = nextCoord.x;
 					robot2X = robot2CenterX - (robotWidth /2);
 					robot2Y = robot2CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot2CenterX > nextCoord.x*50 + 50){
-					robot2CenterX--;
+					robot2CenterX = nextCoord.x;
 					robot2X = robot2CenterX - (robotWidth /2);
 					robot2Y = robot2CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot2CenterY > 450 - nextCoord.y*50 ){
-					robot2CenterY--;
+					robot2CenterY = nextCoord.y;
 					robot2X = robot2CenterX - (robotWidth /2);
 					robot2Y = robot2CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot2CenterY < 450 - nextCoord.y*50 ){
-					robot2CenterY++;
+					robot2CenterY = nextCoord.y;
 					robot2X = robot2CenterX - (robotWidth /2);
 					robot2Y = robot2CenterY - (robotHeight/2);
 					
@@ -287,28 +287,28 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 			if(!route3.isEmpty()){
 				Node nextCoord = route3.get(0);
 				if(robot3CenterX < nextCoord.x*50 + 50){
-					robot3CenterX++;
+					robot3CenterX = nextCoord.x;
 					robot3X = robot3CenterX - (robotWidth /2);
 					robot3Y = robot3CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot3CenterX > nextCoord.x*50 + 50){
-					robot3CenterX--;
+					robot3CenterX = nextCoord.x;
 					robot3X = robot3CenterX - (robotWidth /2);
 					robot3Y = robot3CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot3CenterY > 450 - nextCoord.y*50){
-					robot3CenterY--;
+					robot3CenterY = nextCoord.y;
 					robot3X = robot3CenterX - (robotWidth /2);
 					robot3Y = robot3CenterY - (robotHeight/2);
 					
 					repaint();
 				}
 				else if(robot3CenterY < 450 - nextCoord.y*50 ){
-					robot3CenterY++;
+					robot3CenterY = nextCoord.y;
 					robot3X = robot3CenterX - (robotWidth /2);
 					robot3Y = robot3CenterY - (robotHeight/2);
 					
