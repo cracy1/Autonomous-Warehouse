@@ -9,7 +9,7 @@ import aw.file.JobList;
 import aw.robotics.Robot;
 import aw.test.Map;
 
-public class MultiRobotController implements Runnable{
+public class MultiRobotController {
 	private static LinkedList<Robot> robots = new LinkedList<>();
 	
 	private Map map;
