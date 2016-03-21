@@ -25,6 +25,8 @@ public class MultiRobotController {
 	public static void waitForRobotsReady(){
 		boolean ready = false;
 		do{
+			ready = false;
+			
 			for(Robot r: robots) ready &= r.isReady();
 			
 			try{
