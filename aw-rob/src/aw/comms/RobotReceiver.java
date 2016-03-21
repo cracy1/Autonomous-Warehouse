@@ -51,29 +51,33 @@ public class RobotReceiver extends Thread {
 				switch (actionSplit[0]) {
 				case "f":
 					moveExecutor.execute(Move.FORWARD);
+					Robot.getRobotSender().sendMessage("f");
 					break;
 				case "l":
 					moveExecutor.execute(Move.LEFT_TURN);
+					Robot.getRobotSender().sendMessage("t");
 					break;
 				case "r":
 					moveExecutor.execute(Move.RIGHT_TURN);
+					Robot.getRobotSender().sendMessage("t");
 					break;
 				case "t":
 					moveExecutor.execute(Move.HALF_TURN);
+					Robot.getRobotSender().sendMessage("t");
 					break;
 				case "i":
 					String item = actionSplit[1];
 					int amount = Integer.parseInt(actionSplit[2]);
 					moveExecutor.requestItem(item, amount);
+					Robot.getRobotSender().sendMessage("r");
 					break;
 				case "d":
 					item = actionSplit[1];
 					amount = Integer.parseInt(actionSplit[2]);
 					moveExecutor.dropRequest(item, amount, 1000);
+					Robot.getRobotSender().sendMessage("d");
 					break;
 				}
-				
-				Robot.getRobotSender().sendMessage("c");
 
 			} catch (IOException e) {
 				e.printStackTrace();

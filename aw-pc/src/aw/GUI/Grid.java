@@ -208,6 +208,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 
 	@Override
 	public void commandReceived(String name, String command) {
+		if(command.equals("f")){
 		if(name.equals("Ricardo")) {
 			//Draws the location of the first robot along its given route
 			if(!route1.isEmpty()){
@@ -322,6 +323,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 					route3.remove(0);
 				}
 			}
+		}
 		}
 		
 	}
