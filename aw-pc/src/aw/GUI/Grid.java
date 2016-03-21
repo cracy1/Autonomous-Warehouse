@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import aw.comms.BluetoothCommandListener;
+import aw.comms.Communication;
 import aw.file.Drop;
 import aw.routePlanning.AStar;
 import aw.test.Node;
@@ -67,6 +68,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		robot3X = robot3CenterX - (robotWidth /2);
 		robot3Y = robot3CenterY - (robotHeight/2);
 		
+		Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
+		Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
 	}
 	
 	/**

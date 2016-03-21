@@ -83,6 +83,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			Node target = new Node(itemX, itemY);
 			
 			LinkedList<Node> route = map.getPath(current, target);
+			gui.setRoute(route, this.name);
 		
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			

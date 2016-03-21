@@ -16,16 +16,16 @@ public class MultiRobotController {
 	private GUI gui;
 	
 	public MultiRobotController(){
+		Communication.addRobots();
+		
 		map = new Map(8, 12);
 		gui = new GUI();
 		
-		Communication.addRobots();
 		robots.add(new Robot("Ricardo", 0, 3, 0, gui));
 		robots.add(new Robot("NXT", 3, 3, 0, gui));
 		//rob3 = new Robot("Dave", 3, 3, 0);
 		allocateJobs();
 		
-		new Thread(this).start();
 	}
 	
 	public static void waitForRobotsReady(){
