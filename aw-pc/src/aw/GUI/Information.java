@@ -1,6 +1,7 @@
 package aw.GUI;
 
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import aw.file.Job;
@@ -8,11 +9,14 @@ import aw.file.Job;
 public class Information {
 	
 	private Optional<Job> jobRobot1, jobRobot2, jobRobot3;
+	private double rewardCounter = 0;
+	private ArrayList<Job> completedJobs;
 	
 	public Information(){
 		this.jobRobot1 = Optional.empty();
 		this.jobRobot2 = Optional.empty();
 		this.jobRobot3 = Optional.empty();
+		completedJobs = new ArrayList<Job>();
 	}
 	
 	/**
@@ -41,12 +45,25 @@ public class Information {
 	
 	public void setJob(Job job, String robotName){
 		if(robotName.equals("Ricardo")) {
+			if(jobRobot1.isPresent()) {
+				completedJobs.add(jobRobot1.get());
+				setTotalReward(jobRobot1.get());
+				
+			}
 			this.jobRobot1 = Optional.of(job);
 		}
 		else if (robotName.equals("NXT")) {
+			if(jobRobot2.isPresent()) {
+				completedJobs.add(jobRobot2.get());
+				setTotalReward(jobRobot2.get());
+			}
 			this.jobRobot2 = Optional.of(job);
 		}
 		else {
+			if(jobRobot3.isPresent()) {
+				completedJobs.add(jobRobot3.get());
+				setTotalReward(jobRobot3.get());
+			}
 			this.jobRobot3 = Optional.of(job);
 		}
 		
@@ -89,16 +106,9 @@ public class Information {
 		
 	}
 	
-	public double getJobReward(String robotName) {
-		if(robotName.equals("Ricardo")) {
-			return jobRobot1.get().getJobReward();
-		}
-		else if (robotName.equals("NXT")) {
-			return jobRobot2.get().getJobReward();
-		}
-		else {
-			return jobRobot3.get().getJobReward();
-		}
+	public double getJobReward(Job job) {
+
+		return Math.round(job.getJobReward() * 100.0) /100.0;
 		
 	}
 	
@@ -119,5 +129,17 @@ public class Information {
 		}
 		
 	}
-
+	
+	public void setTotalReward(Job job) {
+		rewardCounter = rewardCounter + job.getJobReward();
+	}
+	
+	public double getTotalReward() {
+		return rewardCounter;
+	}
+	
+	public ArrayList<Job> getCompletedJobs() {
+		return completedJobs;
+	}
+ 
 }

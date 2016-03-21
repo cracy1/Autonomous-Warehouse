@@ -22,10 +22,15 @@ public class InformationView extends JPanel implements Observer {
 	private JLabel jobId, totalReward, itemsInfoTitle;
 	private ArrayList<JLabel> ricardoArray, nxtArray, daveArray;
 	private ArrayList<ArrayList<JLabel>> masterArray;
-	private Box box, box2, box3;
+	private Box box, box2, box3, box4, box5, box6;
 	private final String robotName = "Ricardo";
 	private final String robotName2 = "NXT";
 	private final String robotName3 = "Dave";
+	private Font titleFont, subFont;
+	
+	private Color green = new Color(34, 139, 34);
+	private Color red = new Color(205, 0, 0);
+	private Color blue = new Color(0, 154, 205);
 	
 	public InformationView(InformationModel model) {
 		this.model = model;
@@ -33,6 +38,13 @@ public class InformationView extends JPanel implements Observer {
 		ricardoArray = new ArrayList<JLabel>();
 		nxtArray = new ArrayList<JLabel>();
 		daveArray = new ArrayList<JLabel>();
+		
+		//Fonts
+		this.titleFont = new Font("Times New Roman", Font.BOLD, 22);
+		this.subFont = new Font("Courier", Font.BOLD + Font.ITALIC, 18);
+				
+//So that we can generalise the RoboInfo() method to all three robots,
+//And not have an unnecessary amount of if statements
 		masterArray = new ArrayList<ArrayList<JLabel>>();
 		masterArray.add(ricardoArray);
 		masterArray.add(nxtArray);
@@ -43,14 +55,17 @@ public class InformationView extends JPanel implements Observer {
 		RobotInfo(robotName3, 3);
 		
 		//Adds all our JLabels with a Box layout.		
-		setLayout(new GridLayout(3, 0));
+		setLayout(new GridLayout(3, 1));
+
 		box = Box.createVerticalBox();
 		box2 = Box.createVerticalBox();
 		box3 = Box.createVerticalBox();
+
 		add(box);
 		add(box2);
 		add(box3);
 		
+
 				
 		for(int i = 0; i< ricardoArray.size(); i++) {
 			ricardoArray.get(i).setAlignmentX(LEFT_ALIGNMENT);
@@ -70,18 +85,29 @@ public class InformationView extends JPanel implements Observer {
 	}
 	
 	public void RobotInfo(String name, int robotNumber) {
-//Fonts
-		Font titleFont = new Font("Times New Roman", Font.BOLD + Font.ITALIC, 18);
+
 
 			if(model.getJob(name).isPresent()) {
 //Job information
 				JLabel mainTitle = new JLabel("Robot " + robotNumber + ", " + name);
-				mainTitle.setForeground(Color.RED);
+
+//Set colour of main title to the corresponding robot's colour			
+				if(robotNumber ==1) {
+					mainTitle.setForeground(red);
+				}
+				else if(robotNumber ==2) {
+					mainTitle.setForeground(blue);
+				}
+				else {
+					mainTitle.setForeground(green);
+				}
+				
+				
 				masterArray.get(robotNumber -1).add(mainTitle);
 				mainTitle.setFont(titleFont);
 				jobId = new JLabel("Job ID:   " + model.getJobId(name));
-				totalReward = new JLabel("Total job reward:   " + String.valueOf(model.getJobReward(name)));
-				itemsInfoTitle = new JLabel("||  Name  || reward  ||   weight   ||  coordinates  ||");
+				totalReward = new JLabel("Total job reward:   " + String.valueOf(model.getJobReward(model.getJob(name).get())));
+				itemsInfoTitle = new JLabel("|| Name  || reward  ||   weight   ||  coordinates");
 				masterArray.get(robotNumber -1).add(jobId); 
 				masterArray.get(robotNumber -1).add(totalReward);
 				masterArray.get(robotNumber -1).add(itemsInfoTitle);
@@ -99,12 +125,23 @@ public class InformationView extends JPanel implements Observer {
 			}
 			else {
 				JLabel mainTitle = new JLabel("Robot " + robotNumber + ", " + name);
-				mainTitle.setForeground(Color.RED);
+//Set colour of main title to the corresponding robot's colour
+				
+				if(robotNumber ==1) {
+					mainTitle.setForeground(red);
+				}
+				else if(robotNumber ==2) {
+					mainTitle.setForeground(blue);
+				}
+				else {
+					mainTitle.setForeground(green);
+				}
+				
 				masterArray.get(robotNumber -1).add(mainTitle);
 				mainTitle.setFont(titleFont);
 				jobId = new JLabel("Job ID:   ");
 				totalReward = new JLabel("Total job reward:  ");
-				itemsInfoTitle = new JLabel("||  Name  || reward  ||   weight   ||  coordinates  ||");
+				itemsInfoTitle = new JLabel("|| Name  || reward  ||   weight   ||  coordinates");
 				masterArray.get(robotNumber -1).add(jobId); 
 				masterArray.get(robotNumber -1).add(totalReward);
 				masterArray.get(robotNumber -1).add(itemsInfoTitle);
@@ -138,14 +175,14 @@ public class InformationView extends JPanel implements Observer {
 	public void updateHelperMethod(Object name, int robNumber) {
 		//Removes the previous items from the frame. 
 					String name2 = (String) name;
-					Container parent = ricardoArray.get(0).getParent();
+					Container parent = masterArray.get(robNumber -1).get(0).getParent();
 					masterArray.get(robNumber -1).get(1).setText("Job ID: " + model.getJobId(name2));
-					masterArray.get(robNumber -1).get(2).setText("Total job reward:   " + String.valueOf(model.getJobReward(name2)));
+					masterArray.get(robNumber -1).get(2).setText("Total job reward:   " + String.valueOf(model.getJobReward(model.getJob(name2).get())));
 					for(int i = masterArray.get(robNumber -1).size() -1; i >= 4; i--) {
 						parent.remove(masterArray.get(robNumber -1).get(i));
+						masterArray.get(robNumber -1).remove(masterArray.get(robNumber -1).size() -1);
 						parent.revalidate();
 						parent.repaint();
-						masterArray.get(robNumber -1).remove(masterArray.get(robNumber -1).size() -1);
 					}
 			//Now adds the new item JLabels. 		
 					for(int i =0; i < model.numberItems(name2); i++) {
@@ -170,7 +207,22 @@ public class InformationView extends JPanel implements Observer {
 						}
 						
 					}
+					
+					parent.revalidate();
+					parent.repaint();
 				
 					
+	}
+	
+	public ArrayList<JLabel> getRicardoArray(){
+		return ricardoArray;
+	}
+	
+	public ArrayList<JLabel> getNxtArray(){
+		return nxtArray;
+	}
+	
+	public ArrayList<JLabel> getDaveArray(){
+		return daveArray;
 	}
 }

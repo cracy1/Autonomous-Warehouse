@@ -1,5 +1,6 @@
 package aw.GUI;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Optional;
 
@@ -31,14 +32,25 @@ public class InformationModel extends Observable{
 		return info.getJobItem(robotName, index);
 	}
 	
-	public double getJobReward(String robotName) {
-		return info.getJobReward(robotName);
+	public double getJobReward(Job job) {
+		return info.getJobReward(job);
 	}
 	
 	public int numberItems(String robotName){
 		return info.numberItems(robotName);
 	}
 	
+	public void setTotalReward(Job job) {
+		info.setTotalReward(job);
+	}
+	
+	public double getTotalReward() {
+		return info.getTotalReward();
+	}
+	
+	public ArrayList<Job> getCompletedJobs() {
+		return info.getCompletedJobs();
+	}
 	
 
 }
