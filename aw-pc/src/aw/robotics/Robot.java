@@ -183,8 +183,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	public void run() {
 		while(running){
 			if(jobs.size() > 0){
-				gui.setJob(jobs.getFirst(), name);
-				executeJob(jobs.removeFirst());
+				executeJob(jobs.getFirst());
+				gui.setJob(jobs.removeFirst(), name);
 			}
 		}
 	}

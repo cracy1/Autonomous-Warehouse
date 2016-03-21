@@ -25,7 +25,6 @@ public class MultiRobotController {
 		//rob3 = new Robot("Dave", 3, 3, 0);
 		allocateJobs();
 		
-		new Thread(this).start();
 	}
 	
 	public static void waitForRobotsReady(){
