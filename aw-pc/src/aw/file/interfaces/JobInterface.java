@@ -1,12 +1,12 @@
 package aw.file.interfaces;
 
-import aw.file.ItemList;
-
 public interface JobInterface {
+	public String getItem(int index);
+	public int getQuantity(int index);
 	public int numberItems();
-	public ItemList getNext();
-	public double getJobReward();
-	public void sort();
+	public int getID();
 	public double getUtility();
-	public double getItemReward(int i);
+	public double getJobReward();
+	public double getItemReward(int index);
+	public void sort(int i, int j);
 }
