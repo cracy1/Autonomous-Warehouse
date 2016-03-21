@@ -125,6 +125,14 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	}
 	
 	/**
+	 * Get the name of the robot.
+	 * @return
+	 */
+	public String getName(){
+		return name;
+	}
+	
+	/**
 	 * Set the x position of the robot.
 	 * @param x x position of the robot.
 	 */
