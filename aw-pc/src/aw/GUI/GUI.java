@@ -30,6 +30,10 @@ public class GUI{
 		grid = new InformationComponent(model);
 		grid.setOpaque(false);
 		frame.add(grid);
+		
+		JobsFrame jobsFrame = new JobsFrame(model);
+		jobsFrame.getFrame().setVisible(true);
+		model.addObserver(jobsFrame);
 
 		
 		frame.setVisible(true);

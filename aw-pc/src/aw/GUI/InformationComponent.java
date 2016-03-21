@@ -36,19 +36,7 @@ public class InformationComponent extends JPanel{
 		infoPanel.add(grid);
 		infoPanel.add(view);
 		infoPanel.setOpaque(false);
-//The cancellation buttons	
-		JPanel buttonPanel = new JPanel();
-		JButton cancelRob1 = new JButton("Cancel Ricardo's order");
-		JButton cancelRob2 = new JButton("Cancel NXT's order");
-		JButton cancelRob3 = new JButton("Cancel Dave's order");
-		JLabel totalReward = new JLabel("Total reward: " + model.getTotalReward());
-		totalReward.setFont(new Font("Lucida Console", Font.BOLD + Font.ITALIC, 18));
-		buttonPanel.setOpaque(false);
 		
-		//buttonPanel.add(cancelRob1);
-		//buttonPanel.add(cancelRob2);
-		//buttonPanel.add(cancelRob3);
-		buttonPanel.add(totalReward);
 		
 //The title panel
 		JPanel titlePanel = new JPanel();
@@ -68,7 +56,6 @@ public class InformationComponent extends JPanel{
 		
 		setLayout(new BorderLayout());
 		add(infoPanel, BorderLayout.CENTER);
-		add(buttonPanel, BorderLayout.SOUTH);
 		add(titlePanel, BorderLayout.NORTH);
 		
 	}
