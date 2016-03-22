@@ -121,22 +121,22 @@ public class Display {
 	 * @param delay The time to display the items for
 	 * @return An int based on the success of the procedure: 1 if successful, 0 if not
 	 */
-	public int dropOffItem(String item,int amount, int delay){
+	public int dropOffItem(String item, int amount, int delay){
 		g.clear();
 		
 		g.setFont(Font.getDefaultFont());
-		g.drawString("I am dropping off ", screenWidth/2, 0, Graphics.HCENTER);
+		g.drawString("I am dropping off", screenWidth/2, screenHeight*2/8, Graphics.HCENTER);
 		
 		g.setFont(Font.getLargeFont());
-		g.drawString(Integer.toString(amount), screenWidth/2, screenHeight/8, Graphics.HCENTER);
+		g.drawString(Integer.toString(amount), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
 		
 		g.setFont(Font.getDefaultFont());
-		g.drawString(item, screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
-	
-		g.setFont(Font.getSmallFont());
-		g.drawString("If", screenWidth/2, screenHeight*7/10, Graphics.HCENTER);
-		g.drawString("I am in the wrong place", screenWidth/2, screenHeight*8/10, Graphics.HCENTER);
-		g.drawString("press the escape button", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
+		g.drawString(item, screenWidth/2, screenHeight*5/8, Graphics.HCENTER);
+//	
+//		g.setFont(Font.getSmallFont());
+//		g.drawString("If", screenWidth/2, screenHeight*7/10, Graphics.HCENTER);
+//		g.drawString("I am in the wrong place", screenWidth/2, screenHeight*8/10, Graphics.HCENTER);
+//		g.drawString("press the escape button", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
 			
 		Delay.msDelay(delay);
 
