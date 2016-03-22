@@ -14,15 +14,19 @@ public class MultiRobotController {
 	
 	private Map map;
 	private GUI gui;
+	private JobList jobList;
 	
 	public MultiRobotController(){
 		Communication.addRobots();
 		
+		jobList = new JobList();
 		map = new Map(8, 12);
-		gui = new GUI();
+		gui = new GUI(jobList);
 		
 		robots.add(new Robot("Ricardo", 0, 3, 0, gui));
+		gui.setRobCoord("Ricardo", 0, 3);
 		robots.add(new Robot("NXT", 3, 3, 0, gui));
+		gui.setRobCoord("NXT", 3, 3);
 		//rob3 = new Robot("Dave", 3, 3, 0);
 		allocateJobs();
 		
@@ -43,7 +47,7 @@ public class MultiRobotController {
 	}
 	
 	public void allocateJobs(){
-		JobList jobList = new JobList();
+		
 		
 		for(int i = 0; i < 100; i++){
 			Job job = new Job(jobList.getJob(i));
