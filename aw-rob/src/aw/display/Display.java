@@ -197,6 +197,7 @@ public class Display {
 				xInput = false;
 				yInput = true;
 			}
+			x = xCoord;
 			g.clear();
 		}
 		
@@ -225,6 +226,7 @@ public class Display {
 				yInput = false;
 				dInput = true;
 			}
+			y = yCoord;
 			g.clear();
 		}
 		
@@ -258,6 +260,7 @@ public class Display {
 			else if(buttonPress == Button.ID_ENTER){
 				dInput = false;
 			}
+			this.direction = direction;
 			g.clear();
 		}
 		

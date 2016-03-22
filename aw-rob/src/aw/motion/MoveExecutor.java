@@ -34,6 +34,7 @@ public class MoveExecutor {
 		rightLightSensor = new LightSensor(SensorPort.S4);
 
 		display = new Display();
+		String location = display.setLocation();
 		pilot.setTravelSpeed(baseSpeed);
 	}
 	
