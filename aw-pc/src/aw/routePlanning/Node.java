@@ -1,4 +1,4 @@
-package aw.routePlanning;
+
 
 public class Node{
 	public static final Node ZERO = new Node(0, 0);
