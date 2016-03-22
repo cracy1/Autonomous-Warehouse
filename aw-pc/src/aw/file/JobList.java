@@ -99,5 +99,19 @@ public class JobList implements JobListInterface {
 		for (int i = 100; i >= 0; i--)
 			System.out.println(utility[i] + " " + job[i]);
 	}
+	
+	public void remove(int n){
+		String[] newJobs = new String[job.length - 1];
+		for(int i = 0; i < job.length; i++){
+			if(i < n){
+				newJobs[i] = job[i];
+			}
+			else if(i > n){
+				newJobs[i-1] = job[i];
+			}
+		}
+		
+		job = newJobs;
+	}
 
 }
