@@ -1,6 +1,7 @@
 package aw.controller;
 
 import aw.GUI.GUI;
+import aw.file.JobList;
 import aw.robotics.Robot;
 import aw.test.Map;
 
@@ -11,7 +12,8 @@ public class SingleRobotFeedbackController {
 	
 	public SingleRobotFeedbackController(){
 		map = new Map(8, 12);
-		gui = new GUI();
+		JobList list = new JobList();
+		gui = new GUI(list);
 		rob = new Robot("Ricardo", 0, 3, 0, gui);
 	}
 	
