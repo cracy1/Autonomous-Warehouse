@@ -68,8 +68,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		robot3X = robot3CenterX - (robotWidth /2);
 		robot3Y = robot3CenterY - (robotHeight/2);
 		
-		Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
-		Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
+		//Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
+		//Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
 	}
 	
 	/**

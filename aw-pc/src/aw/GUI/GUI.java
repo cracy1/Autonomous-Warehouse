@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import aw.file.Job;
+import aw.file.JobList;
 import aw.test.Node;
 
 public class GUI{
@@ -17,8 +18,10 @@ public class GUI{
 	private Information info;
 	private InformationModel model;
 	private InformationComponent grid;
+	private JobList jobList;
 	
-	public GUI() {
+	public GUI(JobList jobList) {
+		this.jobList = jobList;
 		JFrame frame = new JFrame("Warehouse Management User Interface");
 		frame.setSize(1300, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +34,7 @@ public class GUI{
 		grid.setOpaque(false);
 		frame.add(grid);
 		
-		JobsFrame jobsFrame = new JobsFrame(model);
+		JobsFrame jobsFrame = new JobsFrame(model, jobList);
 		jobsFrame.getFrame().setVisible(true);
 		model.addObserver(jobsFrame);
 
