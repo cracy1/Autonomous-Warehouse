@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CoopAStar {
 
@@ -18,10 +20,8 @@ public class CoopAStar {
 		createTestingMap(mapAtTime);
 
 		fillHeuristic(goal);
-
+		
 		Node start = mapAtTime.get(startTime).findRobot(robot);
-
-		System.out.println(start);
 
 		findRoute(start, goal, startTime, robot);
 
@@ -35,6 +35,7 @@ public class CoopAStar {
 	}
 
 	private ArrayList<Node> findRoute(Node start, Node goal, int startTime, MapObstacles robot) {
+
 		MapAndTimeStamp firstMapAndTime = new MapAndTimeStamp(this.mapAtTime.get(startTime), startTime,
 				heuristicTable[start.getX()][start.getY()]);
 		previousMap.put(firstMapAndTime, null);
@@ -42,8 +43,9 @@ public class CoopAStar {
 		openSet.add(firstMapAndTime);
 		MapAndTimeStamp currentMapAndTime = null;
 		while (!openSet.isEmpty()) {
+
 			currentMapAndTime = getSmallest();
-			System.out.println(openSet);
+			
 			openSet.remove(currentMapAndTime);
 			closeSet.add(currentMapAndTime);
 
@@ -51,19 +53,78 @@ public class CoopAStar {
 				System.out.println("Path Found!");
 				ArrayList<MapAndTimeStamp> path = reconstructRoute(currentMapAndTime);
 				this.setFinalPath(path);
+				
+				openSet.clear();
 			} else {
-				Node currentNode = currentMapAndTime.getMap().getRobotPosition(robot);
-				for (int x = currentNode.getX() - 1; x <= currentNode.getX() + 1; x++) {
-					for (int y = currentNode.getY() - 1; y <= currentNode.getY() + 1; y++) {
-						
+				
+				ArrayList<MapAndTimeStamp> neighbours = findNeighbours(currentMapAndTime, robot);
+			;
+				for (MapAndTimeStamp n : neighbours) {
+					if (!closeSet.contains(n)) {
+						if (!openSet.contains(n)) {
+							
+							this.previousMap.put(n, currentMapAndTime);
+							
+							openSet.add(n);
+						} else {
+							
+						}
 					}
 				}
-
 			}
 
 		}
 
 		return null;
+
+	}
+
+	private ArrayList<MapAndTimeStamp> findNeighbours(MapAndTimeStamp currentMapAndTime, MapObstacles robot) {
+
+		Node currentNode = currentMapAndTime.getMap().getRobotPosition(robot);
+		ArrayList<MapAndTimeStamp> set = new ArrayList<MapAndTimeStamp>();
+		
+		if (!this.mapAtTime.containsKey((currentMapAndTime.getTimeStamp() + 1))) {
+			
+			this.mapAtTime.put(currentMapAndTime.getTimeStamp()+1, currentMapAndTime.getMap());
+		}
+		ArrayList<Node> validMoveList = validMoves(currentMapAndTime.getTimeStamp(), currentNode);
+	
+		for (Node n : validMoveList) {
+			Map newMap =  this.mapAtTime.get(currentMapAndTime.getTimeStamp() + 1).clone();
+
+			newMap.update(new Node(n.getX(), n.getY()), robot);
+			
+
+			Node oldNode = currentMapAndTime.getMap().getRobotPosition(robot);
+			int newGCost = currentMapAndTime.getfCost() - heuristicTable[oldNode.getX()][oldNode.getY()] + 1;
+			int newFCost = newGCost + heuristicTable[n.getX()][n.getY()];
+			set.add(new MapAndTimeStamp(newMap, currentMapAndTime.getTimeStamp() + 1, newFCost));
+		}
+
+		return set;
+
+	}
+
+	private ArrayList<Node> validMoves(int timeStamp, Node currentNode) {
+		ArrayList<Node> list = new ArrayList<Node>();
+
+		for (int x = currentNode.getX() - 1; x <= currentNode.getX() + 1; x++) {
+			for (int y = currentNode.getY() - 1; y <= currentNode.getY() + 1; y++) {
+				if (x < width && x >= 0 && y >= 0 && y < height
+						&& (x == currentNode.getX() || y == currentNode.getY())) {
+					if (this.mapAtTime.get(timeStamp).getMapObstacle(x, y).equals(MapObstacles.EMPTY)) {
+						if (this.mapAtTime.get(timeStamp + 1).getMapObstacle(x, y).equals(MapObstacles.EMPTY)) {
+							list.add(new Node(x, y));
+						}
+
+					}
+				}
+
+			}
+		}
+
+		return list;
 
 	}
 
@@ -73,11 +134,15 @@ public class CoopAStar {
 		path.add(currentMapAndTimeStamp);
 
 		while (this.previousMap.keySet().contains(currentMapAndTimeStamp)) {
+			
 			currentMapAndTimeStamp = previousMap.get(currentMapAndTimeStamp);
-			path.add(0, currentMapAndTimeStamp);
+			if (!(currentMapAndTimeStamp ==null)){
+				path.add(0, currentMapAndTimeStamp);
+			}
+
 
 		}
-		System.out.println(path.get(0).getMap());
+
 		return path;
 
 	}
