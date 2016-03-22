@@ -28,26 +28,18 @@ public class Display {
 	private String name;
 	private int amount;
 	
+	/** Makes a new instance of the Display class
+	 * 
+	 */
 	public Display(){
 		screenHeight = LCD.SCREEN_HEIGHT;
 		screenWidth = LCD.SCREEN_WIDTH;
 		
 	}
 	
-	public void draw(Node current, Node goal, String item, int amount){
-		int currentX = current.x;
-		int currentY = current.y;
-		int goalX = goal.x;
-		int goalY = goal.y;
-		
-		if(currentX == goalX && currentY == goalY){
-			requestItem(item, amount);
-		}
-		else{
-			showPosition(currentX, currentY, goalX, goalY);
-		}
-	}
-	
+	/** Changes the location/direction of the robot and displays its new position when appropriate
+	 * @param c A string representing the move issued to the robot, uses the same format as those used in communication
+	 */
 	public void move(String c){
 		if(c.equals("f")){
 			if(direction == 0){
@@ -87,6 +79,11 @@ public class Display {
 	//Outputs:
 	// 1 if successful
 	// 0 if failed
+	/** Displays the request item interface
+	 * @param Item The name of the item to be requested
+	 * @param Amount The amount of the item to be requested
+	 * @return Returns an int based on the success of the transfer: 1 if successful, 0 if not
+	 */
 	public int requestItem(String item,int amount){
 		g.clear();
 		
@@ -118,6 +115,12 @@ public class Display {
 		return 1;
 	}
 	
+	/** Displays the drop off interface
+	 * @param item The name of the items to drop off
+	 * @param amount The amount of items to drop off
+	 * @param delay The time to display the items for
+	 * @return An int based on the success of the procedure: 1 if successful, 0 if not
+	 */
 	public int dropOffItem(String item,int amount, int delay){
 		g.clear();
 		
@@ -162,6 +165,9 @@ public class Display {
 		g.drawString("To confirm, press Enter", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
 	}
 	
+	/** Displays the interface to set the robot's location and direction it is facing
+	 * @return Returns a string containing x and y coordinates and a bearing representing the direction it is facing
+	 */
 	public String setLocation(){
 		boolean xInput = true;
 		boolean yInput = false;
@@ -271,6 +277,12 @@ public class Display {
 		return ("(" + x + "," + y + ")");
 	}
 	
+	/** Draws a map showing the current locaation of the robot and the next location it is trying to get to
+	 * @param currentCoordX Its current x coordinate
+	 * @param currentCoordY Its current y coordinate
+	 * @param goalCoordX The x coordinate of its next location
+	 * @param goalCoordY The y coordinate of its next location
+	 */
 	public void showPosition(Integer currentCoordX, Integer currentCoordY, Integer goalCoordX, Integer goalCoordY){
 		g.clear();
 		
