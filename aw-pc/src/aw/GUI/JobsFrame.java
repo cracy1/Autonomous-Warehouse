@@ -24,6 +24,11 @@ import javax.swing.event.ListSelectionEvent;
 import aw.file.Job;
 import aw.file.JobList;
 
+/**
+ * JFrame that displays the completed jobs and the upcoming jobs.
+ * @author jon woodburn and dominic trott
+ *
+ */
 
 public class JobsFrame extends JFrame implements Observer{
 	
@@ -40,7 +45,7 @@ public class JobsFrame extends JFrame implements Observer{
 		this.model = model;
 		this.upcomingJobs = jobList;
 		frame = new JFrame("Completed and upcoming jobs");
-		frame.setSize(900, 600);
+		frame.setSize(900, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //Boxes		
 		box = Box.createVerticalBox();
@@ -57,6 +62,7 @@ public class JobsFrame extends JFrame implements Observer{
 		subPanel1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2.0f)));
 		comp.add(subPanel1);
 //sub-panel for the upcoming jobs list
+		
 		JPanel subPanel2 = new JPanel();
 		subPanel2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2.0f)));
 		comp.add(subPanel2);
@@ -78,15 +84,10 @@ public class JobsFrame extends JFrame implements Observer{
 			box.add(new JLabel("Job number " + job.getID() + ", with reward " + rounded));
 		}
 		
-		//for(int i = 0; i < 20; i++) {
-		//	Job job = new Job(upcomingJobs.getJob(i));
-		//	double rounded = Math.round(job.getJobReward() * 100.0) / 100.0;
-		//	box2.add(new JLabel("Job "+ job.getID() + ", with reward " + rounded));
-		//}
-		
+
+//Creates a JList inside a JScroll.	
 		listModel = new DefaultListModel<Job>();
-		
-		//ListModel<Job> listModel = list.getModel();
+
 		
 		for(int i = 0; i< upcomingJobs.numberJobs(); i++) {
 			Job job = new Job(upcomingJobs.getJob(i));
@@ -100,6 +101,7 @@ public class JobsFrame extends JFrame implements Observer{
 		bar.setPreferredSize(new Dimension(10, 1000));
 		
 		button = new JButton("Cancel job");
+//Everytime the button is clicked, remove it from the JobList.
 		button.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (!list.isSelectionEmpty()) {
@@ -117,24 +119,18 @@ public class JobsFrame extends JFrame implements Observer{
 		frame.add(comp);
 	}
 	
-	public void valueChanged(ListSelectionEvent e) {
-	    if (e.getValueIsAdjusting() == false) {
-
-	        if (list.getSelectedIndex() == -1) {
-	        //No selection, disable fire button.
-	            button.setOpaque(true);
-
-	        } else {
-	        //Selection, enable the fire button.
-	            button.setOpaque(false);
-	        }
-	    }
-	}
+	/**
+	 * Method to get the JFrame
+	 * @return the JFrame
+	 */
 	
 	public JFrame getFrame() {
 		return frame;
 	}
-
+	
+	/**
+	 * Class is observer of InformationModel, updates the completed jobs liste everytime a new job is set.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		box.removeAll();

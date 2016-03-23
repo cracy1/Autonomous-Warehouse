@@ -1,6 +1,7 @@
 package aw.GUI;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
@@ -16,6 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import aw.file.ItemList;
 
+/**
+ * Class that displays the job information of each robot.
+ * @author jon woodburn
+ *
+ */
 public class InformationView extends JPanel implements Observer {
 //Attributes	
 	private InformationModel model;
@@ -39,7 +45,7 @@ public class InformationView extends JPanel implements Observer {
 		nxtArray = new ArrayList<JLabel>();
 		daveArray = new ArrayList<JLabel>();
 		
-		//Fonts
+//Fonts
 		this.titleFont = new Font("Times New Roman", Font.BOLD, 22);
 		this.subFont = new Font("Courier", Font.BOLD + Font.ITALIC, 18);
 				
@@ -54,7 +60,7 @@ public class InformationView extends JPanel implements Observer {
 		RobotInfo(robotName2, 2);
 		RobotInfo(robotName3, 3);
 		
-		//Adds all our JLabels with a Box layout.		
+//Adds all our JLabels with a Box layout.		
 		setLayout(new GridLayout(3, 1));
 
 		box = Box.createVerticalBox();
@@ -84,10 +90,16 @@ public class InformationView extends JPanel implements Observer {
 		
 	}
 	
+	/**
+	 * Method that creates all the JLabels according to the robot
+	 * @param name the robot's name
+	 * @param robotNumber the robot's number
+	 */
+	
 	public void RobotInfo(String name, int robotNumber) {
 
 
-			if(model.getJob(name).isPresent()) {
+			if(model.getJob(name).isPresent()) {  //non-empty case
 //Job information
 				JLabel mainTitle = new JLabel("Robot " + robotNumber + ", " + name);
 
@@ -123,7 +135,7 @@ public class InformationView extends JPanel implements Observer {
 					masterArray.get(robotNumber -1).add(new JLabel("Item " + model.getJobItem(name, i) + ": " + "      " + reward + ";        " + weight + ";           " + "(" + xCoord + ", " + yCoord + ")"));
 				}
 			}
-			else {
+			else { //Empty case
 				JLabel mainTitle = new JLabel("Robot " + robotNumber + ", " + name);
 //Set colour of main title to the corresponding robot's colour
 				
@@ -149,6 +161,10 @@ public class InformationView extends JPanel implements Observer {
 			
 	}
 	
+	/**
+	 * Update method, as this class listens to InformationModel
+	 */
+	
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -156,9 +172,13 @@ public class InformationView extends JPanel implements Observer {
 
 	}
 	
+	/**
+	 * Helper method to work out robot's number: 1 is Ricardo, 2 is NXt, 3 is Dave.
+	 * @param name the robot's name
+	 * @return the robot's corresponding number
+	 */
 	
-	
-	public int robNumber(Object name) {
+	private int robNumber(Object name) {
 		if(name.equals(robotName)) {
 			return 1;
 		}
@@ -170,7 +190,11 @@ public class InformationView extends JPanel implements Observer {
 		}
 	}
 	
-	
+	/**
+	 * Helper method to update each JLabel correctly with the new job info. Called everytime a new job is set.
+	 * @param name the rob's name
+	 * @param robNumber the rob's number
+	 */
 	
 	public void updateHelperMethod(Object name, int robNumber) {
 		//Removes the previous items from the frame. 
@@ -214,13 +238,28 @@ public class InformationView extends JPanel implements Observer {
 					
 	}
 	
+	/**
+	 * Helper method to get Ricardo's JLabel array
+	 * @return an ArrayList of JLabels
+	 */
+	
 	public ArrayList<JLabel> getRicardoArray(){
 		return ricardoArray;
 	}
 	
+	/**
+	 * Helper method to get NXT's JLabel array
+	 * @return an ArrayList of JLabels
+	 */
+	
 	public ArrayList<JLabel> getNxtArray(){
 		return nxtArray;
 	}
+	
+	/**
+	 * Helper method to get Dave's JLabel array
+	 * @return an ArrayList of JLabels
+	 */
 	
 	public ArrayList<JLabel> getDaveArray(){
 		return daveArray;

@@ -1,29 +1,27 @@
 package aw.GUI;
 
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import aw.comms.BluetoothCommandListener;
 import aw.comms.Communication;
 import aw.file.Drop;
-import aw.routePlanning.AStar;
 import aw.test.Node;
 import rp.robotics.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Class that displays the grid and the robots
+ * @author jon woodburn and dominic trott
+ *
+ */
 public class Grid extends JPanel implements BluetoothCommandListener{
 	private int robotWidth = 30;
 	private int robotHeight = 30;
@@ -45,6 +43,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	private Color red = new Color(205, 0, 0);
 	private Color blue = new Color(0, 154, 205);
 	
+	
 	public Grid() {
 		super();
 		this.grid = MapUtils.createRealWarehouse(); 
@@ -58,7 +57,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		drop = new Drop();
 		
 		
-
+//Sets the robot positions.
 		robot1X = robot1CenterX - (robotWidth /2);
 		robot1Y = robot1CenterY - (robotHeight/2);
 		
@@ -67,6 +66,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		
 		robot3X = robot3CenterX - (robotWidth /2);
 		robot3Y = robot3CenterY - (robotHeight/2);
+		
+//Makes the class listen into commands sent from the robots to the PC.
 		
 		Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
 		Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
@@ -90,6 +91,11 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		}
 		g2.drawOval((int)(50 + route.get(route.size() - 1).x*50) - 5, (int)(445 - route.get(route.size() - 1).y*50), 10, 10);
 	}
+	
+	/**
+	 * Draws the grid, the obstacles (base on GridMap, and draws the route of the robots.
+	 * @param g the graphics component
+	 */
 	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
@@ -121,6 +127,10 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 			drawRoute(route3, robot3CenterX, robot3CenterY, g2, green);
 		}
 	}
+	
+	/**
+	 * Draws the drop points and the rectangles which represent the robot.
+	 */
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -205,12 +215,16 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		}
 		
 	}
+	
+	/**
+	 * Listener method. Whenever a command is received, we check which robot sent it, and update its location on the map.
+	 */
 
 	@Override
 	public void commandReceived(String name, String command) {
 		if(command.equals("f")){
 		if(name.equals("Ricardo")) {
-			//Draws the location of the first robot along its given route
+//Draws the location of the first robot along its given route
 			if(!route1.isEmpty()){
 				Node nextCoord = route1.get(0);
 				if(robot1CenterX < nextCoord.x*50 + 50){

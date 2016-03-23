@@ -6,6 +6,11 @@ import java.util.Optional;
 
 import aw.file.Job;
 
+/**
+ * Wrapper class of Information
+ * @author jon woodburn
+ *
+ */
 public class InformationModel extends Observable{
 	private Information info;
 	
@@ -14,9 +19,21 @@ public class InformationModel extends Observable{
 		this.info = info;
 	}
 	
+	/**
+	 * Wrapper method of getJob()
+	 * @param robotName the rob's name
+	 * @return Optional of the robot's job
+	 */
+	
 	public Optional<Job> getJob(String robotName) {
 		return info.getJob(robotName);
 	}
+	
+	/**
+	 * Wrapper method of setJob()
+	 * @param job the job to be set
+	 * @param robotName the rob's name
+	 */
 	
 	public void setJob(Job job, String robotName){
 		info.setJob(job, robotName);
@@ -24,29 +41,68 @@ public class InformationModel extends Observable{
 		notifyObservers(robotName);
 	}
 	
+	/**
+	 * Wrapper method of getJobId()
+	 * @param robotName the rob's name
+	 * @return the job ID
+	 */
+	
 	public int getJobId(String robotName){
 		return info.getJobID(robotName);
 	}
+	
+	/**
+	 * Wrapper method to get a job's item
+	 * @param robotName the rob's name
+	 * @param index the item's index
+	 * @return
+	 */
 	
 	public String getJobItem(String robotName, int index) {
 		return info.getJobItem(robotName, index);
 	}
 	
+	/**
+	 * Wrapper method to get the job's reward
+	 * @param job the job in question
+	 * @return the job's reward
+	 */
+	
 	public double getJobReward(Job job) {
 		return info.getJobReward(job);
 	}
+	
+	/**
+	 * Wrapper method to get the number of items in a job
+	 * @param robotName the rob's name
+	 * @return the number of items in a job
+	 */
 	
 	public int numberItems(String robotName){
 		return info.numberItems(robotName);
 	}
 	
+	/**
+	 * Wrapper method to set the total reward
+	 * @param job the job in question
+	 */
+	
 	public void setTotalReward(Job job) {
 		info.setTotalReward(job);
 	}
+	/**
+	 * Wrapper method to get the total reward
+	 * @return the total reward
+	 */
 	
 	public double getTotalReward() {
 		return info.getTotalReward();
 	}
+	
+	/**
+	 * Wrapper method to get the list of completed jobs
+	 * @return an ArrayList of completed jobs
+	 */
 	
 	public ArrayList<Job> getCompletedJobs() {
 		return info.getCompletedJobs();
