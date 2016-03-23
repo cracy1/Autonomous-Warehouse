@@ -1,3 +1,5 @@
+package routePlanning;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,7 +28,9 @@ public class ReservationTable {
 		return finalPathListOfNode;
 		
 	}
-	
+	public int sizeOfMaps(){
+		return maps.size();
+	}
 	public String mapsToString() {
 		String output = "";
 		for (int i: maps.keySet()){
@@ -50,18 +54,22 @@ public class ReservationTable {
 		ArrayList<MapAndTimeStamp> path = test.getFinalPath();
 		int length = path.size();
 		int endOfPath = timeStart + length;
-		
-		for (MapAndTimeStamp m : path) {
-			maps.put(m.getTimeStamp(), m.getMap());
+		if (path == null || path.size() == 0){
+			System.out.println("Test");
+		}else{
+			for (MapAndTimeStamp m : path) {
+				maps.put(m.getTimeStamp(), m.getMap());
 
+			}
+			while(maps.containsKey(endOfPath)){
+			
+				Map newMap = maps.get(endOfPath).clone();
+				newMap.update(maps.get(endOfPath -1).getRobotPosition(robot), robot);
+				maps.put(endOfPath, newMap);
+				endOfPath ++;
+			}
 		}
-		while(maps.containsKey(endOfPath)){
 		
-			Map newMap = maps.get(endOfPath).clone();
-			newMap.update(maps.get(endOfPath -1).getRobotPosition(robot), robot);
-			maps.put(endOfPath, newMap);
-			endOfPath ++;
-		}
 		
 	}
 }

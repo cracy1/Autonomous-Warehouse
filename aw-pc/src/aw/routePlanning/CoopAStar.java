@@ -1,3 +1,5 @@
+package routePlanning;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,7 +22,7 @@ public class CoopAStar {
 		createTestingMap(mapAtTime);
 
 		fillHeuristic(goal);
-		
+
 		Node start = mapAtTime.get(startTime).findRobot(robot);
 
 		findRoute(start, goal, startTime, robot);
@@ -42,10 +44,18 @@ public class CoopAStar {
 
 		openSet.add(firstMapAndTime);
 		MapAndTimeStamp currentMapAndTime = null;
-		while (!openSet.isEmpty()) {
-
-			currentMapAndTime = getSmallest();
+		if (start.equals(goal)){
+			return new ArrayList<Node>();
 			
+		}
+		while (!openSet.isEmpty()) {
+			
+			currentMapAndTime = getSmallest();
+			if (currentMapAndTime.getfCost() > 50) {
+				System.out.println("failure");
+				return null;
+			}
+
 			openSet.remove(currentMapAndTime);
 			closeSet.add(currentMapAndTime);
 
@@ -53,21 +63,23 @@ public class CoopAStar {
 				System.out.println("Path Found!");
 				ArrayList<MapAndTimeStamp> path = reconstructRoute(currentMapAndTime);
 				this.setFinalPath(path);
-				
+
 				openSet.clear();
 			} else {
-				
+
 				ArrayList<MapAndTimeStamp> neighbours = findNeighbours(currentMapAndTime, robot);
-			;
+
+				;
 				for (MapAndTimeStamp n : neighbours) {
+
 					if (!closeSet.contains(n)) {
 						if (!openSet.contains(n)) {
-							
+
 							this.previousMap.put(n, currentMapAndTime);
-							
+
 							openSet.add(n);
 						} else {
-							
+
 						}
 					}
 				}
@@ -83,18 +95,17 @@ public class CoopAStar {
 
 		Node currentNode = currentMapAndTime.getMap().getRobotPosition(robot);
 		ArrayList<MapAndTimeStamp> set = new ArrayList<MapAndTimeStamp>();
-		
+
 		if (!this.mapAtTime.containsKey((currentMapAndTime.getTimeStamp() + 1))) {
-			
-			this.mapAtTime.put(currentMapAndTime.getTimeStamp()+1, currentMapAndTime.getMap());
+
+			this.mapAtTime.put(currentMapAndTime.getTimeStamp() + 1, currentMapAndTime.getMap());
 		}
 		ArrayList<Node> validMoveList = validMoves(currentMapAndTime.getTimeStamp(), currentNode);
-	
+
 		for (Node n : validMoveList) {
-			Map newMap =  this.mapAtTime.get(currentMapAndTime.getTimeStamp() + 1).clone();
+			Map newMap = this.mapAtTime.get(currentMapAndTime.getTimeStamp() + 1).clone();
 
 			newMap.update(new Node(n.getX(), n.getY()), robot);
-			
 
 			Node oldNode = currentMapAndTime.getMap().getRobotPosition(robot);
 			int newGCost = currentMapAndTime.getfCost() - heuristicTable[oldNode.getX()][oldNode.getY()] + 1;
@@ -134,12 +145,11 @@ public class CoopAStar {
 		path.add(currentMapAndTimeStamp);
 
 		while (this.previousMap.keySet().contains(currentMapAndTimeStamp)) {
-			
+
 			currentMapAndTimeStamp = previousMap.get(currentMapAndTimeStamp);
-			if (!(currentMapAndTimeStamp ==null)){
+			if (!(currentMapAndTimeStamp == null)) {
 				path.add(0, currentMapAndTimeStamp);
 			}
-
 
 		}
 

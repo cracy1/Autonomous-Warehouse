@@ -1,3 +1,4 @@
+package routePlanning;
 
 public class Map {
 	private int width = 12;
@@ -11,17 +12,6 @@ public class Map {
 
 	}
 
-	public Map returnOnlyRobot(MapObstacles robot) {
-		Map newMap = new Map();
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (map[x][y] == robot) {
-					newMap.setMapObstactle(x, y, robot);
-				}
-			}
-		}
-		return newMap;
-	}
 
 	private void addRobots(Node robotOneStart, Node robotTwoStart, Node robotThreeStart) {
 		map[robotOneStart.getX()][robotOneStart.getY()] = MapObstacles.ROBOTONE;
@@ -39,6 +29,28 @@ public class Map {
 		}
 		this.map[newNode.getX()][newNode.getY()] = robot;
 
+	}
+
+	public boolean checkIfThreeRobots() {
+		boolean r1 = false;
+		boolean r2 = false;
+		boolean r3 = false;
+		
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if (getMapObstacle(x, y).equals(MapObstacles.ROBOTONE)) {
+					r1 = true;
+				}
+				if (getMapObstacle(x, y).equals(MapObstacles.ROBOTTWO)) {
+					r2 = true;
+				}
+				if (getMapObstacle(x, y).equals(MapObstacles.ROBOTTHREE)) {
+					r3 = true;
+				}
+			}
+		}
+		return r1 && r2 && r3;
+		
 	}
 
 	private void addObstacles() {

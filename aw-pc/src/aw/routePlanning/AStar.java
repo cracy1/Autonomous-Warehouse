@@ -1,3 +1,5 @@
+package routePlanning;
+
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -43,12 +45,23 @@ public class AStar {
 			}
 		}
 		// creating obstacles in the map
-		for (int x = 1; x < width; x += 3) {
-			for (int y = 1; y < 6; y++) {
-			walkable[x][y] = false;
-			closeSet.add(new Node(x,y));
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				walkable[x][y] = true;
 			}
 		}
+
+		for (int x = 5; x < 7; x++) {
+			for (int y = 3; y < 5; y++) {
+				walkable[x][y] = false;
+			}
+		}
+		for (int x = 2; x < 10; x += 7) {
+			for (int y = 2; y < 6; y++) {
+				walkable[x][y] = false;
+			}
+		}
+		
 
 		this.finalPath = findRoute(start, goal);
 		

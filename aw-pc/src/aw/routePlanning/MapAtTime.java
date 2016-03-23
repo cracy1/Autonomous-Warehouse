@@ -1,3 +1,5 @@
+package routePlanning;
+
 import java.util.HashMap;
 
 public class MapAtTime {

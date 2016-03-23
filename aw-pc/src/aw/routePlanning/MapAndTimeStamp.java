@@ -1,3 +1,5 @@
+package routePlanning;
+
 
 public class MapAndTimeStamp {
 	private Map map;
