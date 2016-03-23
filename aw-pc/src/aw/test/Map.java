@@ -158,6 +158,11 @@ public class Map {
     public LinkedList<Node> getPath(Node a, Node b){
     	boolean[][] walkable = new boolean[width][height];
 
+    	for(int x = 0; x < width; x++){
+    		for(int y= 0; y < height; y++){
+    			walkable[x][y] = true;
+    		}
+    	}
     	for(int x = 2; x < 6; x++){
     		walkable[x][2] = false;
     		walkable[x][9] = false;
