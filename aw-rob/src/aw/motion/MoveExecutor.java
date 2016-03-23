@@ -37,6 +37,10 @@ public class MoveExecutor {
 		pilot.setTravelSpeed(baseSpeed);
 	}
 	
+	/**
+	 * Execute a given move.
+	 * @param move
+	 */
 	public void execute(Move move){
 		switch(move){ //manage route moves.
 			case FORWARD:
@@ -89,8 +93,8 @@ public class MoveExecutor {
 	
 	/**
 	 * Add an item request to the current route.
-	 * @param name
-	 * @param amount
+	 * @param name The name of the item.
+	 * @param amount The amount of the item.
 	 */
 	public void requestItem(String name, int amount){
 		display.requestItem(name, amount);
@@ -98,9 +102,9 @@ public class MoveExecutor {
 	
 	/**
 	 * Add an item drop request to the current route.
-	 * @param name
-	 * @param amount
-	 * @param delay
+	 * @param name The name of the item.
+	 * @param amount The amount of the item.
+	 * @param delay The delay between displaying dropped items.
 	 */
 	public void dropRequest(String name, int amount, int delay){
 		display.dropOffItem(name, amount, delay);

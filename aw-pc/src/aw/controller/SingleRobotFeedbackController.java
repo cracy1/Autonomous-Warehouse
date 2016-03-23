@@ -1,21 +1,22 @@
 package aw.controller;
 
-import aw.GUI.GUI;
+import aw.file.Job;
+import aw.file.JobList;
 import aw.robotics.Robot;
-import aw.test.Map;
 
-public class SingleRobotFeedbackController {
-	private Robot rob;
-	private Map map;
-	private GUI gui;
-	
+public class SingleRobotFeedbackController extends Controller{
+
 	public SingleRobotFeedbackController(){
-		map = new Map(8, 12);
-		gui = new GUI();
-		rob = new Robot("Ricardo", 0, 3, 0, gui);
+		super(new Robot("Ricardo", 0, 3, 0));
 	}
-	
-	public static void main(String[] args){
-		new SingleRobotFeedbackController();
+
+	@Override
+	public void run() {
+		JobList jobList = new JobList();
+		
+		for(int i = 0; i < 100; i++){
+			Job job = new Job(jobList.getJob(i));
+			robots.getFirst().addJob(job);
+		}
 	}
 }

@@ -7,10 +7,12 @@ import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
+import aw.controller.Controller;
 import aw.controller.MultiRobotController;
 import aw.file.ItemList;
 import aw.file.Job;
 import aw.test.Map;
+import aw.test.MultiRobotMap;
 import aw.test.Node;
 import lejos.util.Delay;
 
@@ -28,6 +30,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 	private boolean running;
 	private Map map;
+	//private MultiRobotMap map;
 	private GUI gui;
 	
 	private boolean ready = true;
@@ -43,18 +46,19 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
 	 */
-	public Robot(String name, int startX, int startY, int angle, GUI gui){
+	public Robot(String name, int startX, int startY, int angle/*, GUI gui*/){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
-		this.gui = gui;
+		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
+		this.map = new Map(8, 12);
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
-		this.map = new Map(8, 12);
+		//this.map = new Map(8, 12);
 		
 		new Thread(this).start();
 		
@@ -82,9 +86,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 			Node target = new Node(itemX, itemY);
 			
+			//LinkedList<Node> route = map.getPath(current, target, this);
 			LinkedList<Node> route = map.getPath(current, target);
-			gui.setRoute(route, this.name);
-		
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
@@ -94,7 +97,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
-				MultiRobotController.waitForRobotsReady();
+				Controller.waitForRobotsReady();
 			}
 			
 			ready = false;
@@ -185,7 +188,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		while(running){
 			if(jobs.size() > 0){
 				executeJob(jobs.getFirst());
-				gui.setJob(jobs.removeFirst(), name);
+				/*gui.setJob(jobs.removeFirst(), name);*/
 			}
 		}
 	}

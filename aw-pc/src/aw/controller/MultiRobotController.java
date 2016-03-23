@@ -1,48 +1,17 @@
 package aw.controller;
 
-import java.util.LinkedList;
-
-import aw.GUI.GUI;
-import aw.comms.Communication;
 import aw.file.Job;
 import aw.file.JobList;
 import aw.robotics.Robot;
-import aw.test.Map;
 
-public class MultiRobotController {
-	private static LinkedList<Robot> robots = new LinkedList<>();
-	
-	private Map map;
-	private GUI gui;
-	
+public class MultiRobotController extends Controller{
+
 	public MultiRobotController(){
-		Communication.addRobots();
-		
-		map = new Map(8, 12);
-		gui = new GUI();
-		
-		robots.add(new Robot("Ricardo", 0, 3, 0, gui));
-		robots.add(new Robot("NXT", 3, 3, 0, gui));
-		//rob3 = new Robot("Dave", 3, 3, 0);
-		allocateJobs();
-		
+		super(new Robot("Ricardo", 0, 3, 0), new Robot("NXT", 3, 3, 0));
 	}
-	
-	public static void waitForRobotsReady(){
-		boolean ready = true;
-		do{
-			ready = true;
-			
-			for(Robot r: robots) ready &= r.isReady();
-			
-			try{
-				Thread.sleep(20);
-			}catch(Exception e){}
-		
-		}while(!ready);
-	}
-	
-	public void allocateJobs(){
+
+	@Override
+	void run() {
 		JobList jobList = new JobList();
 		
 		for(int i = 0; i < 100; i++){
@@ -52,11 +21,8 @@ public class MultiRobotController {
 			//else rob3.addJob(job);
 		}
 	}	
-
+	
 	public static void main(String[] args){
 		new MultiRobotController();
 	}
-
-
-	
 }
