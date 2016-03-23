@@ -107,8 +107,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			waitForResponse();
 			requesting = false;
 			current = target;
-		}
-		
+		}	
 		
 		requesting = true;
 		/**
