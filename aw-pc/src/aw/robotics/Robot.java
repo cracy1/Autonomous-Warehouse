@@ -204,6 +204,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 
 	@Override
 	public void commandReceived(String name, String command) {
+		 status = RobotStatus.WAITING;
 		 responseReceived = true;
 	}
 	
