@@ -157,9 +157,17 @@ public class Map {
      */
     public LinkedList<Node> getPath(Node a, Node b){
     	boolean[][] walkable = new boolean[width][height];
-    	
-    	MapParser mp = new MapParser();
-    	walkable = mp.getWalkableMap();
+
+    	for(int x = 2; x < 6; x++){
+    		walkable[x][2] = false;
+    		walkable[x][9] = false;
+        }
+
+    	walkable[3][5] = false;
+    	walkable[3][6] = false;
+    	walkable[4][5] = false;
+    	walkable[4][6] = false;
+
 //        for(int y = 0; y < height; y++){
 //            for(int x = 0; x < width; x++){
 //                walkable[x][y] = true;
