@@ -9,6 +9,7 @@ import aw.comms.CommandSender;
 import aw.comms.Communication;
 import aw.controller.Controller;
 import aw.controller.MultiRobotController;
+import aw.file.Drop;
 import aw.file.ItemList;
 import aw.file.Job;
 import aw.test.Map;
@@ -37,6 +38,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private boolean requesting = false;
 	
 	private LinkedList<Job> jobs;
+	private Drop dropPoints;
 
 	
 	/**
@@ -51,6 +53,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
+		this.dropPoints = new Drop();
 		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
 		this.map = new Map(8, 12);
@@ -110,6 +113,32 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			current = target;
 		}	
 		
+		
+		
+		/** Drop point stuff
+		 * 
+		 */
+		dropPoints.sortClosestDropToRobot(this.x, this.y);
+		int dx = dropPoints.getX(0);
+		int dy = dropPoints.getY(0);
+		Node dropNode = new Node(dx, dy);
+		LinkedList<Node> route = map.getPath(current, dropNode);
+		char[] moves = map.getMoves(route, angle).toCharArray();
+		for(char c: moves){
+			ready = false;
+			sender.sendCommand("" + c);
+			if(c == 'r') angle = (angle + 90) % 360;
+			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+			if(c == 't') angle = (angle + 180) % 360;
+			//Controller.waitForRobotsReady();
+			ready = false;
+			waitForResponse();
+		}
+		
+		
+		
+		
+		
 		requesting = true;
 		/**
 		 * Drop point logic.
@@ -123,12 +152,12 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		}
 		requesting = false;
 		
-		String item = job.getItem(jobLength - 1);
-		int index = itemList.getIndex(item);
-		int itemX = itemList.getX(index);
-		int itemY = itemList.getY(index);
-		this.x = itemX;
-		this.y = itemY;
+		
+		
+		
+		
+		this.x = dropNode.x;
+		this.y = dropNode.y;
 		
 	}
 	
