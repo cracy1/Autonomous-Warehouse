@@ -73,6 +73,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param job Job for the robot to complete.
 	 */
 	private void executeJob(Job job){
+		job.sort(this.x, this.y);
 		int jobLength = job.numberItems();
 		Node current = new Node(this.x, this.y);
 		ItemList itemList = new ItemList();

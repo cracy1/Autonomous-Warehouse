@@ -109,7 +109,7 @@ public class JobsFrame extends JFrame implements Observer{
 			public void mousePressed(MouseEvent e) {
 				if (!list.isSelectionEmpty()) {
 					int selected = list.getSelectedIndex();
-					upcomingJobs.remove(list.getSelectedIndex());
+					//upcomingJobs.remove(list.getSelectedIndex());
 					listModel.remove(selected);
 					list.revalidate();
 					list.repaint();
@@ -141,7 +141,7 @@ public class JobsFrame extends JFrame implements Observer{
 			box.add(new JLabel("Job number " + job.getID() + " with reward " + job.getJobReward()));
 			for(int j = 0; j < upcomingJobs.numberJobs(); j++) {
 				if(new Job(upcomingJobs.getJob(j)).getID() == job.getID()) {
-					upcomingJobs.remove(j);
+					//upcomingJobs.remove(j);
 					listModel.remove(j);
 					list.revalidate();
 					list.repaint();
