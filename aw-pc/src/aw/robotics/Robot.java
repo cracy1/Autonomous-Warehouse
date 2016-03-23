@@ -90,7 +90,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 			Node target = new Node(itemX, itemY);
 			
-			//LinkedList<Node> route = map.getPath(current, target, this);
 			LinkedList<Node> route = map.getPath(current, target);
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
@@ -100,8 +99,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
-				//Controller.waitForRobotsReady();
-				ready = false;
+				
 				//waitForResponse();
 				Controller.waitForRobotsReady();
 			}
