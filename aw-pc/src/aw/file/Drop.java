@@ -27,8 +27,11 @@ public class Drop implements DropInterface {
 		x = new int[numberDrops];
 		y = new int[numberDrops];
 		for (int i = 0; i < numberDrops; i++) {
-			x[i] = Integer.parseInt(drop[i].split(",")[0]);
-			y[i] = Integer.parseInt(drop[i].split(",")[1]);
+			//x[i] = Integer.parseInt(drop[i].split(",")[0]);
+			//y[i] = Integer.parseInt(drop[i].split(",")[1]);
+			
+			x[i] = 7 - Integer.parseInt(drop[i].split(",")[1]); //modified for new coordinate system.
+			y[i] = 11 - Integer.parseInt(drop[i].split(",")[0]);
 		}
 		
 	}
