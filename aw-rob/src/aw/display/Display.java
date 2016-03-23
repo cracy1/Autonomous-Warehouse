@@ -294,7 +294,7 @@ public class Display {
 		
 		g.drawLine(screenWidth/2, 0, screenWidth/2, screenHeight/8);
 		
-		GridMap map = MapUtils.createRealWarehouse();
+		GridMap map = MapUtils.createMarkingWarehouseMap();
 		int xSize = map.getXSize();
 		int ySize = map.getYSize();
 		int xConvert = screenWidth/xSize;

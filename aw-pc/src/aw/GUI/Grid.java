@@ -46,7 +46,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	
 	public Grid() {
 		super();
-		this.grid = MapUtils.createRealWarehouse(); 
+		this.grid = MapUtils.createMarkingWarehouseMap(); 
 		this.xSize = grid.getXSize();
 		this.ySize = grid.getYSize();
 		this.height = 800;
@@ -170,7 +170,6 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	 * @param route the route to be taken
 	 * @param robot the name of the robot
 	 */
-	//Sets the routes of the different robots to a locally stored variable
 	public void setRoute(LinkedList<Node> route, String robot){
 		if(robot.equals("Ricardo")){
 			route1 = route;

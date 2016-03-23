@@ -41,9 +41,11 @@ public class JobsFrame extends JFrame implements Observer{
 	private JButton button;
 	private JScrollPane scroll;
 	private DefaultListModel<Job> listModel;
+	private int oldArraySize;
 	public JobsFrame(InformationModel model, JobList jobList) {
 		this.model = model;
 		this.upcomingJobs = jobList;
+		oldArraySize = model.getCompletedJobs().size();
 		frame = new JFrame("Completed and upcoming jobs");
 		frame.setSize(900, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,6 +78,7 @@ public class JobsFrame extends JFrame implements Observer{
 		subPanel2.add(box2);
 		
 		JLabel title = new JLabel("Completed Jobs: ");
+		title.setFont(titleFont);
 		box.add(title);
 		
 		for(int i = 0; i < model.getCompletedJobs().size(); i++) {
@@ -101,7 +104,7 @@ public class JobsFrame extends JFrame implements Observer{
 		bar.setPreferredSize(new Dimension(10, 1000));
 		
 		button = new JButton("Cancel job");
-//Everytime the button is clicked, remove it from the JobList.
+//Everytime the button is clicked, remove the selected job from JobList.
 		button.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (!list.isSelectionEmpty()) {
@@ -129,20 +132,25 @@ public class JobsFrame extends JFrame implements Observer{
 	}
 	
 	/**
-	 * Class is observer of InformationModel, updates the completed jobs liste everytime a new job is set.
+	 * Class is observer of InformationModel, updates the completed jobs list everytime a new job is set.
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		box.removeAll();
-		
-		
-		JLabel title = new JLabel("Completed Jobs: ");
-		box.add(title);
-		for(int i = 0; i < model.getCompletedJobs().size(); i++) {
+		for(int i = oldArraySize; i < model.getCompletedJobs().size(); i++) {
 			Job job = model.getCompletedJobs().get(i);
-			box.add(new JLabel("Job number " + job.getID()));
+			box.add(new JLabel("Job number " + job.getID() + " with reward " + job.getJobReward()));
+			for(int j = 0; j < upcomingJobs.numberJobs(); j++) {
+				if(new Job(upcomingJobs.getJob(j)).getID() == job.getID()) {
+					upcomingJobs.remove(j);
+					listModel.remove(j);
+					list.revalidate();
+					list.repaint();
+				}
+			}
+			list.revalidate();
+			list.repaint();
 		}
-		title.setFont(titleFont);
+		oldArraySize = model.getCompletedJobs().size();
 		
 		box.revalidate();
 		box.repaint();
