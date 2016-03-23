@@ -46,7 +46,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	
 	public Grid() {
 		super();
-		this.grid = MapUtils.createRealWarehouse(); 
+		this.grid = MapUtils.createMarkingWarehouseMap(); 
 		this.xSize = grid.getXSize();
 		this.ySize = grid.getYSize();
 		this.height = 800;
@@ -54,7 +54,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		route1 = new LinkedList<Node>();
 		route2 = new LinkedList<Node>();
 		route3 = new LinkedList<Node>();
-		//drop = new Drop();
+		drop = new Drop();
 		
 		
 //Sets the robot positions.
@@ -69,8 +69,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		
 //Makes the class listen into commands sent from the robots to the PC.
 		
-		//Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
-		//Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
+		Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
+		Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
 	}
 	
 	/**
@@ -136,10 +136,10 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 //Drop locations		
-		//int xDrop1 = drop.getX(0) * 50 +50;
-		//int yDrop1 = 450 - drop.getY(0) *50;
-		//int xDrop2 = drop.getX(1) *50 +50;
-		//int yDrop2 = 450 - drop.getY(1) * 50;
+		int xDrop1 = drop.getX(0) * 50 +50;
+		int yDrop1 = 450 - drop.getY(0) *50;
+		int xDrop2 = drop.getX(1) *50 +50;
+		int yDrop2 = 450 - drop.getY(1) * 50;
 		//makes the square moving a lot smoother.
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		draw(g2);
@@ -150,10 +150,10 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		g2.drawLine(630, 0, 630, 800);
 //Draw the drops		
 		g2.setColor(Color.DARK_GRAY);
-		//g2.drawLine(xDrop1, yDrop1 -20, xDrop1, yDrop1 +20);
-		//g2.drawLine(xDrop1 -20, yDrop1, xDrop1 +20, yDrop1);
-		//g2.drawLine(xDrop2, yDrop2 -20, xDrop2, yDrop2 +20);
-		//g2.drawLine(xDrop2 -20, yDrop2, xDrop2 +20, yDrop2);
+		g2.drawLine(xDrop1, yDrop1 -20, xDrop1, yDrop1 +20);
+		g2.drawLine(xDrop1 -20, yDrop1, xDrop1 +20, yDrop1);
+		g2.drawLine(xDrop2, yDrop2 -20, xDrop2, yDrop2 +20);
+		g2.drawLine(xDrop2 -20, yDrop2, xDrop2 +20, yDrop2);
 		
 		g2.setColor(red);
 		g2.drawRect(robot1X, robot1Y, robotWidth, robotHeight);
