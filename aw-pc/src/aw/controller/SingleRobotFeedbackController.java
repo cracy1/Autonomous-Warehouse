@@ -1,5 +1,6 @@
 package aw.controller;
 
+import aw.comms.Communication;
 import aw.file.Job;
 import aw.file.JobList;
 import aw.robotics.Robot;
@@ -22,6 +23,7 @@ public class SingleRobotFeedbackController extends Controller{
 	}
 	
 	public static void main(String[] args){
+		Communication.addRobots();
 		new SingleRobotFeedbackController();
 	}
 }

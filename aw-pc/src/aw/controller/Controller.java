@@ -9,10 +9,6 @@ import aw.robotics.Robot;
 public abstract class Controller{
 	public static LinkedList<Robot> robots;
 	
-	static{
-		Communication.addRobots();
-	}
-	
 	/**
 	 * Add robots to the controller.
 	 * @param robots
