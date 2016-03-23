@@ -59,7 +59,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
-		this.status = RobotStatus.WAITING;
+		this.status = RobotStatus.READY;
 		//this.map = new Map(8, 12);
 		
 		new Thread(this).start();
@@ -99,14 +99,13 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
 
-				//Controller.waitForRobotsReady();
+				Controller.waitForRobotsReady();
 			}
-			
 			
 			status = RobotStatus.REQUESTING;
 			sender.sendCommand("i " + item + " " + quantity);
 			//wait for response from robot.
-			while(status != RobotStatus.WAITING){
+			while(status != RobotStatus.READY){
 				try{
 					Thread.sleep(50);
 				}catch(Exception e){}
@@ -125,14 +124,14 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		Node dropNode = new Node(dx, dy);
 		LinkedList<Node> route = map.getPath(current, dropNode);
 		char[] moves = map.getMoves(route, angle).toCharArray();
+		
 		for(char c: moves){
 			status = RobotStatus.MOVING;
 			sender.sendCommand("" + c);
 			if(c == 'r') angle = (angle + 90) % 360;
 			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 			if(c == 't') angle = (angle + 180) % 360;
-			//waitForResponse();
-			//Controller.waitForRobotsReady();
+			Controller.waitForRobotsReady();
 		}
 
 		status = RobotStatus.REQUESTING;
@@ -143,10 +142,10 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			String item = job.getItem(i);
 			int quantity = job.getQuantity(i);
 			sender.sendCommand("d " + item + " " + quantity);
-			Delay.msDelay(1000);
-			
+			Delay.msDelay(1000);	
 		}
-		status = RobotStatus.WAITING;
+		
+		status = RobotStatus.READY;
 		
 		this.x = dropNode.x;
 		this.y = dropNode.y;
@@ -199,7 +198,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 
 	@Override
 	public void commandReceived(String name, String command) {
-		 status = RobotStatus.WAITING;
+		 status = RobotStatus.READY;
 	}
 	
 	public LinkedList<Job> getJobs(){

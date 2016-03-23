@@ -13,8 +13,6 @@ public class Drop implements DropInterface {
 	private int numberDrops = 0;
 
 	public Drop() {
-
-
 		try {
 			ReadFile file1 = new ReadFile(drops);
 			drop = file1.OpenFile();
