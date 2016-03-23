@@ -29,8 +29,8 @@ public class Drop implements DropInterface {
 		x = new int[numberDrops];
 		y = new int[numberDrops];
 		for (int i = 0; i < numberDrops; i++) {
-			x[i] = Integer.parseInt(drop[i].split(",")[0]);
-			y[i] = Integer.parseInt(drop[i].split(",")[1]);
+			x[i] = Integer.parseInt(drop[i].split(" ")[0]);
+			y[i] = Integer.parseInt(drop[i].split(" ")[1]);
 		}
 		
 	}
