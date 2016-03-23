@@ -34,11 +34,11 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	//private MultiRobotMap map;
 	private GUI gui;
 	
-	private boolean ready = true;
-	private boolean requesting = false;
-	
 	private LinkedList<Job> jobs;
 	private Drop dropPoints;
+	
+	private RobotStatus status;
+	private boolean responseReceived = false;
 
 	
 	/**
@@ -61,6 +61,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
+		this.status = RobotStatus.WAITING;
 		//this.map = new Map(8, 12);
 		
 		new Thread(this).start();
@@ -94,7 +95,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
-				ready = false;
+				status = RobotStatus.MOVING;
 				sender.sendCommand("" + c);
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
@@ -103,11 +104,11 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				Controller.waitForRobotsReady();
 			}
 			
-			ready = false;
-			requesting = true;
+			
+			status = RobotStatus.REQUESTING;
 			sender.sendCommand("i " + item + " " + quantity);
-			waitForResponse(); //hmmmmmmmmm
-			requesting = false;
+			waitForResponse();
+			status = RobotStatus.WAITING;
 			current = target;
 		}	
 		
@@ -123,7 +124,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		LinkedList<Node> route = map.getPath(current, dropNode);
 		char[] moves = map.getMoves(route, angle).toCharArray();
 		for(char c: moves){
-			ready = false;
+			status = RobotStatus.MOVING;
 			sender.sendCommand("" + c);
 			if(c == 'r') angle = (angle + 90) % 360;
 			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
@@ -131,12 +132,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			//waitForResponse();
 			Controller.waitForRobotsReady();
 		}
-		
-		
-		
-		
-		
-		requesting = true;
+
 		/**
 		 * Drop point logic.
 		 */
@@ -147,7 +143,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			Delay.msDelay(1000);
 			
 		}
-		requesting = false;
+		status = RobotStatus.WAITING;
 		
 		this.x = dropNode.x;
 		this.y = dropNode.y;
@@ -155,9 +151,10 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	}
 	
 	public void waitForResponse(){
-		while(!ready){
+		while(!responseReceived){
 			Delay.msDelay(25);
 		}
+		responseReceived = false;
 	}
 	
 	/**
@@ -206,7 +203,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 
 	@Override
 	public void commandReceived(String name, String command) {
-		 ready = true;
+		 responseReceived = true;
 	}
 	
 	public LinkedList<Job> getJobs(){
@@ -224,6 +221,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	}
 
 	public boolean isReady() {
-		return ready || requesting;
+		return status == RobotStatus.WAITING || status == RobotStatus.REQUESTING;
 	}
 }
