@@ -8,7 +8,7 @@ import aw.robotics.Robot;
 public class MultiRobotController extends Controller{
 
 	public MultiRobotController(){
-		super(new Robot("Ricardo", 0, 3, 0), new Robot("NXT", 7, 11, 0));
+		super(new Robot("Dave", 0, 3, 0), new Robot("NXT", 7, 11, 0));
 	}
 
 	@Override
