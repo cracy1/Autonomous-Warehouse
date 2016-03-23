@@ -155,6 +155,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			Delay.msDelay(25);
 		}
 		responseReceived = false;
+		status = RobotStatus.WAITING;
 	}
 	
 	/**
