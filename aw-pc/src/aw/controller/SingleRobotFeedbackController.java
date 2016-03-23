@@ -8,8 +8,8 @@ import aw.robotics.Robot;
 public class SingleRobotFeedbackController extends Controller{
 
 	public SingleRobotFeedbackController(){
-		super(new Robot("Ricardo", 0, 3, 0));
-
+		//super(new Robot("Ricardo", 0, 3, 0));
+		super(new Robot("NXT", 0, 3, 3));
 	}
 
 	@Override
