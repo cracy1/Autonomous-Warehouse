@@ -9,7 +9,7 @@ public class SingleRobotFeedbackController extends Controller{
 
 	public SingleRobotFeedbackController(){
 		//super(new Robot("Ricardo", 0, 3, 0));
-		super(new Robot("NXT", 0, 3, 3));
+		super(new Robot("NXT", 0, 3, 0));
 	}
 
 	@Override
@@ -23,7 +23,13 @@ public class SingleRobotFeedbackController extends Controller{
 	}
 	
 	public static void main(String[] args){
-		Communication.addRobots();
-		new SingleRobotFeedbackController();
+		JobList jobList = new JobList();
+		for(int i = 0; i < 100; i++){
+			Job job = new Job(jobList.getJob(i));
+			System.out.println(job);
+			//robots.getFirst().addJob(job);
+		}
+//		Communication.addRobots();
+//		new SingleRobotFeedbackController();
 	}
 }
