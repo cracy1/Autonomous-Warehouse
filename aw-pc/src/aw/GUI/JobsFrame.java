@@ -1,20 +1,34 @@
 package aw.GUI;
 
 import java.awt.BasicStroke;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
 
 import aw.file.Job;
+import aw.file.JobList;
 
+/**
+ * JFrame that displays the completed jobs and the upcoming jobs.
+ * @author jon woodburn and dominic trott
+ *
+ */
 
 public class JobsFrame extends JFrame implements Observer{
 	
@@ -22,10 +36,16 @@ public class JobsFrame extends JFrame implements Observer{
 	private InformationModel model;
 	private Box box, box2;
 	private Font titleFont;
-	public JobsFrame(InformationModel model) {
+	private JobList upcomingJobs;
+	private JList<Job> list;
+	private JButton button;
+	private JScrollPane scroll;
+	private DefaultListModel<Job> listModel;
+	public JobsFrame(InformationModel model, JobList jobList) {
 		this.model = model;
+		this.upcomingJobs = jobList;
 		frame = new JFrame("Completed and upcoming jobs");
-		frame.setSize(600, 800);
+		frame.setSize(900, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //Boxes		
 		box = Box.createVerticalBox();
@@ -42,6 +62,7 @@ public class JobsFrame extends JFrame implements Observer{
 		subPanel1.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2.0f)));
 		comp.add(subPanel1);
 //sub-panel for the upcoming jobs list
+		
 		JPanel subPanel2 = new JPanel();
 		subPanel2.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2.0f)));
 		comp.add(subPanel2);
@@ -54,18 +75,62 @@ public class JobsFrame extends JFrame implements Observer{
 		subPanel1.add(box);
 		subPanel2.add(box2);
 		
+		JLabel title = new JLabel("Completed Jobs: ");
+		box.add(title);
+		
 		for(int i = 0; i < model.getCompletedJobs().size(); i++) {
 			Job job = model.getCompletedJobs().get(i);
-			box.add(new JLabel("Job number " + job.getID() + ", with reward " + job.getJobReward() ));
+			double rounded = Math.round(job.getJobReward() * 100.0) /100.0;
+			box.add(new JLabel("Job number " + job.getID() + ", with reward " + rounded));
 		}
 		
+
+//Creates a JList inside a JScroll.	
+		listModel = new DefaultListModel<Job>();
+
+		
+		for(int i = 0; i< upcomingJobs.numberJobs(); i++) {
+			Job job = new Job(upcomingJobs.getJob(i));
+			listModel.addElement(job);
+		}
+		list = new JList<Job>(listModel);
+		list.setOpaque(false);
+		scroll = new JScrollPane(list);
+		scroll.setOpaque(false);
+		JScrollBar bar = scroll.getVerticalScrollBar();
+		bar.setPreferredSize(new Dimension(10, 1000));
+		
+		button = new JButton("Cancel job");
+//Everytime the button is clicked, remove it from the JobList.
+		button.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (!list.isSelectionEmpty()) {
+					int selected = list.getSelectedIndex();
+					upcomingJobs.remove(list.getSelectedIndex());
+					listModel.remove(selected);
+					list.revalidate();
+					list.repaint();
+				}
+			}
+		});
+		
+		box2.add(scroll);
+		box2.add(button);
 		frame.add(comp);
 	}
+	
+	/**
+	 * Method to get the JFrame
+	 * @return the JFrame
+	 */
 	
 	public JFrame getFrame() {
 		return frame;
 	}
-
+	
+	/**
+	 * Class is observer of InformationModel, updates the completed jobs liste everytime a new job is set.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		box.removeAll();

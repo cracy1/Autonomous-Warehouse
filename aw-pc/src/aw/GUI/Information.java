@@ -47,7 +47,7 @@ public class Information {
 		if(robotName.equals("Ricardo")) {
 			if(jobRobot1.isPresent()) {
 				completedJobs.add(jobRobot1.get());
-				setTotalReward(jobRobot1.get());
+				//setTotalReward(jobRobot1.get());
 				
 			}
 			this.jobRobot1 = Optional.of(job);
@@ -55,14 +55,14 @@ public class Information {
 		else if (robotName.equals("NXT")) {
 			if(jobRobot2.isPresent()) {
 				completedJobs.add(jobRobot2.get());
-				setTotalReward(jobRobot2.get());
+				//setTotalReward(jobRobot2.get());
 			}
 			this.jobRobot2 = Optional.of(job);
 		}
 		else {
 			if(jobRobot3.isPresent()) {
 				completedJobs.add(jobRobot3.get());
-				setTotalReward(jobRobot3.get());
+				//setTotalReward(jobRobot3.get());
 			}
 			this.jobRobot3 = Optional.of(job);
 		}
@@ -106,6 +106,12 @@ public class Information {
 		
 	}
 	
+	/**
+	 * Get the job's total reward
+	 * @param job the job in question
+	 * @return the job's reward, rounded to two decimal places
+	 */
+	
 	public double getJobReward(Job job) {
 
 		return Math.round(job.getJobReward() * 100.0) /100.0;
@@ -130,13 +136,28 @@ public class Information {
 		
 	}
 	
+	/**
+	 * Sets the total reward
+	 * @param job the job in question
+	 */
+	
 	public void setTotalReward(Job job) {
 		rewardCounter = rewardCounter + job.getJobReward();
 	}
 	
+	/**
+	 * gets the total reward
+	 * @return the total reward
+	 */
+	
 	public double getTotalReward() {
 		return rewardCounter;
 	}
+	
+	/**
+	 * Method to get the list of completed jobs
+	 * @return an ArrayList of completed jobs
+	 */
 	
 	public ArrayList<Job> getCompletedJobs() {
 		return completedJobs;

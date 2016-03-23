@@ -13,7 +13,6 @@ public class MultiRobotController extends Controller{
 	@Override
 	void run() {
 		JobList jobList = new JobList();
-		
 		for(int i = 0; i < 100; i++){
 			Job job = new Job(jobList.getJob(i));
 			if(i % 2 == 0) robots.get(0).addJob(job);

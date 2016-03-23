@@ -8,6 +8,7 @@ public class SingleRobotFeedbackController extends Controller{
 
 	public SingleRobotFeedbackController(){
 		super(new Robot("Ricardo", 0, 3, 0));
+
 	}
 
 	@Override
