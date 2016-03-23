@@ -32,7 +32,7 @@ public abstract class Controller{
 			for(Robot r: robots) ready &= r.isReady();
 			
 			try{
-				Thread.sleep(20);
+				Thread.sleep(50);
 			}catch(Exception e){}
 		
 		}while(!ready);

@@ -108,7 +108,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			//wait for response from robot.
 			while(status != RobotStatus.WAITING){
 				try{
-					Thread.sleep(20);
+					Thread.sleep(50);
 				}catch(Exception e){}
 			}
 			current = target;
@@ -217,6 +217,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	}
 
 	public boolean isReady() {
-		return status == RobotStatus.WAITING || status == RobotStatus.REQUESTING;
+		return status != RobotStatus.MOVING;
 	}
 }
