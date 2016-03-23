@@ -20,4 +20,8 @@ public class SingleRobotFeedbackController extends Controller{
 			robots.getFirst().addJob(job);
 		}
 	}
+	
+	public static void main(String[] args){
+		new SingleRobotFeedbackController();
+	}
 }
