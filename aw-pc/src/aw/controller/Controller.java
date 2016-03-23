@@ -7,7 +7,7 @@ import aw.comms.Communication;
 import aw.robotics.Robot;
 
 public abstract class Controller{
-	public static LinkedList<Robot> robots;
+	public static LinkedList<Robot> robots = new LinkedList<>();
 	
 	/**
 	 * Add robots to the controller.
