@@ -38,9 +38,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private Drop dropPoints;
 	
 	private RobotStatus status;
-	private boolean responseReceived = false;
 
-	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
 	 * @param name The name of the NXT robot.
@@ -107,8 +105,12 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			
 			status = RobotStatus.REQUESTING;
 			sender.sendCommand("i " + item + " " + quantity);
-			waitForResponse();
-			status = RobotStatus.WAITING;
+			//wait for response from robot.
+			while(status != RobotStatus.WAITING){
+				try{
+					Thread.sleep(20);
+				}catch(Exception e){}
+			}
 			current = target;
 		}	
 		
@@ -133,6 +135,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			Controller.waitForRobotsReady();
 		}
 
+		status = RobotStatus.REQUESTING;
 		/**
 		 * Drop point logic.
 		 */
@@ -148,14 +151,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.x = dropNode.x;
 		this.y = dropNode.y;
 		
-	}
-	
-	public void waitForResponse(){
-		while(!responseReceived){
-			Delay.msDelay(25);
-		}
-		responseReceived = false;
-		status = RobotStatus.WAITING;
 	}
 	
 	/**
@@ -205,7 +200,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	@Override
 	public void commandReceived(String name, String command) {
 		 status = RobotStatus.WAITING;
-		 responseReceived = true;
 	}
 	
 	public LinkedList<Job> getJobs(){
