@@ -1,5 +1,6 @@
 package aw.controller;
 
+import aw.comms.Communication;
 import aw.file.Job;
 import aw.file.JobList;
 import aw.robotics.Robot;
@@ -7,7 +8,7 @@ import aw.robotics.Robot;
 public class MultiRobotController extends Controller{
 
 	public MultiRobotController(){
-		super(new Robot("Ricardo", 0, 3, 0), new Robot("NXT", 3, 3, 0));
+		super(new Robot("Ricardo", 0, 3, 0), new Robot("NXT", 7, 11, 0));
 	}
 
 	@Override
@@ -22,6 +23,7 @@ public class MultiRobotController extends Controller{
 	}	
 	
 	public static void main(String[] args){
+		Communication.addRobots();
 		new MultiRobotController();
 	}
 }
