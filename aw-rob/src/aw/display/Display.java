@@ -184,7 +184,7 @@ public class Display {
 			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
-				if(xCoord < 0){
+				if(xCoord >= 11){
 					xCoord = 0;
 				}
 				else{
@@ -193,7 +193,7 @@ public class Display {
 			}
 			else if(buttonPress == Button.ID_LEFT){
 				if(xCoord <= 0){
-					xCoord = 0;
+					xCoord = 11;
 				}
 				else{
 					xCoord--;
@@ -213,7 +213,7 @@ public class Display {
 			
 			int buttonPress = Button.waitForAnyPress();
 			if(buttonPress == Button.ID_RIGHT){
-				if(yCoord < 0){
+				if(yCoord >= 7){
 					yCoord = 0;
 				}
 				else{
@@ -222,7 +222,7 @@ public class Display {
 			}
 			else if(buttonPress == Button.ID_LEFT){
 				if(yCoord <= 0){
-					yCoord = 0;
+					yCoord = 7;
 				}
 				else{
 					yCoord--;
@@ -246,7 +246,7 @@ public class Display {
 					direction = 0;
 				}
 				else if(direction >= 270){
-					direction = 270;
+					direction = 0;
 				}
 				else{
 					direction = direction + 90;
@@ -254,7 +254,7 @@ public class Display {
 			}
 			else if(buttonPress == Button.ID_LEFT){
 				if(direction <= 0){
-					direction = 0;
+					direction = 270;
 				}
 				else if(direction > 270){
 					direction = 270;
