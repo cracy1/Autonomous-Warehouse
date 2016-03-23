@@ -122,6 +122,13 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		}
 		requesting = false;
 		
+		String item = job.getItem(jobLength - 1);
+		int index = itemList.getIndex(item);
+		int itemX = itemList.getX(index);
+		int itemY = itemList.getY(index);
+		this.x = itemX;
+		this.y = itemY;
+		
 	}
 	
 	public void waitForResponse(){
