@@ -99,7 +99,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
 
-				Controller.waitForRobotsReady();
+				if(c == 'f') Controller.waitForRobotsReady();
 			}
 			
 			status = RobotStatus.REQUESTING;
