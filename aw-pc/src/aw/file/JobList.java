@@ -33,7 +33,7 @@ public class JobList implements JobListInterface {
 			utility[i] = job.getUtility();
 
 		}
-		quickSort(utility, job, 0, numberJobs());
+		//quickSort(utility, job, 0, numberJobs());
 
 	}
 
