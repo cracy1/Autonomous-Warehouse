@@ -157,19 +157,22 @@ public class Map {
      */
     public LinkedList<Node> getPath(Node a, Node b){
     	boolean[][] walkable = new boolean[width][height];
-        for(int y = 0; y < height; y++){
-            for(int x = 0; x < width; x++){
-                walkable[x][y] = true;
-
-            }
-        }
-
-
-        for(int x = 1; x <= 6; x++){
-            for(int y = 1; y <= 10; y += 3){
-                walkable[x][y] = false;
-            }
-        }
+    	
+    	MapParser mp = new MapParser();
+    	walkable = mp.getWalkableMap();
+//        for(int y = 0; y < height; y++){
+//            for(int x = 0; x < width; x++){
+//                walkable[x][y] = true;
+//
+//            }
+//        }
+//
+//
+//        for(int x = 1; x <= 6; x++){
+//            for(int y = 1; y <= 10; y += 3){
+//                walkable[x][y] = false;
+//            }
+//        }
         
         return getPath(a, b, walkable);
     }
