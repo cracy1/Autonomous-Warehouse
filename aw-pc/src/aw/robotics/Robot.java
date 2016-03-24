@@ -46,8 +46,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param startX The starting X position of the robot on the grid.
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
+	 * @param gui 
 	 */
-	public Robot(String name, int startX, int startY, int angle/*, GUI gui*/){
+	public Robot(String name, int startX, int startY, int angle, GUI gui){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
@@ -56,6 +57,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
 		this.map = new SingleRobotAStar();
+		this.gui = gui;
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
@@ -124,6 +126,9 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		int dy = dropPoints.getY(0);
 		Node dropNode = new Node(dx, dy);
 		LinkedList<Node> route = map.findRoute(current, dropNode);
+		
+		gui.setRoute(route, this.name);
+		
 		char[] moves = map.getMoves(route, angle).toCharArray();
 		
 		for(char c: moves){
@@ -211,7 +216,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	public void run() {
 		while(running){
 			if(jobs.size() > 0){
-				//gui.setJob(jobs.getFirst(), this.name);
+				gui.setJob(jobs.getFirst(), this.name);
 				executeJob(jobs.removeFirst());
 			}
 		}
