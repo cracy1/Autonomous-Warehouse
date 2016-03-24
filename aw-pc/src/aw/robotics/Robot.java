@@ -1,5 +1,6 @@
 package aw.robotics;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import aw.GUI.GUI;
@@ -7,12 +8,15 @@ import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
+import aw.controller.BetterMultiRobotController;
 import aw.controller.Controller;
 import aw.controller.MultiRobotController;
 import aw.file.Drop;
 import aw.file.ItemList;
 import aw.file.Job;
-import aw.test.Map;
+import aw.routePlanning.Map;
+import aw.routePlanning.MapObstacles;
+
 import aw.test.MultiRobotMap;
 import aw.test.Node;
 import lejos.util.Delay;
@@ -30,7 +34,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private CommandSender sender;
 	
 	private boolean running;
-	private Map map;
+	//private Map map;
 	//private MultiRobotMap map;
 	private GUI gui;
 	
@@ -38,7 +42,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private Drop dropPoints;
 	
 	private RobotStatus status;
-
+	private MapObstacles robstacle;
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
 	 * @param name The name of the NXT robot.
@@ -46,7 +50,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
 	 */
-	public Robot(String name, int startX, int startY, int angle/*, GUI gui*/){
+	public Robot(String name, int startX, int startY, int angle, MapObstacles robstacle/*, GUI gui*/){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
@@ -54,12 +58,13 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.dropPoints = new Drop();
 		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
-		this.map = new Map(8, 12);
+		//this.map = new Map(8, 12);
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
 		this.status = RobotStatus.READY;
+		this.robstacle = robstacle;
 		//this.map = new Map(8, 12);
 		
 		new Thread(this).start();
@@ -70,11 +75,91 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		jobs.add(job);
 	}
 	
-	/**
-	 * Set the job for the robot to complete.
-	 * @param job Job for the robot to complete.
-	 */
-	private void executeJob(Job job){
+//	/**
+//	 * Set the job for the robot to complete.
+//	 * @param job Job for the robot to complete.
+//	 */
+//	private void executeJob(Job job){
+//		job.sort(this.x, this.y);
+//		int jobLength = job.numberItems();
+//		Node current = new Node(this.x, this.y);
+//		ItemList itemList = new ItemList();
+//		
+//		for(int i = 0; i < jobLength; i++){
+//			String item = job.getItem(i);
+//			int index = itemList.getIndex(item);
+//			int itemX = itemList.getX(index);
+//			int itemY = itemList.getY(index);
+//			int quantity = job.getQuantity(i);
+//	
+//			Node target = new Node(itemX, itemY);
+//			
+//			LinkedList<Node> route = map.getPath(current, target);
+//			char[] moves = map.getMoves(route, angle).toCharArray();
+//			
+//			for(char c: moves){
+//				status = RobotStatus.MOVING;
+//				sender.sendCommand("" + c);
+//				if(c == 'r') angle = (angle + 90) % 360;
+//				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+//				if(c == 't') angle = (angle + 180) % 360;
+//
+//				if(c == 'f') Controller.waitForRobotsReady();
+//			}
+//			
+//			status = RobotStatus.REQUESTING;
+//			sender.sendCommand("i " + item + " " + quantity);
+//			//wait for response from robot.
+//			while(status != RobotStatus.READY){
+//				try{
+//					Thread.sleep(50);
+//				}catch(Exception e){}
+//			}
+//			current = target;
+//		}	
+//		
+//		
+//		
+//		/** Drop point stuff
+//		 * 
+//		 */
+//		dropPoints.sortClosestDropToRobot(this.x, this.y);
+//		int dx = dropPoints.getX(0);
+//		int dy = dropPoints.getY(0);
+//		Node dropNode = new Node(dx, dy);
+//		LinkedList<Node> route = map.getPath(current, dropNode);
+//		char[] moves = map.getMoves(route, angle).toCharArray();
+//		
+//		for(char c: moves){
+//			status = RobotStatus.MOVING;
+//			sender.sendCommand("" + c);
+//			if(c == 'r') angle = (angle + 90) % 360;
+//			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+//			if(c == 't') angle = (angle + 180) % 360;
+//			
+//			if(c == 'f') Controller.waitForRobotsReady();
+//		}
+//
+//		status = RobotStatus.REQUESTING;
+//		/**
+//		 * Drop point logic.
+//		 */
+//		for(int i = 0; i < jobLength; i++){
+//			String item = job.getItem(i);
+//			int quantity = job.getQuantity(i);
+//			sender.sendCommand("d " + item + " " + quantity);
+//			Delay.msDelay(1000);	
+//		}
+//		
+//		status = RobotStatus.READY;
+//		
+//		this.x = dropNode.x;
+//		this.y = dropNode.y;
+//		
+//	}
+
+	
+	private void executeJobBetterThanBefore(Job job){
 		job.sort(this.x, this.y);
 		int jobLength = job.numberItems();
 		Node current = new Node(this.x, this.y);
@@ -89,8 +174,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 			Node target = new Node(itemX, itemY);
 			
-			LinkedList<Node> route = map.getPath(current, target);
-			char[] moves = map.getMoves(route, angle).toCharArray();
+			ArrayList<Node> route = BetterMultiRobotController.resTable.findRoute(robstacle, target, Controller.timeStamp);
+			char[] moves = Map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
 				status = RobotStatus.MOVING;
@@ -122,8 +207,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		int dx = dropPoints.getX(0);
 		int dy = dropPoints.getY(0);
 		Node dropNode = new Node(dx, dy);
-		LinkedList<Node> route = map.getPath(current, dropNode);
-		char[] moves = map.getMoves(route, angle).toCharArray();
+		ArrayList<Node> route = BetterMultiRobotController.resTable.findRoute(robstacle, dropNode, Controller.timeStamp);
+		char[] moves = Map.getMoves(route, angle).toCharArray();
 		
 		for(char c: moves){
 			status = RobotStatus.MOVING;
@@ -152,7 +237,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.y = dropNode.y;
 		
 	}
-	
 	/**
 	 * Get the name of the robot.
 	 * @return
@@ -211,7 +295,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		while(running){
 			if(jobs.size() > 0){
 				//gui.setJob(jobs.getFirst(), this.name);
-				executeJob(jobs.removeFirst());
+				executeJobBetterThanBefore(jobs.removeFirst());
 			}
 		}
 	}

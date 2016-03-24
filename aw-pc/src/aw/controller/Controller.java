@@ -8,6 +8,7 @@ import aw.robotics.Robot;
 
 public abstract class Controller{
 	public static LinkedList<Robot> robots = new LinkedList<>();
+	public static int timeStamp = 0;
 	
 	/**
 	 * Add robots to the controller.
@@ -36,6 +37,8 @@ public abstract class Controller{
 			}catch(Exception e){}
 		
 		}while(!ready);
+		
+		timeStamp++;
 	}
 	
 	abstract void run();
