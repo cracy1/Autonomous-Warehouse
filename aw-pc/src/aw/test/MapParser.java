@@ -1,5 +1,7 @@
 package aw.test;
 
+import java.util.LinkedList;
+
 import rp.robotics.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 
@@ -43,6 +45,16 @@ public class MapParser {
 		}
 		
 		return walkableMap;
+	}
+	
+	public LinkedList<Node> getObstacles(){
+		LinkedList<Node> obstacles = new LinkedList<>();
+		for(int y = map.getYSize() - 1; y >= 0; y--){
+			for(int x = 0; x < map.getXSize(); x++){
+				if(map.isObstructed(x,  y)) obstacles.add(new Node(x, y));
+			}
+		}
+		return obstacles;
 	}
 	
 	public static void main(String[] args){

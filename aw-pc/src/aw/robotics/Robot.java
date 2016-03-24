@@ -12,6 +12,7 @@ import aw.controller.MultiRobotController;
 import aw.file.Drop;
 import aw.file.ItemList;
 import aw.file.Job;
+import aw.routePlanning.SingleRobotAStar;
 import aw.test.Map;
 import aw.test.MultiRobotMap;
 import aw.test.Node;
@@ -30,7 +31,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private CommandSender sender;
 	
 	private boolean running;
-	private Map map;
+	private SingleRobotAStar map;
 	//private MultiRobotMap map;
 	private GUI gui;
 	
@@ -54,7 +55,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.dropPoints = new Drop();
 		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
-		this.map = new Map(8, 12);
+		this.map = new SingleRobotAStar();
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
 
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
@@ -89,7 +90,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 			Node target = new Node(itemX, itemY);
 			
-			LinkedList<Node> route = map.getPath(current, target);
+			LinkedList<Node> route = map.findRoute(current, target);
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
@@ -122,7 +123,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		int dx = dropPoints.getX(0);
 		int dy = dropPoints.getY(0);
 		Node dropNode = new Node(dx, dy);
-		LinkedList<Node> route = map.getPath(current, dropNode);
+		LinkedList<Node> route = map.findRoute(current, dropNode);
 		char[] moves = map.getMoves(route, angle).toCharArray();
 		
 		for(char c: moves){
