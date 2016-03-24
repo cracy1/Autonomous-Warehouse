@@ -1,6 +1,6 @@
 package aw.controller;
 
-
+import aw.GUI.*;
 import aw.comms.Communication;
 import aw.file.Job;
 import aw.file.JobList;
@@ -11,7 +11,6 @@ import aw.test.Node;
 
 public class BetterMultiRobotController extends Controller{
 	public static ReservationTable resTable;
-	
 	public BetterMultiRobotController(){
 		super(new Robot("Dave", 0, 0, 0, MapObstacles.ROBOTONE), new Robot("NXT", 7, 11, 0, MapObstacles.ROBOTTWO), new Robot("Ricardo", 0, 7, 0, MapObstacles.ROBOTTHREE));
 	}
