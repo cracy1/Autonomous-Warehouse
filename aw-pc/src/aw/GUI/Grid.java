@@ -1,5 +1,6 @@
 package aw.GUI;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
@@ -35,9 +36,9 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	private GridMap grid;
 	private Drop drop;
 	
-	private LinkedList<Node> route1;
-	private LinkedList<Node> route2;
-	private LinkedList<Node> route3;
+	private ArrayList<Node> route1;
+	private ArrayList<Node> route2;
+	private ArrayList<Node> route3;
 	
 	private Color green = new Color(34, 139, 34);
 	private Color red = new Color(205, 0, 0);
@@ -51,9 +52,9 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		this.ySize = grid.getYSize();
 		this.height = 800;
 		this.width = 800;
-		route1 = new LinkedList<Node>();
-		route2 = new LinkedList<Node>();
-		route3 = new LinkedList<Node>();
+		route1 = new ArrayList<Node>();
+		route2 = new ArrayList<Node>();
+		route3 = new ArrayList<Node>();
 		drop = new Drop();
 		
 		
@@ -72,7 +73,6 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
 		Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
 	}
-	
 	/**
 	 * Draws the route of the robot
 	 * @param route the route to be drawn
@@ -82,7 +82,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	 * @param color the colour 
 	 */
 	
-	private void drawRoute(LinkedList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
+	private void drawRoute(ArrayList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
 		g2.setStroke(new BasicStroke(8));
 		g2.setColor(color);
 		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).x*50), (int)(450 - route.get(0).y*50));
@@ -170,7 +170,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	 * @param route the route to be taken
 	 * @param robot the name of the robot
 	 */
-	public void setRoute(LinkedList<Node> route, String robot){
+	public void setRoute(ArrayList<Node> route, String robot){
 		if(robot.equals("Ricardo")){
 			route1 = route;
 			robot1CenterX = (int)route1.get(0).x*50 + 50;

@@ -1,10 +1,12 @@
 package aw.GUI;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Optional;
 
 import aw.file.Job;
+import aw.test.Node;
 
 /**
  * Wrapper class of Information
@@ -13,10 +15,12 @@ import aw.file.Job;
  */
 public class InformationModel extends Observable{
 	private Information info;
+	private Grid grid;
 	
 	public InformationModel(Information info) {
 		super();
 		this.info = info;
+		this.grid = new Grid();
 	}
 	
 	/**
@@ -106,6 +110,18 @@ public class InformationModel extends Observable{
 	
 	public ArrayList<Job> getCompletedJobs() {
 		return info.getCompletedJobs();
+	}
+	
+	public void setRoute(ArrayList<Node> route, String name) {
+		grid.setRoute(route, name);
+	}
+	
+	public void setRobCoord(String name, int x, int y) {
+		grid.setRobCoord(name, x, y);
+	}
+	
+	public Grid getGrid() {
+		return grid;
 	}
 	
 
