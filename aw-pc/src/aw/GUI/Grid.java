@@ -136,10 +136,10 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 //Drop locations		
-		int xDrop1 = drop.getX(0) * 50 +50;
-		int yDrop1 = 450 - drop.getY(0) *50;
-		int xDrop2 = drop.getX(1) *50 +50;
-		int yDrop2 = 450 - drop.getY(1) * 50;
+		int xDrop1 = drop.getY(0) * 50 +50;
+		int yDrop1 = 100 + drop.getX(0) *50;
+		int xDrop2 = drop.getY(1) *50 +50;
+		int yDrop2 = 100 + drop.getX(1) * 50;
 		//makes the square moving a lot smoother.
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		draw(g2);

@@ -21,6 +21,10 @@ public class InformationModel extends Observable{
 		super();
 		this.info = info;
 		this.grid = new Grid();
+		setRobCoord("Ricardo", 0, 7);
+		setRobCoord("Dave", 0, 0);
+		setRobCoord("NXT", 7, 11);
+		
 	}
 	
 	/**
