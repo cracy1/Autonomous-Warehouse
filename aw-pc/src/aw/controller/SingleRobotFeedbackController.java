@@ -7,11 +7,9 @@ import aw.file.JobList;
 import aw.robotics.Robot;
 
 public class SingleRobotFeedbackController extends Controller{
-	private GUI gui = new GUI();
-
 	public SingleRobotFeedbackController(){
 		//super(new Robot("Ricardo", 0, 3, 0));
-		super(new Robot("NXT", 0, 3, 0, gui));
+		super(new Robot("NXT", 0, 3, 0, new GUI(new JobList())));
 	}
 
 	@Override
