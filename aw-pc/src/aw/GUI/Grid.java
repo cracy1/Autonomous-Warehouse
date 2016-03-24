@@ -36,8 +36,11 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	private Drop drop;
 	
 	private LinkedList<Node> route1;
+	private LinkedList<LinkedList<Node>> route1ss;
 	private LinkedList<Node> route2;
+	private LinkedList<LinkedList<Node>> route2ss;
 	private LinkedList<Node> route3;
+	private LinkedList<LinkedList<Node>> route3ss;
 	
 	private Color green = new Color(34, 139, 34);
 	private Color red = new Color(205, 0, 0);
@@ -52,8 +55,11 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		this.height = 800;
 		this.width = 800;
 		route1 = new LinkedList<Node>();
+		route1ss = new LinkedList<LinkedList<Node>>();
 		route2 = new LinkedList<Node>();
+		route2ss = new LinkedList<LinkedList<Node>>();
 		route3 = new LinkedList<Node>();
+		route3ss = new LinkedList<LinkedList<Node>>();
 		drop = new Drop();
 		
 		
@@ -69,7 +75,7 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		
 //Makes the class listen into commands sent from the robots to the PC.
 		
-		Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
+		//Communication.getRobotConnection("Ricardo").getCommandReceiver().addBluetoothCommandListener(this);
 		Communication.getRobotConnection("NXT").getCommandReceiver().addBluetoothCommandListener(this);
 	}
 	
@@ -82,10 +88,15 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	 * @param color the colour 
 	 */
 	
-	private void drawRoute(LinkedList<Node> route, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
+	private void drawRoute(LinkedList<LinkedList<Node>> routess, int robotCenterX, int robotCenterY, Graphics2D g2, Color color){
 		g2.setStroke(new BasicStroke(8));
 		g2.setColor(color);
-		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + route.get(0).x*50), (int)(450 - route.get(0).y*50));
+		if(routess.get(0).isEmpty()){
+			routess.remove(0);
+		}
+		
+		g2.drawLine(robotCenterX, robotCenterY, (int)(50 + routess.get(0).get(0).x*50), (int)(450 - routess.get(0).get(0).y*50));
+		LinkedList<Node> route = routess.getFirst();
 		for(int i = 0; i < route.size() - 1; i++){
 			g2.drawLine((int)(50 + route.get(i).x*50), (int)(450 - route.get(i).y*50), (int)(50 + route.get(i+1).x*50), (int)(450 - route.get(i+1).y*50));
 		}
@@ -118,13 +129,14 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		
 		//Drawing route of the robot
 		if(!route1.isEmpty()){
-			drawRoute(route1, robot1CenterX, robot1CenterY, g2, red);
+			drawRoute(route1ss, robot1CenterX, robot1CenterY, g2, red);
 		}
-		if(!route2.isEmpty()){
-			drawRoute(route2, robot2CenterX, robot2CenterY, g2, blue);
+		
+		if(!route2ss.isEmpty()){
+			drawRoute(route2ss, robot2CenterX, robot2CenterY, g2, blue);
 		}
 		if(!route3.isEmpty()){
-			drawRoute(route3, robot3CenterX, robot3CenterY, g2, green);
+			drawRoute(route3ss, robot3CenterX, robot3CenterY, g2, green);
 		}
 	}
 	
@@ -172,17 +184,26 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 	 */
 	public void setRoute(LinkedList<Node> route, String robot){
 		if(robot.equals("Ricardo")){
-			route1 = route;
-			robot1CenterX = (int)route1.get(0).x*50 + 50;
-			robot1CenterY = (int)450 - route1.get(0).y*50;
-			route1.remove(0);
-			
+			if(route1.isEmpty()){
+				route1 = route;
+				robot1CenterX = (int)route1.get(0).x*50 + 50;
+				robot1CenterY = (int)450 - route1.get(0).y*50;
+				route1.remove(0);
+			}
+			else{
+				route1.addAll(route);
+			}
 		}
 		else if(robot.equals("NXT")){
-			route2 = route;
-			robot2CenterX = (int)route2.get(0).x*50 + 50;
-			robot2CenterY = (int)450 - route2.get(0).y*50 ;
-			route2.remove(0);
+			route2ss.add(route);
+			if(route2ss.size() == 1){
+				robot2CenterX = (int)route2ss.get(0).get(0).x*50 + 50;
+				robot2CenterY = (int)450 - route2ss.get(0).get(0).y*50 ;
+				route2ss.get(0).remove(0);
+			}
+			else{
+				route2ss.getLast().remove(0);
+			}
 		}
 		else if(robot.equals("Dave")){
 			route3 = route;
@@ -190,6 +211,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 			robot3CenterY = (int)450 - route3.get(0).y*50 ;
 			route3.remove(0);
 		}
+		
+		repaint();
 	}
 	
 	/**
@@ -262,8 +285,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 		}
 		else if (name.equals("NXT")) {
 			//Draws the location of the second robot along its given route
-			if(!route2.isEmpty()){
-				Node nextCoord = route2.get(0);
+			if(!route2ss.isEmpty()){
+				Node nextCoord = route2ss.get(0).get(0);
 				if(robot2CenterX < nextCoord.x*50 + 50){
 					robot2CenterX += 50;
 					robot2X = robot2CenterX - (robotWidth /2);
@@ -293,8 +316,8 @@ public class Grid extends JPanel implements BluetoothCommandListener{
 					repaint();
 				}
 				//Removes nodes of the route that the robot has passed
-				if((int)route2.get(0).x*50 + 50 == robot2CenterX && (int)450 - route2.get(0).y*50  == robot2CenterY){
-					route2.remove(0);
+				if((int)route2ss.get(0).get(0).x*50 + 50 == robot2CenterX && (int)450 - route2ss.get(0).get(0).y*50  == robot2CenterY){
+					route2ss.get(0).remove(0);
 				}
 			}
 			
