@@ -133,6 +133,10 @@ public class Job implements JobInterface {
 		}
 		return totalReward;
 	}
+	
+	public String toString() {
+		return "Job " + getID() + " with reward " + Math.round(getJobReward() * 100.0) / 100.0;
+	}
 
 	/*
 	 * Gets the distance between 2 points using the Manhattan distance.
