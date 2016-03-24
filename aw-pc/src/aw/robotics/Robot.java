@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import aw.GUI.GUI;
+import aw.GUI.InformationModel;
 import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
@@ -36,13 +37,13 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	private boolean running;
 	//private Map map;
 	//private MultiRobotMap map;
-	private GUI gui;
 	
 	private LinkedList<Job> jobs;
 	private Drop dropPoints;
 	
 	private RobotStatus status;
 	private MapObstacles robstacle;
+	private InformationModel model;
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
 	 * @param name The name of the NXT robot.
@@ -50,13 +51,12 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	 * @param startY The starting Y position of the robot on the grid.
 	 * @param angle The starting rotation of the robot
 	 */
-	public Robot(String name, int startX, int startY, int angle, MapObstacles robstacle/*, GUI gui*/){
+	public Robot(String name, int startX, int startY, int angle, MapObstacles robstacle){
 		this.name = name;
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
 		this.dropPoints = new Drop();
-		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
 		//this.map = new Map(8, 12);
 		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
@@ -94,7 +94,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 //	
 //			Node target = new Node(itemX, itemY);
 //			
-//			LinkedList<Node> route = map.getPath(current, target);
+//			ArrayList<Node> route = map.getPath(current, target);
+//			model.setRoute(route, this.name);
 //			char[] moves = map.getMoves(route, angle).toCharArray();
 //			
 //			for(char c: moves){
@@ -127,7 +128,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 //		int dx = dropPoints.getX(0);
 //		int dy = dropPoints.getY(0);
 //		Node dropNode = new Node(dx, dy);
-//		LinkedList<Node> route = map.getPath(current, dropNode);
+//		ArrayList<Node> route = map.getPath(current, dropNode);
+//		model.setRoute(route, this.name);
 //		char[] moves = map.getMoves(route, angle).toCharArray();
 //		
 //		for(char c: moves){
@@ -175,6 +177,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			Node target = new Node(itemX, itemY);
 			
 			ArrayList<Node> route = BetterMultiRobotController.resTable.findRoute(robstacle, target, Controller.timeStamp);
+			model.setRoute(route, this.name);
 			char[] moves = Map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
@@ -208,6 +211,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		int dy = dropPoints.getY(0);
 		Node dropNode = new Node(dx, dy);
 		ArrayList<Node> route = BetterMultiRobotController.resTable.findRoute(robstacle, dropNode, Controller.timeStamp);
+		model.setRoute(route, this.name);
 		char[] moves = Map.getMoves(route, angle).toCharArray();
 		
 		for(char c: moves){
@@ -253,6 +257,10 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.x = x;
 	}
 	
+	public void setModel(InformationModel model) {
+		this.model = model;
+	}
+	
 	/**
 	 * Set the y position of the robot.
 	 * @param y y position of the robot.
@@ -294,7 +302,7 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	public void run() {
 		while(running){
 			if(jobs.size() > 0){
-				//gui.setJob(jobs.getFirst(), this.name);
+				model.setJob(jobs.getFirst(), this.name);
 				executeJobBetterThanBefore(jobs.removeFirst());
 			}
 		}
