@@ -64,7 +64,8 @@ public class GUI{
 	 */
 	
 	public void setRoute(LinkedList<Node> route, String name){
-		grid.setRoute(route, name);
+		LinkedList<Node> route2 = (LinkedList<Node>) route.clone();
+		grid.setRoute(route2, name);
 	}
 	
 	/**
