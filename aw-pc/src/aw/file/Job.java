@@ -204,4 +204,9 @@ public class Job implements JobInterface {
 		for(int i = 0; i < quantityList.size(); i++)
 			quantity[i] = quantityList.get(i);						// replaces our initial unsorted array of quantities with the sorted one
 	}
+	
+	@Override
+	public String toString(){
+		return "" + JobID;
+	}
 }

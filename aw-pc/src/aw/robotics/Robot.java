@@ -54,7 +54,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.y = startY;
 		this.angle = angle;
 		this.dropPoints = new Drop();
-		/*this.gui = gui;*/
 		this.jobs = new LinkedList<>();
 		this.map = new SingleRobotAStar();
 		this.gui = gui;
@@ -93,6 +92,8 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			Node target = new Node(itemX, itemY);
 			
 			LinkedList<Node> route = map.findRoute(current, target);
+			gui.setRoute(route, this.name);
+			
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
