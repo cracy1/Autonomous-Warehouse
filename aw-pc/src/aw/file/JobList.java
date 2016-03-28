@@ -10,7 +10,7 @@ public class JobList implements JobListInterface {
 	String jobs = pathForFiles.path + "jobs.csv";
 	String drops = pathForFiles.path + "drops.csv";
 
-	final int numberOfJobs = 200; // represents the number of jobs we want
+	final int numberOfJobs = 100; // represents the number of jobs we want
 					// to work with
 	private String[] job;
 	private double[] utility;
@@ -37,7 +37,7 @@ public class JobList implements JobListInterface {
 			utility[i] = job.getUtility();
 
 		}
-		quickSort(utility, job, 0, numberJobs());
+		//quickSort(utility, job, 0, numberJobs() - 1);
 
 	}
 
