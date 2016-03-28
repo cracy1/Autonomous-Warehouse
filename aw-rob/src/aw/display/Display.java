@@ -9,7 +9,6 @@ import aw.test.Node;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
-import lejos.util.Delay;
 import rp.robotics.mapping.GridMap;
 import rp.robotics.mapping.MapUtils;
 
@@ -73,29 +72,6 @@ public class Display {
 		return 1;
 	}
 	
-	public int dropOffItem(String item,int amount, int delay){
-		g.clear();
-		
-		g.setFont(Font.getDefaultFont());
-		g.drawString("I am dropping off ", screenWidth/2, 0, Graphics.HCENTER);
-		
-		g.setFont(Font.getLargeFont());
-		g.drawString(Integer.toString(amount), screenWidth/2, screenHeight/8, Graphics.HCENTER);
-		
-		g.setFont(Font.getDefaultFont());
-		g.drawString(item, screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
-	
-		g.setFont(Font.getSmallFont());
-		g.drawString("If", screenWidth/2, screenHeight*7/10, Graphics.HCENTER);
-		g.drawString("I am in the wrong place", screenWidth/2, screenHeight*8/10, Graphics.HCENTER);
-		g.drawString("press the escape button", screenWidth/2, screenHeight*9/10, Graphics.HCENTER);
-			
-		Delay.msDelay(delay);
-
-		Sound.systemSound(false, 2);
-		return 1;
-	}
-	
 	private void drawArrows(){
 		g.drawLine(screenWidth/4, screenHeight/2, screenWidth/8, screenHeight/2); //Left arrow body
 		g.drawLine(screenWidth/8, screenHeight/2, screenWidth*3/16, screenHeight*7/16); //Left arrow up
@@ -108,7 +84,7 @@ public class Display {
 	
 	private void locationSetText(String name, Integer value){
 		g.setFont(Font.getDefaultFont());
-		g.drawString(name + ":", screenWidth/2, screenHeight/4, Graphics.HCENTER);
+		g.drawString("name" + ": ", screenWidth/2, screenHeight/4, Graphics.HCENTER);
 		
 		g.setFont(Font.getLargeFont());
 		g.drawString(value.toString(), screenWidth/2, screenHeight*3/8, Graphics.HCENTER);
@@ -213,7 +189,7 @@ public class Display {
 			g.clear();
 		}
 		
-		return (xCoord.toString() + " " + yCoord.toString() + " " + direction.toString());
+		return (xCoord.toString() + yCoord.toString() + direction.toString());
 	}
 	
 	private String writeCoord(Integer x, Integer y){

@@ -1,41 +1,64 @@
-package aw.motion.test;
+package aw.motion;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
 
-
+/**
+ * 
+ *Behaviour for following the line using proportional motor speed adjustement 
+ *
+ */
 public class BothSensors implements Behavior {
 
 	LightSensor sensor1;
 	LightSensor sensor2;
 	DifferentialPilot pilot;
+	int leftLightLevel;
+	int rightLightLevel;
 	boolean suppressed=false;
-	public BothSensors(LightSensor sensor1,LightSensor sensor2,DifferentialPilot pilot)
+	float dark;
+	/**
+	 * 
+	 * @param sensor1 -> right sensor
+	 * @param sensor2->left sensor
+	 * @param pilot-> the robot
+	 * @param darkvalue->the value of the dark line
+	 */
+	public BothSensors(LightSensor sensor1,LightSensor sensor2,DifferentialPilot pilot, float  darkvalue)
 	{
 		this.sensor1=sensor1;
 		this.sensor2=sensor2;
 		this.pilot=pilot;
-	}
-	
-	public boolean takeControl() {
-		int leftLightLevel;
-		int rightLightLevel;
+		this.dark = darkvalue;
+		// Input the value of the sensors
 		leftLightLevel = sensor2.getLightValue();
 		rightLightLevel = sensor1.getLightValue();
-			return (leftLightLevel + rightLightLevel)/2 > 38 ;
+		
 	}
+	
+	/**
+	 * takes control when one of the sensors touches the dark line
+	 */
+	public boolean takeControl() {
+		leftLightLevel = sensor2.getLightValue();
+		rightLightLevel = sensor1.getLightValue();
+		
+		System.out.println((leftLightLevel + rightLightLevel)/2 );
+			return (leftLightLevel + rightLightLevel)/2 > dark ;
+	}
+	/**
+	 * Adjust the robot to follow to line.It uses the value recorded by the sensors and the error between them to adjust de motor of the wheel
+	 * so that the robot would steer smoothly following the line
+	 */
 	
 	@Override
 	public void action() {
 		suppressed=false;
-		int leftLightLevel;
-		int rightLightLevel;
+		
 		float error;
-		leftLightLevel = sensor2.getLightValue();
-		rightLightLevel = sensor1.getLightValue();
-		float gain = 15.0f;
+		float gain = 15.0f;//calculated gain 
 		float maxSpeed = Motor.A.getMaxSpeed();
 		while(!suppressed )
 			{
@@ -48,7 +71,7 @@ public class BothSensors implements Behavior {
 			
 			Motor.C.setSpeed( (maxSpeed/2) - (error * gain)); //proportional line following.
 			Motor.B.setSpeed( (maxSpeed/2) + (error * gain));
-				suppressed=true;
+		
 			}
 		
 	}

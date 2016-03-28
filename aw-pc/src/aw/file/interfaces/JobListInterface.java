@@ -1,10 +1,7 @@
 package aw.file.interfaces;
 
-import aw.file.Job;
-import aw.robotics.Robot;
-
 public interface JobListInterface {
+	public int numberJobs();
 	public String getJob(int i); 
-	public Job setJob(Robot rob); //robot object.
-	//public void sort();
+	public void quickSort(double[] a, String[] b, int left, int right);
 }

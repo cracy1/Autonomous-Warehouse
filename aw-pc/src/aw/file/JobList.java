@@ -3,17 +3,24 @@ package aw.file;
 import java.io.IOException;
 
 import aw.file.interfaces.JobListInterface;
-import aw.robotics.Robot;
 
 public class JobList implements JobListInterface {
 
-	String path = "res/";
-	String jobs = path + "jobs.csv";
-	String drops = path + "drops.csv";
+	FilesPath pathForFiles = new FilesPath();
+	String jobs = pathForFiles.path + "jobs.csv";
+	String drops = pathForFiles.path + "drops.csv";
+
+	final int numberOfJobs = 200; // represents the number of jobs we want
+					// to work with
+	private String[] job;
 	private double[] utility;
 
-	private String[] job;
-
+	/**
+	 * The constructor reads the file containing the job list, then
+	 * initialises and builds arrays that contain information about each job
+	 * in the list. The index corresponds to one unique job, and this index
+	 * is common through both arrays.
+	 */
 	public JobList() {
 
 		try {
@@ -24,40 +31,85 @@ public class JobList implements JobListInterface {
 			System.out.println(e.getMessage());
 		}
 
-		utility = new double[job.length];
-		for (int i = 0; i < job.length; i++) {
+		utility = new double[numberJobs()];
+		for (int i = 0; i < numberJobs(); i++) {
 			Job job = new Job(getJob(i));
 			utility[i] = job.getUtility();
 
 		}
+		quickSort(utility, job, 0, numberJobs());
 
 	}
 
+	/**
+	 * Gets the number of jobs in the array.
+	 * 
+	 * @return the number of jobs in the array
+	 */
 	public int numberJobs() {
-		return job.length;
+		return numberOfJobs;
 	}
 
+	/**
+	 * Gets the job at the given index
+	 * 
+	 * @param index
+	 *                the index of the job
+	 * @return the job at the given index
+	 */
 	public String getJob(int index) {
 		return job[index];
 	}
 
-	@Override
-	public Job setJob(Robot rob) {
-		return null;
-	}
-
-	public void swap(double[] a, int x, int y) {
+	/**
+	 * Swaps the position of 2 elements in the given array of doubles.
+	 * 
+	 * @param a
+	 *                the array in which elements are to be swapped
+	 * @param x
+	 *                the index of the first element
+	 * @param y
+	 *                the index of the second element
+	 */
+	private void swap(double[] a, int x, int y) {
 		double temp = a[x];
 		a[x] = a[y];
 		a[y] = temp;
 	}
 
-	public void swapString(String[] string, int x, int y) {
+	/**
+	 * Swaps the position of 2 elements in a given array of strings.
+	 * 
+	 * @param a
+	 *                the array in which elements are to be swapped
+	 * @param x
+	 *                the index of the first element
+	 * @param y
+	 *                the index of the second element
+	 */
+	private void swapString(String[] string, int x, int y) {
 		String temp = string[x];
 		string[x] = string[y];
 		string[y] = temp;
 	}
 
+	/**
+	 * Partitions the array of type double in a way where the items smaller
+	 * than the pivot are placed to the left of the pivot and the items
+	 * greater than the pivot are placed to its right, meanwhile the array
+	 * of strings is changed in the same way as the array of doubles.
+	 * 
+	 * @param a
+	 *                the array of doubles that is being partitioned
+	 * @param string
+	 *                the array of strings that mirrors the changes in the
+	 *                array of doubles
+	 * @param left
+	 *                the position where the algorithm starts partitioning
+	 * @param right
+	 *                the position where the algorithm stops partitioning
+	 * @return the final position of the pivot
+	 */
 	private int partition(double[] a, String[] string, int left, int right) {
 		int pivotIndex = (left + right) / 2;
 		double pivot = a[pivotIndex];
@@ -72,7 +124,7 @@ public class JobList implements JobListInterface {
 			while (leftMark <= rightMark && a[rightMark] >= pivot)
 				rightMark--;
 
-			if (leftMark < rightMark) { 
+			if (leftMark < rightMark) {
 				swap(a, leftMark, rightMark);
 				swapString(string, leftMark++, rightMark--);
 			}
@@ -84,6 +136,21 @@ public class JobList implements JobListInterface {
 
 	}
 
+	/**
+	 * Uses the quicksort algorithm to sort the given arrays.
+	 * 
+	 * @param a
+	 *                the array of doubles that is being sorted
+	 * @param string
+	 *                the array of strings that mirrors the changes to the
+	 *                array of doubles
+	 * @param left
+	 *                the lowest index of the sub-array the algorithm must
+	 *                work on
+	 * @param right
+	 *                the highest index of the sub-array the algorithm must
+	 *                work on
+	 */
 	public void quickSort(double[] a, String[] string, int left, int right) {
 
 		if (left < right) {
@@ -91,13 +158,6 @@ public class JobList implements JobListInterface {
 			quickSort(a, string, left, pivotIndex);
 			quickSort(a, string, pivotIndex + 1, right);
 		}
-	}
-
-	// for testing purposes
-	public void tell() {
-		quickSort(utility, job, 0, 100);
-		for (int i = 100; i >= 0; i--)
-			System.out.println(utility[i] + " " + job[i]);
 	}
 
 }

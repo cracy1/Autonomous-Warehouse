@@ -1,40 +1,29 @@
 package aw.controller;
 
+import aw.GUI.GUI;
 import aw.comms.Communication;
 import aw.file.Job;
 import aw.file.JobList;
 import aw.robotics.Robot;
 import aw.test.Map;
 
-public class MultiRobotController {
-	private static Robot rob1;
-	private static Robot rob2;
-	//private static Robot rob3;
+public class MultiRobotController implements Runnable{
+	private Robot rob1;
+	private Robot rob2;
+	private Robot rob3;
 	private Map map;
+	private GUI gui;
 	
 	public MultiRobotController(){
+		gui = new GUI();
 		map = new Map(8, 12);
 		Communication.addRobots();
-		rob1 = new Robot("Ricardo", 0, 3, 0);
-		rob2 = new Robot("NXT", 3, 3, 0);
-		//rob3 = new Robot("Dave", 3, 3, 0);
-		allocateJobs();
+		rob1 = new Robot("Ricardo", 0, 3, 0, gui);
+		rob2 = new Robot("NXT", 0, 5, 0, gui);
+		gui.setRobCoord("Ricardo", 0, 3);
+		gui.setRobCoord("NXT", 0, 5);
+		testJob();
 	}
-	
-	public void allocateJobs(){
-		JobList jobList = new JobList();
-		
-		for(int i = 0; i < 100; i++){
-			Job job = new Job(jobList.getJob(i));
-			if(i % 2 == 0) rob1.addJob(job);
-			else rob2.addJob(job);
-			//else rob3.addJob(job);
-		}
-		
-		System.out.println("Robot 1: " + rob1.getJobs().size());
-		System.out.println("Robot 2: " + rob2.getJobs().size());
-	}
-	
 	
 	/**
 	 * Run robot job allocation with a single job.
@@ -43,15 +32,22 @@ public class MultiRobotController {
 		JobList jobList = new JobList();
 		
 		Job job1 = new Job(jobList.getJob(1));
-		rob1.addJob(job1);
+		rob1.setJob(job1);
+		gui.setJob(job1, "Ricardo");
 		
-//		Job job2 = new Job(jobList.getJob(9));
-//		rob2.setJob(job2);
+		Job job2 = new Job(jobList.getJob(9));
+		rob2.setJob(job2);
+		gui.setJob(job2, "NXT");
 	}
 	
-
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public static void main(String[] args){
-		new MultiRobotController();
+		new Thread(new MultiRobotController()).start();
 	}
 
 	

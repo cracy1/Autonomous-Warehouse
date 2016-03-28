@@ -3,9 +3,7 @@ package aw.test;
 public class Node{
 	public static final Node ZERO = new Node(0, 0);
 	
-    public int x;
-
-	public int y;
+    public int x, y;
 
     public Node(int x, int y){
         this.x = x;

@@ -7,19 +7,17 @@ import aw.comms.BluetoothCommandListener;
 import aw.comms.CommandReceiver;
 import aw.comms.CommandSender;
 import aw.comms.Communication;
-import aw.controller.MultiRobotController;
 import aw.file.ItemList;
 import aw.file.Job;
 import aw.test.Map;
 import aw.test.Node;
-import lejos.util.Delay;
 
 /**
  * Abstraction of the NXT robot.
  * 
  * @author aranscope
  */
-public class Robot implements BluetoothCommandListener, Runnable{
+public class Robot implements Runnable, BluetoothCommandListener{
 	private String name;
 	private int x, y;
 	private int angle;
@@ -28,11 +26,6 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	
 	private boolean running;
 	private Map map;
-	private GUI gui;
-	
-	private boolean ready = true;
-	
-	private LinkedList<Job> jobs;
 	
 	/**
 	 * Create a robot object to abstract communication with the NXT robots.
@@ -46,26 +39,16 @@ public class Robot implements BluetoothCommandListener, Runnable{
 		this.x = startX;
 		this.y = startY;
 		this.angle = angle;
-		this.jobs = new LinkedList();
-		Communication.getRobotConnection(name).getCommandReceiver().addBluetoothCommandListener(this);
-
 		this.sender = Communication.getRobotConnection(name).getCommandSender();
 		this.running = true;
-		this.map = new Map(8, 12);
-		
-		new Thread(this).start();
-		
-	}
-	
-	public void addJob(Job job){
-		jobs.add(job);
+		map = new Map(8, 12);
 	}
 	
 	/**
 	 * Set the job for the robot to complete.
 	 * @param job Job for the robot to complete.
 	 */
-	private void executeJob(Job job){
+	public void setJob(Job job){
 		int jobLength = job.numberItems();
 		Node current = new Node(this.x, this.y);
 		ItemList itemList = new ItemList();
@@ -84,42 +67,34 @@ public class Robot implements BluetoothCommandListener, Runnable{
 			char[] moves = map.getMoves(route, angle).toCharArray();
 			
 			for(char c: moves){
-				ready = false;
 				sender.sendCommand("" + c);
 				System.out.println(c);
 				if(c == 'r') angle = (angle + 90) % 360;
 				if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
 				if(c == 't') angle = (angle + 180) % 360;
-				
-				waitForResponse();
 			}
 			
-			ready = false;
 			sender.sendCommand("i " + item + " " + quantity);
-			waitForResponse();
 			current = target;
 		}
-		
-		
-//		requesting = true;
-//		/**
-//		 * Drop point logic.
-//		 */
-//		for(int i = 0; i < jobLength; i++){
-//			String item = job.getItem(i);
-//			int quantity = job.getQuantity(i);
-//			sender.sendCommand("d " + item + " " + quantity);
-//			Delay.msDelay(1000);
-//			
-//		}
-//		requesting = false;
-		
 	}
-	
-	public void waitForResponse(){
-		while(ready){
-			Delay.msDelay(25);
+
+	/**
+	 * Set to route of the robot, as a list of nodes.
+	 * @param route List of nodes.
+	 */
+	public void setRoute(LinkedList<Node> route){
+		char[] moves = map.getMoves(route, angle).replace("t", "rr").toCharArray();
+		
+		for(char c: moves){
+			if(c == 'r') angle = (angle + 90) % 360;
+			if(c == 'l') angle = angle > 0 ? angle - 90  : 270;
+
+			sender.sendCommand("" + c);
+			
 		}
+		
+		sender.sendCommand("i");
 	}
 	
 	/**
@@ -157,22 +132,36 @@ public class Robot implements BluetoothCommandListener, Runnable{
 	/**
 	 * Main robot thread.
 	 */
+	@Override
+	public void run() {
+		Thread robotInput = new Thread(){
+			@Override
+			public void run(){
+				while(running){
+					//String message = receiver.read();
+				}
+			}
+		};
+//		
+//		robotInput.start();
+//		while(running){
+//			Job currentJob = jobList.getNext();
+//			Item item;
+//			while((item = currentJob.getNext()) != null){
+//				Node robotPos = new Node(x, y);
+//				Node targetPos = new Node(item.getX(), item.getY());
+//				LinkedList<Node> route = map.getPath(robotPos, targetPos);
+//				String moves = map.getMoves(route);
+//				for(char move: moves){
+//					sender.sendActionCommand(move);
+//				}
+//			}
+//		}
+	}
 
 	@Override
 	public void commandReceived(String name, String command) {
-		 ready = true;
-	}
-	
-	public LinkedList<Job> getJobs(){
-		return jobs;
-	}
-
-	@Override
-	public void run() {
-		while(running){
-			if(jobs.size() > 0){
-				executeJob(jobs.removeFirst());
-			}
-		}
+		 System.out.println(name + ": " + command);
+		
 	}
 }

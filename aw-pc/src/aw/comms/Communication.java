@@ -3,16 +3,19 @@ package aw.comms;
 import java.util.HashMap;
 import java.util.Map;
 
+import lejos.pc.comm.NXTComm;
+import lejos.pc.comm.NXTCommException;
+import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
 /**
  * Handles setting up usage of communication between the PC and the NXT robots.
  */
 public class Communication {
-	private static Map<String, RobotConnection> robotConnections = new HashMap<String, RobotConnection>();
+	private static Map<String, RobotConnection> robotConnections = new HashMap<>();
 
 	/**
-	 * Initialises the connections for all robots.
+	 * Initialises all of the warehouse robots connections.
 	 */
 	public static void addRobots() {
 		for (NXTInfo nxt : BluetoothRobots.NXTs) {
@@ -23,11 +26,15 @@ public class Communication {
 	}
 
 	/**
-	 * Adds a new robot connection for the NXT information passed in.
+	 * Initialises a robot connection and adds the CommandSender object of the
+	 * connection's DataOutputStream to a HashMap for use to send commands to a
+	 * robot.
 	 * 
+	 * @param nxtComm
+	 *            The NXTComm object
 	 * @param nxt
-	 *            The NXT information representing the robot and it's bluetooth
-	 *            information
+	 *            The NXTInfo describing the robot's information
+	 * @throws NXTCommException
 	 */
 	public static void addRobotConnection(NXTInfo nxt) {
 		RobotConnection robotConnection = new RobotConnection(nxt);
@@ -37,24 +44,16 @@ public class Communication {
 	}
 
 	/**
-	 * Gets the robot connection object for a named robot.
+	 * Get the CommandSender object of a named robot
 	 * 
 	 * @param name
 	 *            The robot's name
-	 * @return The robot's connection object, giving access to the command
-	 *         sender and receiver
+	 * @return The CommandSender object
 	 */
 	public static RobotConnection getRobotConnection(String name) {
 		return robotConnections.get(name);
 	}
 
-	/**
-	 * For compatibility, old method to get the command sender of a named robot.
-	 * 
-	 * @param name
-	 *            The robot's name
-	 * @return The command sender for the robot
-	 */
 	@Deprecated
 	public static CommandSender getCommandSender(String name) {
 		return getRobotConnection(name).getCommandSender();

@@ -1,26 +1,39 @@
 package aw.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import aw.file.Job;
 import aw.test.Node;
 
-public class GUI {
+public class GUI{
 	
 	private Information info;
 	private InformationModel model;
+	private InformationComponent grid;
 	
 	public GUI() {
 		JFrame frame = new JFrame("Warehouse Management User Interface");
-		frame.setSize(1300, 800);
+		frame.setSize(1300, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
 		info = new Information();
 		model = new InformationModel(info);
-		InformationComponent grid = new InformationComponent(model);
+		grid = new InformationComponent(model);
+		grid.setOpaque(false);
 		frame.add(grid);
-		setJob(new Job("10016,bi,2,ah,2,aj,1,ac,2,bb,3,af,4"), "Dave");
+		
+		JobsFrame jobsFrame = new JobsFrame(model);
+		jobsFrame.getFrame().setVisible(true);
+		model.addObserver(jobsFrame);
 
 		
 		frame.setVisible(true);
@@ -28,6 +41,14 @@ public class GUI {
 	
 	public void setJob(Job job, String name) {
 		model.setJob(job, name);
+	}
+	
+	public void setRoute(LinkedList<Node> route, String name){
+		grid.setRoute(route, name);
+	}
+	
+	public void setRobCoord(String name, int x, int y) {
+		grid.setRobCoord(name, x, y);
 	}
 
 }
